@@ -2,13 +2,10 @@ using UnityEngine;
 
 public class StationaryFollow : MonoBehaviour
 {
-    [Tooltip("Assign the player's Transform here. If left empty, the script will try to find the player by tag.")]
     public Transform player;
 
-    [Tooltip("Optional offset to adjust the camera's look direction.")]
     public Vector3 offset = Vector3.zero;
 
-    [Tooltip("Smoothing factor for camera rotation. Higher values make the camera rotate faster.")]
     public float rotationSpeed = 5f;
 
     void Start()
