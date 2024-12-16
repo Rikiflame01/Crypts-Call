@@ -11,17 +11,23 @@ public static class SceneNames
 public class PlayerController : MonoBehaviour
 {
     private PlayerMovement controls;
+    private PlayerInput playerInput;
+
+    private float leftClickStartTime;
+
 
     private bool inventoryOpened = false;
 
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float rotationSpeed = 720f;
+    [SerializeField] private float holdThreshold = 0.2f;
 
     private NavMeshAgent agent;
     private Camera mainCamera;
     private Vector2 movementInput;
 
+    private Animator animator;
     private string currentSceneName = "";
 
     private delegate void MovementHandler();
@@ -32,10 +38,11 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        if (agent == null)
-        {
-            Debug.LogError("NavMeshAgent component missing from the player.");
-        }
+        animator = GetComponent<Animator>();
+        playerInput = GetComponent<PlayerInput>();
+
+        if (agent == null) Debug.LogError("NavMeshAgent component missing from the player.");
+        if (animator == null) Debug.LogError("Animator component missing from the player.");
         
         controls = new PlayerMovement();
         InitializeInputActions();
@@ -64,6 +71,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         HandleCurrentMovement?.Invoke();
+        UpdateAnimations();
     }
 
     private void InitializeInputActions()
@@ -100,19 +108,31 @@ public class PlayerController : MonoBehaviour
 
     private void HandleStationaryCameraMovement()
     {
-        if (movementInput != Vector2.zero)
+        if (movementInput == Vector2.zero)
         {
-            MoveAgentRelativeToCamera();
+            agent.ResetPath();              
+            agent.velocity = Vector3.zero; 
+            animator.SetBool("isWalking", false);
+            return;
         }
+
+        MoveAgentRelativeToCamera();
     }
+
 
     private void HandleCameraRelativeMovement()
     {
-        if (movementInput != Vector2.zero)
+        if (movementInput == Vector2.zero)
         {
-            MoveAgentRelativeToCamera();
+            agent.ResetPath();              
+            agent.velocity = Vector3.zero; 
+            animator.SetBool("isWalking", false);
+            return;
         }
+
+        MoveAgentRelativeToCamera();
     }
+
 
     private void MoveAgentRelativeToCamera()
     {
@@ -136,15 +156,35 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+private void UpdateAnimations()
+{
+    bool isWalking = movementInput != Vector2.zero && !agent.isStopped;
+    animator.SetBool("isWalking", isWalking);
+}
+
+
     private void OnLeftClickStarted()
     {
-        isLeftClickPressed = true;
-        Debug.Log("Left Click Started");
+        leftClickStartTime = Time.time; 
     }
     private void OnLeftClickCanceled()
     {
-        isLeftClickPressed = false;
-        Debug.Log("Left Click Canceled");
+        float clickDuration = Time.time - leftClickStartTime;
+
+        if (clickDuration < holdThreshold)
+        {
+            TriggerQuickSlash();
+        }
+        else
+        {
+            Debug.Log("Hold detected - Heavy attack implemented here soon-ish?");
+        }
+    }
+
+        private void TriggerQuickSlash()
+    {
+        animator.SetTrigger("QuickSlash");
+        Debug.Log("Quick Slash Triggered!");
     }
 
     private void ToggleInventory()
