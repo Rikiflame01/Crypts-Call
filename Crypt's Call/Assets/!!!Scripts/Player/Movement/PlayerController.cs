@@ -16,7 +16,6 @@ public class PlayerController : MonoBehaviour
 
     private float leftClickStartTime;
 
-
     private bool inventoryOpened = false;
 
     [Header("Movement Settings")]
@@ -28,6 +27,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashSpeed = 15f;
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private float dashCooldown = 1.5f;
+
+    public bool isPlayerAttacking = false;
     private bool isDashing = false;
     private float dashCooldownTimer = 0f;
 
@@ -202,6 +203,14 @@ private void UpdateAnimations()
 
         animator.SetTrigger("QuickSlash");
         Debug.Log("Quick Slash Triggered!");
+        StartCoroutine(PlayerIsAttacking());
+    }
+
+    private IEnumerator PlayerIsAttacking()
+    {
+        isPlayerAttacking = true;
+        yield return new WaitForSeconds(1.5f);
+        isPlayerAttacking = false;
     }
 
     private void UpdateCooldownTimers()
