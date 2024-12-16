@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
@@ -22,6 +23,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float rotationSpeed = 720f;
     [SerializeField] private float holdThreshold = 0.2f;
+
+    [Header("Dash Settings")]
+    [SerializeField] private float dashSpeed = 15f;
+    [SerializeField] private float dashDuration = 0.2f;
+    [SerializeField] private float dashCooldown = 1.5f;
+    private bool isDashing = false;
+    private float dashCooldownTimer = 0f;
 
     private NavMeshAgent agent;
     private Camera mainCamera;
@@ -72,6 +80,7 @@ public class PlayerController : MonoBehaviour
     {
         HandleCurrentMovement?.Invoke();
         UpdateAnimations();
+        UpdateCooldownTimers();
     }
 
     private void InitializeInputActions()
@@ -81,6 +90,8 @@ public class PlayerController : MonoBehaviour
 
         controls.controls.LeftClick.started += ctx => OnLeftClickStarted();
         controls.controls.LeftClick.canceled += ctx => OnLeftClickCanceled();
+
+        controls.controls.RightClick.performed += ctx => AttemptDash();
 
         controls.controls.OpenInventory.performed += ctx => ToggleInventory();
         controls.controls.SetupCamp.performed += ctx => SetupCamp();
@@ -181,10 +192,66 @@ private void UpdateAnimations()
         }
     }
 
-        private void TriggerQuickSlash()
+    private void TriggerQuickSlash()
     {
+        if (animator.GetBool("isWalking"))
+        {
+            Debug.Log("Cannot attack while walking.");
+            return;
+        }
+
         animator.SetTrigger("QuickSlash");
         Debug.Log("Quick Slash Triggered!");
+    }
+
+    private void UpdateCooldownTimers()
+    {
+        if (dashCooldownTimer > 0)
+        {
+            dashCooldownTimer -= Time.deltaTime;
+        }
+    }
+    private void AttemptDash()
+    {
+        if (isDashing || dashCooldownTimer > 0) return;
+
+        Vector3 dashDirection = GetMouseDirection();
+        if (dashDirection != Vector3.zero)
+        {
+            StartCoroutine(PerformDash(dashDirection));
+        }
+    }
+
+        private IEnumerator PerformDash(Vector3 dashDirection)
+    {
+        isDashing = true;
+        float startTime = Time.time;
+
+        agent.ResetPath();
+        agent.isStopped = true;
+
+        while (Time.time < startTime + dashDuration)
+        {
+            agent.Move(dashDirection * dashSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        agent.isStopped = false;
+        isDashing = false;
+
+        dashCooldownTimer = dashCooldown;
+    }
+
+    private Vector3 GetMouseDirection()
+    {
+        Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            Vector3 direction = (hit.point - transform.position).normalized;
+            direction.y = 0f;
+            return direction;
+        }
+        return Vector3.zero;
     }
 
     private void ToggleInventory()
