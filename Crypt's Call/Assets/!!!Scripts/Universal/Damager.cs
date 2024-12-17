@@ -37,7 +37,7 @@ public class Damager : MonoBehaviour
         }
         else
         {
-            Debug.Log($"{other.gameObject.name} does not have an IHealth component.");
+           return;
         }
     }
 }

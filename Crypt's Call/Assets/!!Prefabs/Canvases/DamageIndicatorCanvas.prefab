@@ -117,8 +117,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floatSpeed: 2
   lifetime: 1
-  wiggleSpeed: 10
-  wiggleAmount: 0.1
+  wiggleSpeed: 30
+  wiggleAmount: 0.5
 --- !u!1 &7166840625405706373
 GameObject:
   m_ObjectHideFlags: 0
