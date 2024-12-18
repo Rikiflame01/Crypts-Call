@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7857259459952145721}
   - component: {fileID: 5273759481648033710}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Slime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1431465358536735868}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: EyeBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4864254933491530695}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Crown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4263605221882157891}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,7 +202,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 164829748833624420}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Side_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -233,7 +233,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1111908895234527076}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: EyeCTRL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -267,7 +267,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5064403627918065890}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Side_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -298,7 +298,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3721502508397512699}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: UpperEyeCover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,7 +329,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7484243535263945060}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Spine01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -367,7 +367,9 @@ GameObject:
   - component: {fileID: 3172594144706084109}
   - component: {fileID: 4699962398196892930}
   - component: {fileID: 4910424446570578008}
-  m_Layer: 0
+  - component: {fileID: 6799375959210099191}
+  - component: {fileID: 1000118716365432461}
+  m_Layer: 11
   m_Name: SlimePolyart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -382,15 +384,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7153141402127884706}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 2.14, y: 1.3799999, z: 30.92355}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6219856073057785545}
   - {fileID: 7857259459952145721}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!95 &8035681660144644490
 Animator:
   serializedVersion: 7
@@ -477,6 +479,56 @@ CapsuleCollider:
   m_Height: 1.8493922
   m_Direction: 1
   m_Center: {x: 0, y: 0.744696, z: 0}
+--- !u!195 &6799375959210099191
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7153141402127884706}
+  m_Enabled: 1
+  m_AgentTypeID: -1372625422
+  m_Radius: 0.6
+  m_Speed: 10
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 300
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &1000118716365432461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7153141402127884706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1518d57b62ff9848b964bbee3aa4107, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionRadius: 10
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  patrolAreaCenter: {x: 0.54, y: 1.38, z: 32.7}
+  patrolAreaRadius: 8.8
+  minPatrolWait: 2
+  maxPatrolWait: 5
+  patrolWaitTime: 0
+  desiredMinDistance: 2
+  shockwaveRadius: 4
+  shockwaveDamage: 20
+  preShockwaveWaitTime: 1
+  maintainDistanceTime: 3
+  shockwaveCooldown: 5
+  retreatMultiplier: 1
 --- !u!1 &7446019047767849115
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,7 +538,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6219856073057785545}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -518,7 +570,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8274070620073230594}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BottomEyeCover
   m_TagString: Untagged
   m_Icon: {fileID: 0}

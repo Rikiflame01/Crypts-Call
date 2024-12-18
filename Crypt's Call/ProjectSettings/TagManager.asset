@@ -15,8 +15,8 @@ TagManager:
   - CampFloor
   - Obstacle
   - Stairs
-  - 
-  - 
+  - Player
+  - Enemy
   - 
   - 
   - 
