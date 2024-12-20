@@ -3,6 +3,8 @@ using UnityEngine.AI;
 
 public class BaseEnemy : MonoBehaviour
 {
+    public LayerMask obstacleLayer;
+
     [Header("Detection")]
     public float detectionRadius = 10f;
     public LayerMask playerLayer;
@@ -24,16 +26,22 @@ public class BaseEnemy : MonoBehaviour
     }
 
     private State currentState = State.Idle;
+    private bool hasStartedPatrolling = false;
     public float patrolWaitTime;
+
+    private Vector3[] patrolPoints;
 
     protected virtual void Awake()
     {
+        obstacleLayer = LayerMask.GetMask("Obstacle");
         agent = GetComponent<NavMeshAgent>();
+        InitializePatrolPoints();
     }
 
     protected virtual void Start()
     {
         EnterPatrolState();
+        hasStartedPatrolling = true;
     }
 
     protected virtual void Update()
@@ -77,39 +85,87 @@ public class BaseEnemy : MonoBehaviour
 
     protected virtual void IdleUpdate()
     {
-        EnterPatrolState();
+        if (!hasStartedPatrolling)
+        {
+            EnterPatrolState();
+            hasStartedPatrolling = true;
+        }
     }
 
-    private void EnterPatrolState()
+    public void EnterPatrolState()
     {
         currentState = State.Patrol;
         agent.isStopped = false;
-        SetRandomPatrolDestination();
+        SetNextPatrolDestination();
     }
 
     protected virtual void PatrolUpdate()
     {
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
-            patrolWaitTime -= Time.deltaTime;
-            if (patrolWaitTime <= 0f)
+            if (patrolWaitTime > 0f)
             {
-                SetRandomPatrolDestination();
+                patrolWaitTime -= Time.deltaTime;
+            }
+            else
+            {
+                SetNextPatrolDestination();
             }
         }
     }
 
-    public void SetRandomPatrolDestination()
+    private void InitializePatrolPoints()
     {
-        Vector3 randomPoint = patrolAreaCenter + Random.insideUnitSphere * patrolAreaRadius;
-        randomPoint.y = patrolAreaCenter.y;
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(randomPoint, out hit, patrolAreaRadius, NavMesh.AllAreas))
+        float halfSide = patrolAreaRadius;
+        Vector3 topLeft = patrolAreaCenter + new Vector3(-halfSide, 0f, halfSide);
+        Vector3 topRight = patrolAreaCenter + new Vector3(halfSide, 0f, halfSide);
+        Vector3 bottomLeft = patrolAreaCenter + new Vector3(-halfSide, 0f, -halfSide);
+        Vector3 bottomRight = patrolAreaCenter + new Vector3(halfSide, 0f, -halfSide);
+        Vector3 center = patrolAreaCenter;
+
+        patrolPoints = new Vector3[] { center, topLeft, topRight, bottomLeft, bottomRight };
+    }
+
+    public void SetNextPatrolDestination()
+    {
+        int[] indices = {0, 1, 2, 3, 4};
+        Shuffle(indices);
+
+        Vector3 currentPos = transform.position;
+
+        foreach (int i in indices)
         {
-            agent.SetDestination(hit.position);
+            Vector3 point = patrolPoints[i];
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(point, out hit, 2f, NavMesh.AllAreas))
+            {
+                if (!Physics.CheckSphere(hit.position, 0.5f, obstacleLayer) &&
+                    Vector3.Distance(currentPos, hit.position) > 2f)
+                {
+                    NavMeshPath path = new NavMeshPath();
+                    if (agent.CalculatePath(hit.position, path) && path.status == NavMeshPathStatus.PathComplete)
+                    {
+                        agent.SetDestination(hit.position);
+                        patrolWaitTime = Random.Range(minPatrolWait, maxPatrolWait);
+                        return;
+                    }
+                }
+            }
         }
 
+        Debug.LogWarning("Failed to find a valid patrol point from the predefined points.");
         patrolWaitTime = Random.Range(minPatrolWait, maxPatrolWait);
+    }
+
+    private void Shuffle(int[] array)
+    {
+        for (int i = array.Length - 1; i > 0; i--)
+        {
+            int j = Random.Range(0, i + 1);
+            int temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
     }
 
     private void EnterPlayerDetectedState()
@@ -130,13 +186,21 @@ public class BaseEnemy : MonoBehaviour
         }
     }
 
-    //Gizmos to visualize detection and patrol area
     protected virtual void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
 
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(patrolAreaCenter, patrolAreaRadius);
+        Gizmos.DrawWireCube(patrolAreaCenter, new Vector3(patrolAreaRadius * 2, 0.1f, patrolAreaRadius * 2));
+
+        if (Application.isPlaying && patrolPoints != null)
+        {
+            Gizmos.color = Color.blue;
+            foreach (var p in patrolPoints)
+            {
+                Gizmos.DrawWireSphere(p, 0.5f);
+            }
+        }
     }
 }

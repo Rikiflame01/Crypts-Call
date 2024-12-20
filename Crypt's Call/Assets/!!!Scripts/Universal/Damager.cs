@@ -25,7 +25,7 @@ public class Damager : MonoBehaviour
 
         IHealth health = other.gameObject.GetComponent<IHealth>();
 
-        if (health != null && other.gameObject.CompareTag("Player"))
+        if (health != null && other.gameObject.CompareTag("Player") && isPlayerWeapon == false)
         {
             Debug.Log($"{gameObject.name} dealt {entityStats.damage} damage to {other.gameObject.name}");
             health.TakeDamage(entityStats.damage);

@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 3054566516119258676}
   - component: {fileID: 3309786654644649927}
   - component: {fileID: 1096917541816605569}
-  - component: {fileID: 1292380078708743215}
+  - component: {fileID: 2990783999394317252}
   - component: {fileID: 6161542601824971003}
   - component: {fileID: 618437582221564973}
   m_Layer: 0
@@ -216,7 +216,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!195 &1292380078708743215
+--- !u!195 &2990783999394317252
 NavMeshAgent:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -235,7 +235,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 0
+  m_BaseOffset: 0.32
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!136 &6161542601824971003

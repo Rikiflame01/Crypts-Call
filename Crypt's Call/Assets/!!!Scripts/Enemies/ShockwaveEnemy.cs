@@ -101,13 +101,11 @@ public class ShockwaveEnemy : BaseEnemy
     {
         EnterPatrolState();
     }
-
     private new void EnterPatrolState()
     {
         extendedState = ExtendedState.Patrol;
         agent.isStopped = false;
-        shockwaveReady = true; 
-        SetRandomPatrolDestination();
+        SetNextPatrolDestination();
     }
 
     protected override void PatrolUpdate()
@@ -117,7 +115,7 @@ public class ShockwaveEnemy : BaseEnemy
             patrolWaitTime -= Time.deltaTime;
             if (patrolWaitTime <= 0f)
             {
-                SetRandomPatrolDestination();
+                SetNextPatrolDestination();
             }
         }
     }

@@ -1,21 +1,25 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class DashingEnemy : BaseEnemy
+public class ConsecutiveDasherEnemy : BaseEnemy
 {
     [Header("Dash Attack")]
     public float dashSpeed = 10f;
-    public float dashDuration = 1f;
-    public float dashCooldown = 2f;
+    public float dashDuration = 0.5f;
     public float dashStartDistance = 5f;
     public float preDashWaitTime = 1f;
+
+    [Header("Multiple Dashes Settings")]
+    public int dashesPerCycle = 3;
+    public float timeBetweenDashes = 1.8f;
 
     [Header("Standoff Distance")]
     public float desiredMinDistance = 8f;
 
-    private float dashTimer = 0f;
-    private float dashCooldownTimer = 0f;
     private float preDashTimer = 0f;
+    private int dashesRemaining = 0;
+    private float dashTimer = 0f;
+    private float dashIntervalTimer = 0f;
     private Vector3 dashDirection;
 
     private enum ExtendedState
@@ -24,7 +28,8 @@ public class DashingEnemy : BaseEnemy
         Patrol,
         PlayerDetected,
         PreparingDash,
-        Dashing
+        Dashing,
+        WaitingForNextDash
     }
 
     private ExtendedState extendedState = ExtendedState.Idle;
@@ -54,6 +59,9 @@ public class DashingEnemy : BaseEnemy
             case ExtendedState.Dashing:
                 DashingUpdate();
                 break;
+            case ExtendedState.WaitingForNextDash:
+                WaitingForNextDashUpdate();
+                break;
         }
 
         CheckPlayerDetection();
@@ -67,7 +75,8 @@ public class DashingEnemy : BaseEnemy
             detectedPlayer = hits[0].gameObject;
             if (extendedState != ExtendedState.PlayerDetected
                 && extendedState != ExtendedState.Dashing
-                && extendedState != ExtendedState.PreparingDash)
+                && extendedState != ExtendedState.PreparingDash
+                && extendedState != ExtendedState.WaitingForNextDash)
             {
                 EnterPlayerDetectedState();
             }
@@ -77,7 +86,8 @@ public class DashingEnemy : BaseEnemy
             detectedPlayer = null;
             if (extendedState == ExtendedState.PlayerDetected
                 || extendedState == ExtendedState.Dashing
-                || extendedState == ExtendedState.PreparingDash)
+                || extendedState == ExtendedState.PreparingDash
+                || extendedState == ExtendedState.WaitingForNextDash)
             {
                 EnterPatrolState();
             }
@@ -107,6 +117,7 @@ protected override void PatrolUpdate()
         }
     }
 }
+
     private new void EnterPlayerDetectedState()
     {
         extendedState = ExtendedState.PlayerDetected;
@@ -134,13 +145,9 @@ protected override void PatrolUpdate()
             agent.SetDestination(transform.position);
         }
 
-        if (dashCooldownTimer > 0f)
+        if (distanceToPlayer <= dashStartDistance && dashesRemaining == 0)
         {
-            dashCooldownTimer -= Time.deltaTime;
-        }
-
-        if (dashCooldownTimer <= 0f && distanceToPlayer <= dashStartDistance)
-        {
+            dashesRemaining = dashesPerCycle;
             EnterPreparingDashState();
         }
     }
@@ -165,6 +172,7 @@ protected override void PatrolUpdate()
 
         if (detectedPlayer == null)
         {
+            dashesRemaining = 0;
             EnterPatrolState();
             return;
         }
@@ -178,6 +186,7 @@ protected override void PatrolUpdate()
     private void EnterDashingState()
     {
         extendedState = ExtendedState.Dashing;
+
         if (detectedPlayer != null)
         {
             Vector3 targetDir = (detectedPlayer.transform.position - transform.position).normalized;
@@ -195,26 +204,39 @@ protected override void PatrolUpdate()
 
         if (dashTimer <= 0f)
         {
-            dashCooldownTimer = dashCooldown;
-            if (detectedPlayer != null)
+            dashesRemaining--;
+            if (dashesRemaining > 0)
             {
-                EnterPlayerDetectedState();
+                EnterWaitingForNextDashState();
             }
             else
             {
-                EnterPatrolState();
+                EnterPlayerDetectedState();
             }
+        }
+    }
+
+    private void EnterWaitingForNextDashState()
+    {
+        extendedState = ExtendedState.WaitingForNextDash;
+        dashIntervalTimer = timeBetweenDashes;
+    }
+
+    private void WaitingForNextDashUpdate()
+    {
+        dashIntervalTimer -= Time.deltaTime;
+        if (dashIntervalTimer <= 0f)
+        {
+            EnterDashingState();
         }
     }
 
     protected override void OnDrawGizmosSelected()
     {
         base.OnDrawGizmosSelected();
-        //start distance
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, dashStartDistance);
 
-        //min distance
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, desiredMinDistance);
     }
