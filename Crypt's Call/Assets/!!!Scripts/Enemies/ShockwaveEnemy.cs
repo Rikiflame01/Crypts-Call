@@ -114,6 +114,7 @@ public class ShockwaveEnemy : BaseEnemy
 
     protected override void IdleUpdate()
     {
+        animator.SetBool("isAttacking", false);
         EnterPatrolState();
     }
     private new void EnterPatrolState()
@@ -184,6 +185,7 @@ public class ShockwaveEnemy : BaseEnemy
 
     private void PreparingShockwaveUpdate()
     {
+        animator.SetBool("isCharging", true);
         preShockwaveTimer -= Time.deltaTime;
 
         if (detectedPlayer == null)
@@ -212,6 +214,8 @@ public class ShockwaveEnemy : BaseEnemy
 
     private void PerformShockwave()
     {
+        animator.SetBool("isCharging", false);
+        animator.SetBool("isAttacking", true);
         Collider[] hits = Physics.OverlapSphere(transform.position, shockwaveRadius, playerLayer);
         foreach (Collider hit in hits)
         {
@@ -219,6 +223,7 @@ public class ShockwaveEnemy : BaseEnemy
             if (health != null)
             {
                 health.TakeDamage(shockwaveDamage);
+                animator.SetBool("isAttacking", false);
             }
         }
 

@@ -208,6 +208,8 @@ protected override void PatrolUpdate()
             {
                 shotsRemainingInBurst = shotsPerBurst;
                 shotTimer = 0f;
+
+                animator.SetBool("isAttacking", true);
             }
         }
         else
@@ -225,6 +227,7 @@ protected override void PatrolUpdate()
                 else
                 {
                     nextBurstTimer = burstInterval;
+                    animator.SetBool("isAttacking", true);
                 }
             }
         }

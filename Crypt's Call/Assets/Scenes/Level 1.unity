@@ -13382,6 +13382,10 @@ PrefabInstance:
       propertyPath: m_IsKinematic
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7981254332948299751, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 9114983129523990234, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
       propertyPath: m_Name
       value: Player
@@ -34685,9 +34689,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 108348924750071433, guid: 75036d26439965e46b01f975388492ec, type: 3}
+      propertyPath: burstInterval
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 108348924750071433, guid: 75036d26439965e46b01f975388492ec, type: 3}
+      propertyPath: maxRetreatTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 108348924750071433, guid: 75036d26439965e46b01f975388492ec, type: 3}
+      propertyPath: desiredDistance
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 108348924750071433, guid: 75036d26439965e46b01f975388492ec, type: 3}
+      propertyPath: patrolAreaCenter.x
+      value: 22.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 108348924750071433, guid: 75036d26439965e46b01f975388492ec, type: 3}
+      propertyPath: patrolAreaCenter.y
+      value: -0.6400001
+      objectReference: {fileID: 0}
+    - target: {fileID: 108348924750071433, guid: 75036d26439965e46b01f975388492ec, type: 3}
+      propertyPath: patrolAreaCenter.z
+      value: 32.56
+      objectReference: {fileID: 0}
     - target: {fileID: 766940066881727341, guid: 75036d26439965e46b01f975388492ec, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 26.29556
+      value: 22.34
       objectReference: {fileID: 0}
     - target: {fileID: 766940066881727341, guid: 75036d26439965e46b01f975388492ec, type: 3}
       propertyPath: m_LocalPosition.y
@@ -34695,7 +34723,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 766940066881727341, guid: 75036d26439965e46b01f975388492ec, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 31.63
+      value: 32.56
       objectReference: {fileID: 0}
     - target: {fileID: 766940066881727341, guid: 75036d26439965e46b01f975388492ec, type: 3}
       propertyPath: m_LocalRotation.w
@@ -34731,7 +34759,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4447388131169124092, guid: 75036d26439965e46b01f975388492ec, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8065430402579267620, guid: 75036d26439965e46b01f975388492ec, type: 3}
       propertyPath: m_AngularDrag
@@ -34804,7 +34832,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8774328577192973730, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -34819,13 +34847,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2680233326149547845, guid: d121fb3755122e445bdb961fe7413686, type: 3}
+      propertyPath: m_Speed
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3872524672135190658, guid: d121fb3755122e445bdb961fe7413686, type: 3}
       propertyPath: m_Name
       value: ChestMonsterPBRDefault
       objectReference: {fileID: 0}
     - target: {fileID: 3872524672135190658, guid: d121fb3755122e445bdb961fe7413686, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7176539038421979756, guid: d121fb3755122e445bdb961fe7413686, type: 3}
       propertyPath: m_LocalPosition.x
@@ -34866,6 +34898,10 @@ PrefabInstance:
     - target: {fileID: 7176539038421979756, guid: d121fb3755122e445bdb961fe7413686, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7573146774538193251, guid: d121fb3755122e445bdb961fe7413686, type: 3}
+      propertyPath: m_Constraints
+      value: 32
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -34949,6 +34985,10 @@ PrefabInstance:
       propertyPath: patrolAreaCenter.x
       value: 4.92
       objectReference: {fileID: 0}
+    - target: {fileID: 2792208463392760454, guid: 037618c8f617f6a438ef75c1e2bb9a03, type: 3}
+      propertyPath: m_Speed
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4339652569100210868, guid: 037618c8f617f6a438ef75c1e2bb9a03, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.757556
@@ -34989,6 +35029,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7823164062880483472, guid: 037618c8f617f6a438ef75c1e2bb9a03, type: 3}
+      propertyPath: m_Constraints
+      value: 32
+      objectReference: {fileID: 0}
     - target: {fileID: 7968187071044412958, guid: 037618c8f617f6a438ef75c1e2bb9a03, type: 3}
       propertyPath: m_Name
       value: Swarm09
@@ -35016,7 +35060,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 764862100482853296, guid: 0f1d0a8c183d48f4a8d50bda361eeca7, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4442060365446598148, guid: 0f1d0a8c183d48f4a8d50bda361eeca7, type: 3}
       propertyPath: m_LocalPosition.x
