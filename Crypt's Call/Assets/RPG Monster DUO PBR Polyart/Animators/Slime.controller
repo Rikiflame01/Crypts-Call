@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1101 &-2539590200565804412
+--- !u!1101 &-683505178501499930
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19,7 +19,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
-  m_ExitTime: 0.85
+  m_ExitTime: 0.75
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -324,8 +324,7 @@ AnimatorState:
   m_Name: IdleNormal
   m_Speed: 1
   m_CycleOffset: 0
-  m_Transitions:
-  - {fileID: -2539590200565804412}
+  m_Transitions: []
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -511,7 +510,7 @@ AnimatorStateMachine:
     m_Position: {x: 80, y: -10, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102428608990248820}
-    m_Position: {x: 30, y: -130, z: 0}
+    m_Position: {x: -50, y: -220, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102941443349979230}
     m_Position: {x: 288, y: 180, z: 0}
@@ -558,11 +557,12 @@ AnimatorStateMachine:
     m_State: {fileID: 1102835054974116572}
     m_Position: {x: 300, y: -190, z: 0}
   m_ChildStateMachines: []
-  m_AnyStateTransitions: []
+  m_AnyStateTransitions:
+  - {fileID: -683505178501499930}
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: -110, y: 0, z: 0}
+  m_AnyStatePosition: {x: 20, y: -90, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 48, y: 228, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
