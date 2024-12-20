@@ -18,6 +18,8 @@ public class DashingEnemy : BaseEnemy
     private float preDashTimer = 0f;
     private Vector3 dashDirection;
 
+    Animator animator;
+
     private enum ExtendedState
     {
         Idle,
@@ -31,6 +33,7 @@ public class DashingEnemy : BaseEnemy
 
     protected override void Start()
     {
+        animator = GetComponent<Animator>();
         base.Start();
         extendedState = ExtendedState.Patrol;
     }
@@ -56,7 +59,22 @@ public class DashingEnemy : BaseEnemy
                 break;
         }
 
+        UpdateWalkingAnimation();
+
         CheckPlayerDetection();
+    }
+
+        private void UpdateWalkingAnimation()
+    {
+        if (animator != null && agent != null)
+        {
+            bool isWalking = agent.velocity.magnitude > 0.1f;
+            animator.SetBool("isWalking", isWalking);
+        }
+        else
+        {
+            Debug.LogWarning("Animator or NavMeshAgent component is missing.");
+        }
     }
 
     private new void CheckPlayerDetection()

@@ -32,8 +32,10 @@ public class ShockwaveEnemy : BaseEnemy
 
     private ExtendedState extendedState = ExtendedState.Idle;
 
+    private Animator animator;
     protected override void Start()
     {
+        animator = GetComponent<Animator>();
         base.Start();
         extendedState = ExtendedState.Patrol;
     }
@@ -64,10 +66,23 @@ public class ShockwaveEnemy : BaseEnemy
                 AttackCooldownUpdate();
                 break;
         }
-
+        UpdateWalkingAnimation();
         CheckPlayerDetection();
     }
 
+    private void UpdateWalkingAnimation()
+    {
+        if (animator != null && agent != null)
+        {
+            bool isWalking = agent.velocity.magnitude > 0.1f;
+            animator.SetBool("isWalking", isWalking);
+        }
+        else
+        {
+            Debug.LogWarning("Animator or NavMeshAgent component is missing.");
+        }
+    }
+    
     private new void CheckPlayerDetection()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, detectionRadius, playerLayer);

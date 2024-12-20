@@ -1231,12 +1231,12 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 256
-  detectionRadius: 10
+  detectionRadius: 7
   playerLayer:
     serializedVersion: 2
     m_Bits: 1024
-  patrolAreaCenter: {x: 20.7, y: -0.6400006, z: 33.3}
-  patrolAreaRadius: 4.09
+  patrolAreaCenter: {x: -3.46, y: -4.4499993, z: 8.53}
+  patrolAreaRadius: 2.3
   minPatrolWait: 2
   maxPatrolWait: 5
   patrolWaitTime: 0

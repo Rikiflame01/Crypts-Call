@@ -31,8 +31,11 @@ public class BaseEnemy : MonoBehaviour
 
     private Vector3[] patrolPoints;
 
+    Animator animator;
+
     protected virtual void Awake()
     {
+        animator = GetComponent<Animator>();
         obstacleLayer = LayerMask.GetMask("Obstacle");
         agent = GetComponent<NavMeshAgent>();
         InitializePatrolPoints();
@@ -58,8 +61,23 @@ public class BaseEnemy : MonoBehaviour
                 PlayerDetectedUpdate();
                 break;
         }
+
+        UpdateWalkingAnimation();
         
         CheckPlayerDetection();
+    }
+
+                private void UpdateWalkingAnimation()
+    {
+        if (animator != null && agent != null)
+        {
+            bool isWalking = agent.velocity.magnitude > 0.1f;
+            animator.SetBool("isWalking", isWalking);
+        }
+        else
+        {
+            Debug.LogWarning("Animator or NavMeshAgent component is missing.");
+        }
     }
 
     private void CheckPlayerDetection()
