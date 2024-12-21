@@ -108,7 +108,7 @@ private new void EnterPatrolState()
 
 protected override void PatrolUpdate()
 {
-    if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+    if (agent != null && !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
     {
         patrolWaitTime -= Time.deltaTime;
         if (patrolWaitTime <= 0f)
@@ -227,7 +227,7 @@ protected override void PatrolUpdate()
                 else
                 {
                     nextBurstTimer = burstInterval;
-                    animator.SetBool("isAttacking", true);
+                    animator.SetBool("isAttacking", false);
                 }
             }
         }

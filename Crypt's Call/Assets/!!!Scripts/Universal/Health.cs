@@ -3,12 +3,15 @@ using UnityEditor;
 #endif
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 public interface IHealth
 {
     void TakeDamage(float damage);
     void Heal(float amount);
     float CurrentHealth { get; }
     float MaxHealth { get; }
+
+    bool IsDead { get; }
 }
 
 [RequireComponent(typeof(Animator))]
@@ -25,6 +28,8 @@ public class Health : MonoBehaviour, IHealth
 
     public float MaxHealth => entityStats != null ? entityStats.maxHealth : 0;
     public float CurrentHealth => currentHealth;
+
+    public bool IsDead => currentHealth <= 0;
 
     public delegate void HealthEvent(float currentHealth, float maxHealth);
     public event HealthEvent OnHealthChanged;
@@ -88,8 +93,9 @@ public class Health : MonoBehaviour, IHealth
     protected virtual void HandleDeath()
     {
         Animator animator = GetComponent<Animator>();
+        NavMeshAgent agent = GetComponent<NavMeshAgent>();
         animator.SetBool("isDead", true);
-
+        agent.enabled = false;
         StartCoroutine(SlowMotionEffect());
     }
 

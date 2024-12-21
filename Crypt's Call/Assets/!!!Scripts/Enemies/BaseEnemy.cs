@@ -31,10 +31,12 @@ public class BaseEnemy : MonoBehaviour
 
     private Vector3[] patrolPoints;
 
+    private Health health;
     Animator animator;
 
     protected virtual void Awake()
     {
+        health = GetComponent<Health>();
         animator = GetComponent<Animator>();
         obstacleLayer = LayerMask.GetMask("Obstacle");
         agent = GetComponent<NavMeshAgent>();
