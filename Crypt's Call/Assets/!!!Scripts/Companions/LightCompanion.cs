@@ -31,6 +31,7 @@ public class LightCompanion : MonoBehaviour
     [Header("Detection Settings")]
     public float playerDetectionRadius = 10f;
     public LayerMask playerLayer;
+    public float companionPlayerDetectionRadius = 30f;
     public float enemyDetectionRadius = 15f;
     public LayerMask enemyLayer;
 
@@ -54,7 +55,6 @@ public class LightCompanion : MonoBehaviour
         lightComponent = GetComponent<Light>();
         if (lightComponent == null)
         {
-            Debug.LogError("LightCompanion requires a Light component.");
             enabled = false;
             return;
         }
@@ -62,7 +62,6 @@ public class LightCompanion : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         if (rb == null)
         {
-            Debug.LogError("LightCompanion requires a Rigidbody component.");
             enabled = false;
             return;
         }
@@ -128,13 +127,16 @@ public class LightCompanion : MonoBehaviour
 
     void DetectPlayer()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position, playerDetectionRadius, playerLayer);
+        float currentDetectionRadius = (currentState == State.FollowingPlayer || currentState == State.FollowingEnemy) 
+            ? companionPlayerDetectionRadius 
+            : playerDetectionRadius;
+
+        Collider[] hits = Physics.OverlapSphere(transform.position, currentDetectionRadius, playerLayer);
         if (hits.Length > 0)
         {
             if (playerTransform == null)
             {
                 playerTransform = hits[0].transform;
-                Debug.Log("Player detected and assigned to LightCompanion.");
             }
 
             if (currentState != State.FollowingEnemy)
@@ -180,7 +182,6 @@ public class LightCompanion : MonoBehaviour
                     currentTarget = enemy.transform;
                     currentState = State.FollowingEnemy;
                     isFollowingEnemy = true;
-                    Debug.Log($"Enemy detected and followed: {enemy.gameObject.name}");
                     break;
                 }
                 else
@@ -247,7 +248,6 @@ public class LightCompanion : MonoBehaviour
             return;
 
         float distance = Vector3.Distance(transform.position, playerTransform.position);
-        Debug.Log($"SafetyTeleportBack: Distance to player is {distance}.");
 
         if (distance > maxDistanceFromPlayer)
         {
@@ -256,8 +256,6 @@ public class LightCompanion : MonoBehaviour
 
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
-
-            Debug.Log("LightCompanion teleported back to the player due to exceeding max distance.");
         }
     }
 
@@ -265,6 +263,9 @@ public class LightCompanion : MonoBehaviour
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, playerDetectionRadius);
+
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, companionPlayerDetectionRadius);
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, enemyDetectionRadius);

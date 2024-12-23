@@ -3,7 +3,8 @@ using UnityEditor;
 #endif
 using System.Collections;
 using UnityEngine;
-using UnityEngine.AI;
+using System;
+
 public interface IHealth
 {
     void TakeDamage(float damage);
@@ -17,6 +18,12 @@ public interface IHealth
 [RequireComponent(typeof(Animator))]
 public class Health : MonoBehaviour, IHealth
 {
+    public event Action<float, float> OnHealthChanged;
+
+    public event Action OnHealthDepleted;
+
+    public event Action<GameObject> OnDied;
+
     [Header("Entity Stats")]
     [SerializeField] private EntityStats entityStats;
 
@@ -30,10 +37,6 @@ public class Health : MonoBehaviour, IHealth
     public float CurrentHealth => currentHealth;
 
     public bool IsDead => currentHealth <= 0;
-
-    public delegate void HealthEvent(float currentHealth, float maxHealth);
-    public event HealthEvent OnHealthChanged;
-    public event HealthEvent OnHealthDepleted;
 
     private void Awake()
     {
@@ -64,7 +67,7 @@ public class Health : MonoBehaviour, IHealth
         if (currentHealth <= 0)
         {
             Debug.Log($"{gameObject.name} has died.");
-            OnHealthDepleted?.Invoke(currentHealth, MaxHealth);
+            OnHealthDepleted?.Invoke();
             HandleDeath();
         }
     }
@@ -92,46 +95,21 @@ public class Health : MonoBehaviour, IHealth
 
     protected virtual void HandleDeath()
     {
-        Animator animator = GetComponent<Animator>();
-        NavMeshAgent agent = GetComponent<NavMeshAgent>();
-        animator.SetBool("isDead", true);
-        agent.enabled = false;
-        StartCoroutine(SlowMotionEffect());
-    }
+        OnDied?.Invoke(gameObject);
 
-    private IEnumerator SlowMotionEffect()
-    {
-        float originalTimeScale = Time.timeScale;
-        float slowMoTimeScale = 0.2f;
-
-        try
-        {
-            Time.timeScale = slowMoTimeScale;
-            Time.fixedDeltaTime = slowMoTimeScale * 0.02f;
-
-            yield return new WaitForSecondsRealtime(1f);
-        }
-        finally
-        {
-            Time.timeScale = originalTimeScale;
-            Time.fixedDeltaTime = 0.02f;
-        }
-
-        yield return new WaitForSecondsRealtime(3f);
-        this.gameObject.SetActive(false);
     }
 
     private void OnDisable()
     {
-        Time.timeScale = 1f; 
+        Time.timeScale = 1f;
         Time.fixedDeltaTime = 0.02f;
     }
 
-        public void EditorDamage(float damage)
-        {
-            TakeDamage(damage);
-        }
+    public void EditorDamage(float damage)
+    {
+        TakeDamage(damage);
     }
+}
 
 #if UNITY_EDITOR
 [CustomEditor(typeof(Health))]

@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 
+[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(Animator))]
 public class DashingEnemy : BaseEnemy
 {
     [Header("Dash Attack")]
@@ -18,9 +21,7 @@ public class DashingEnemy : BaseEnemy
     private float preDashTimer = 0f;
     private Vector3 dashDirection;
 
-    Animator animator;
-
-    private enum ExtendedState
+    private enum ExtendedState 
     {
         Idle,
         Patrol,
@@ -31,15 +32,37 @@ public class DashingEnemy : BaseEnemy
 
     private ExtendedState extendedState = ExtendedState.Idle;
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        animator = GetComponent<Animator>();
+        if (animator == null)
+        {
+            Debug.LogError($"[{nameof(DashingEnemy)}] Animator component is missing on {gameObject.name}. Disabling script.");
+            this.enabled = false;
+            return;
+        }
+    }
+
     protected override void Start()
     {
-        animator = GetComponent<Animator>();
         base.Start();
         extendedState = ExtendedState.Patrol;
     }
 
     protected override void Update()
     {
+
+        if (isDead)
+        return;
+
+        if (agent == null)
+        {
+            Debug.LogWarning($"[{nameof(DashingEnemy)}] NavMeshAgent is null on {gameObject.name}. Skipping Update.");
+            return;
+        }
+
         switch (extendedState)
         {
             case ExtendedState.Idle:
@@ -60,11 +83,10 @@ public class DashingEnemy : BaseEnemy
         }
 
         UpdateWalkingAnimation();
-
         CheckPlayerDetection();
     }
 
-        private void UpdateWalkingAnimation()
+    private void UpdateWalkingAnimation()
     {
         if (animator != null && agent != null)
         {
@@ -73,12 +95,18 @@ public class DashingEnemy : BaseEnemy
         }
         else
         {
-            Debug.LogWarning("Animator or NavMeshAgent component is missing.");
+            Debug.LogWarning($"[{nameof(DashingEnemy)}] Animator or NavMeshAgent component is missing on {gameObject.name}.");
         }
     }
 
     private new void CheckPlayerDetection()
     {
+        if (agent == null)
+        {
+            Debug.LogWarning($"[{nameof(DashingEnemy)}] NavMeshAgent is null on {gameObject.name}. Skipping player detection.");
+            return;
+        }
+
         Collider[] hits = Physics.OverlapSphere(transform.position, detectionRadius, playerLayer);
         if (hits.Length > 0)
         {
@@ -107,32 +135,59 @@ public class DashingEnemy : BaseEnemy
         EnterPatrolState();
     }
 
-private new void EnterPatrolState()
-{
-    extendedState = ExtendedState.Patrol;
-    agent.isStopped = false;
-    SetNextPatrolDestination();
-}
-
-protected override void PatrolUpdate()
-{
-    if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+    private new void EnterPatrolState()
     {
-        patrolWaitTime -= Time.deltaTime;
-        if (patrolWaitTime <= 0f)
+        extendedState = ExtendedState.Patrol;
+        if (agent != null)
         {
+            agent.isStopped = false;
             SetNextPatrolDestination();
         }
+        else
+        {
+            Debug.LogWarning($"[{nameof(DashingEnemy)}] NavMeshAgent is null on {gameObject.name}. Cannot enter Patrol state.");
+        }
     }
-}
+
+    protected override void PatrolUpdate()
+    {
+        if (agent == null)
+        {
+            Debug.LogWarning($"[{nameof(DashingEnemy)}] NavMeshAgent is null on {gameObject.name}. Cannot update Patrol state.");
+            return;
+        }
+
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        {
+            patrolWaitTime -= Time.deltaTime;
+            if (patrolWaitTime <= 0f)
+            {
+                SetNextPatrolDestination();
+            }
+        }
+    }
+
     private new void EnterPlayerDetectedState()
     {
         extendedState = ExtendedState.PlayerDetected;
-        agent.isStopped = false;
+        if (agent != null)
+        {
+            agent.isStopped = false;
+        }
+        else
+        {
+            Debug.LogWarning($"[{nameof(DashingEnemy)}] NavMeshAgent is null on {gameObject.name}. Cannot enter PlayerDetected state.");
+        }
     }
 
     protected override void PlayerDetectedUpdate()
     {
+        if (agent == null)
+        {
+            Debug.LogWarning($"[{nameof(DashingEnemy)}] NavMeshAgent is null on {gameObject.name}. Cannot update PlayerDetected state.");
+            return;
+        }
+
         if (!detectedPlayer)
         {
             EnterPatrolState();
@@ -141,15 +196,21 @@ protected override void PatrolUpdate()
 
         float distanceToPlayer = Vector3.Distance(transform.position, detectedPlayer.transform.position);
 
-        if (distanceToPlayer > desiredMinDistance)
+        if (distanceToPlayer > desiredMinDistance && agent != null)
         {
             Vector3 directionToPlayer = (detectedPlayer.transform.position - transform.position).normalized;
             Vector3 targetPosition = detectedPlayer.transform.position - directionToPlayer * desiredMinDistance;
-            agent.SetDestination(targetPosition);
+            if (!TrySetDestination(targetPosition))
+            {
+                Debug.LogWarning($"[{nameof(DashingEnemy)}] Failed to set destination towards desiredMinDistance from player.");
+            }
         }
         else
         {
-            agent.SetDestination(transform.position);
+            if (!TrySetDestination(transform.position))
+            {
+                Debug.LogWarning($"[{nameof(DashingEnemy)}] Failed to set destination to current position.");
+            }
         }
 
         if (dashCooldownTimer > 0f)
@@ -166,8 +227,16 @@ protected override void PatrolUpdate()
     private void EnterPreparingDashState()
     {
         extendedState = ExtendedState.PreparingDash;
-        agent.isStopped = true;
-        agent.ResetPath();
+        if (agent != null)
+        {
+            agent.isStopped = true;
+            agent.ResetPath();
+        }
+        else
+        {
+            Debug.LogWarning($"[{nameof(DashingEnemy)}] NavMeshAgent is null on {gameObject.name}. Cannot stop agent for PreparingDash state.");
+        }
+
         preDashTimer = preDashWaitTime;
 
         if (detectedPlayer != null)
@@ -179,10 +248,26 @@ protected override void PatrolUpdate()
 
     private void PreparingDashUpdate()
     {
+        if (isDead)
+        return;
+        if (animator != null)
+        {
+            animator.SetBool("isCharging", true);
+        }
+        else
+        {
+            Debug.LogWarning($"[{nameof(DashingEnemy)}] Animator is null on {gameObject.name}. Cannot set isCharging.");
+        }
+
         preDashTimer -= Time.deltaTime;
 
         if (detectedPlayer == null)
         {
+            dashCooldownTimer = dashCooldown;
+            if (animator != null)
+            {
+                animator.SetBool("isCharging", false);
+            }
             EnterPatrolState();
             return;
         }
@@ -195,6 +280,8 @@ protected override void PatrolUpdate()
 
     private void EnterDashingState()
     {
+        if (isDead)
+        return;
         extendedState = ExtendedState.Dashing;
         if (detectedPlayer != null)
         {
@@ -204,10 +291,27 @@ protected override void PatrolUpdate()
 
         dashDirection = transform.forward;
         dashTimer = dashDuration;
+
+        if (animator != null)
+        {
+            animator.SetBool("isAttacking", true);
+        }
+        else
+        {
+            Debug.LogWarning($"[{nameof(DashingEnemy)}] Animator is null on {gameObject.name}. Cannot set isAttacking.");
+        }
     }
 
     private void DashingUpdate()
     {
+        if (isDead)
+        return;
+        if (agent == null)
+        {
+            Debug.LogWarning($"[{nameof(DashingEnemy)}] NavMeshAgent is null on {gameObject.name}. Cannot perform Dashing.");
+            return;
+        }
+
         transform.position += dashDirection * dashSpeed * Time.deltaTime;
         dashTimer -= Time.deltaTime;
 
@@ -220,7 +324,16 @@ protected override void PatrolUpdate()
             }
             else
             {
+                if (animator != null)
+                {
+                    animator.SetBool("isAttacking", false);
+                }
                 EnterPatrolState();
+            }
+
+            if (animator != null)
+            {
+                animator.SetBool("isAttacking", false);
             }
         }
     }
@@ -228,12 +341,26 @@ protected override void PatrolUpdate()
     protected override void OnDrawGizmosSelected()
     {
         base.OnDrawGizmosSelected();
-        //start distance
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, dashStartDistance);
 
-        //min distance
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, desiredMinDistance);
     }
+
+
+    private bool TrySetDestination(Vector3 destination)
+    {
+        if (agent != null)
+        {
+            agent.SetDestination(destination);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    
 }

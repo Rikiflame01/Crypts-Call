@@ -1,10 +1,14 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System;
+using System.Collections;
 
 public class BaseEnemy : MonoBehaviour
 {
-    public LayerMask obstacleLayer;
 
+    protected bool isDead = false;
+
+    Rigidbody rb;
     [Header("Detection")]
     public float detectionRadius = 10f;
     public LayerMask playerLayer;
@@ -32,15 +36,29 @@ public class BaseEnemy : MonoBehaviour
     private Vector3[] patrolPoints;
 
     private Health health;
-    Animator animator;
+    public Animator animator;
 
     protected virtual void Awake()
     {
+        rb = GetComponent<Rigidbody>();
+
         health = GetComponent<Health>();
+        if (health == null)
+        {
+            Debug.LogError("BaseEnemy requires a Health component on the same GameObject.");
+        }
+
         animator = GetComponent<Animator>();
-        obstacleLayer = LayerMask.GetMask("Obstacle");
         agent = GetComponent<NavMeshAgent>();
         InitializePatrolPoints();
+    }
+
+    protected virtual void OnEnable()
+    {
+        if (health != null)
+        {
+            health.OnDied += HandleEnemyDeath;
+        }
     }
 
     protected virtual void Start()
@@ -51,6 +69,9 @@ public class BaseEnemy : MonoBehaviour
 
     protected virtual void Update()
     {
+        if (isDead)
+        return;
+
         switch (currentState)
         {
             case State.Idle:
@@ -69,7 +90,7 @@ public class BaseEnemy : MonoBehaviour
         CheckPlayerDetection();
     }
 
-                private void UpdateWalkingAnimation()
+    private void UpdateWalkingAnimation()
     {
         if (animator != null && agent != null)
         {
@@ -159,14 +180,14 @@ public class BaseEnemy : MonoBehaviour
             NavMeshHit hit;
             if (NavMesh.SamplePosition(point, out hit, 2f, NavMesh.AllAreas))
             {
-                if (!Physics.CheckSphere(hit.position, 0.5f, obstacleLayer) &&
+                if (!Physics.CheckSphere(hit.position, 0.5f, LayerMask.GetMask("Obstacle")) &&
                     Vector3.Distance(currentPos, hit.position) > 2f)
                 {
                     NavMeshPath path = new NavMeshPath();
                     if (agent.CalculatePath(hit.position, path) && path.status == NavMeshPathStatus.PathComplete)
                     {
                         agent.SetDestination(hit.position);
-                        patrolWaitTime = Random.Range(minPatrolWait, maxPatrolWait);
+                        patrolWaitTime = UnityEngine.Random.Range(minPatrolWait, maxPatrolWait);
                         return;
                     }
                 }
@@ -174,14 +195,14 @@ public class BaseEnemy : MonoBehaviour
         }
 
         Debug.LogWarning("Failed to find a valid patrol point from the predefined points.");
-        patrolWaitTime = Random.Range(minPatrolWait, maxPatrolWait);
+        patrolWaitTime = UnityEngine.Random.Range(minPatrolWait, maxPatrolWait);
     }
 
     private void Shuffle(int[] array)
     {
         for (int i = array.Length - 1; i > 0; i--)
         {
-            int j = Random.Range(0, i + 1);
+            int j = UnityEngine.Random.Range(0, i + 1);
             int temp = array[i];
             array[i] = array[j];
             array[j] = temp;
@@ -222,5 +243,63 @@ public class BaseEnemy : MonoBehaviour
                 Gizmos.DrawWireSphere(p, 0.5f);
             }
         }
+    }
+
+    protected virtual void HandleEnemyDeath(GameObject deadEnemy)
+    {
+        if (deadEnemy == this.gameObject)
+        {
+            Debug.Log($"{gameObject.name}: Detected own death. Disabling movement script.");
+            isDead = true;
+            DisableMovement();
+        }
+    }
+
+private void DisableMovement()
+{
+    if (agent != null)
+    {
+        agent.isStopped = true;
+        agent.enabled = false;
+    }
+    
+    animator.SetBool("isDead", true);
+    StartCoroutine(WaitForDeathAnimation());
+
+}
+
+private IEnumerator WaitForDeathAnimation()
+{
+    string deathStateName = "Death";
+    
+    while (!animator.GetCurrentAnimatorStateInfo(0).IsName(deathStateName))
+    {
+        yield return null;
+    }
+
+    AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+    float animationLength = stateInfo.length;
+    float normalizedTime = stateInfo.normalizedTime;
+
+    while (animator.GetCurrentAnimatorStateInfo(0).IsName(deathStateName) &&
+           animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+    {
+        yield return null;
+    }
+
+    yield return new WaitForSeconds(2f);
+
+    this.enabled = false;
+}
+
+
+    protected virtual void OnDisable()
+    {
+        if (health != null)
+        {
+            health.OnDied -= HandleEnemyDeath;
+        }        
+        gameObject.SetActive(false);
+
     }
 }

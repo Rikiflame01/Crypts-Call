@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,7 +7,7 @@ public class DemonFly : BaseEnemy
     [Header("DemonFly Settings")]
     public float dashSpeed = 10f;
     public float attackDuration = 1f;
-    public int attackCount = 3;
+    public int attackCount = 3; 
     public float retreatDuration = 3f;
     public float dashStartDistance = 5f;
     public GameObject attackColliderObject;
@@ -38,8 +39,6 @@ public class DemonFly : BaseEnemy
 
     private ExtendedState extendedState = ExtendedState.None;
 
-    Animator animator;
-
     protected override void Start()
     {
         animator = GetComponent<Animator>();
@@ -59,6 +58,8 @@ public class DemonFly : BaseEnemy
 
     protected override void Update()
     {
+        if (isDead)
+            return;
         base.Update(); 
         switch (extendedState)
         {
@@ -306,15 +307,6 @@ public class DemonFly : BaseEnemy
                 extendedState = ExtendedState.None;
                 agent.isStopped = false;
             }
-        }
-    }
-
-    private void OnDisable()
-    {
-        if (playerController != null)
-        {
-            playerController.enabled = true;
-            playerController = null;
         }
     }
 

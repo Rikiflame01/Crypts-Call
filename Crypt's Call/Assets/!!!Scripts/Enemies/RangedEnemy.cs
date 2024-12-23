@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -31,7 +32,6 @@ public class RangedEnemy : BaseEnemy
 
     private ExtendedState extendedState = ExtendedState.Idle;
 
-    Animator animator;
 
     protected override void Start()
     {
@@ -41,7 +41,10 @@ public class RangedEnemy : BaseEnemy
     }
 
     protected override void Update()
-    {
+    {        
+        if (isDead)
+        return;
+
         switch (extendedState)
         {
             case ExtendedState.Idle:
@@ -60,7 +63,7 @@ public class RangedEnemy : BaseEnemy
         CheckPlayerDetection();
     }
 
-            private void UpdateWalkingAnimation()
+    private void UpdateWalkingAnimation()
     {
         if (animator != null && agent != null)
         {
@@ -151,16 +154,15 @@ protected override void PatrolUpdate()
                 retreatTimer -= Time.deltaTime;
                 RetreatFromPlayer(distanceToPlayer);
             }
-            else
+            else if (isDead == false)
             {
                 agent.SetDestination(transform.position);
                 FacePlayer();
                 HandleFiring();
             }
         }
-        else
+        else if (isDead == false)
         {
-
             retreatTimer = 0f;
 
             agent.SetDestination(transform.position);
@@ -188,11 +190,13 @@ protected override void PatrolUpdate()
 
     private void FacePlayer()
     {
+        if (isDead) return;
+
         if (detectedPlayer != null)
         {
             Vector3 directionToPlayer = (detectedPlayer.transform.position - transform.position).normalized;
             directionToPlayer.y = 0;
-            if (directionToPlayer != Vector3.zero)
+            if (directionToPlayer != Vector3.zero && !isDead)
             {
                 transform.rotation = Quaternion.LookRotation(directionToPlayer, Vector3.up);
             }
@@ -252,4 +256,65 @@ protected override void PatrolUpdate()
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, desiredDistance);
     }
+
+    protected override void HandleEnemyDeath(GameObject deadEnemy)
+    {
+        if (deadEnemy == this.gameObject)
+        {
+            isDead = true;
+            DisableMovement();
+        }
+    }
+
+    private void DisableMovement()
+    {
+        if (agent != null)
+        {
+            agent.isStopped = true;
+            agent.enabled = false;
+        }
+        else
+        {
+            Debug.LogWarning($"[{nameof(DashingEnemy)}] NavMeshAgent is null on {gameObject.name}. Skipping agent disable.");
+        }
+
+        if (animator != null)
+        {
+            animator.SetBool("isDead", true);
+            StartCoroutine(WaitForDeathAnimation());
+        }
+        else
+        {
+            Debug.LogWarning($"[{nameof(DashingEnemy)}] Animator is null on {gameObject.name}. Disabling script immediately.");
+            this.enabled = false;
+        }
+    }
+
+    private IEnumerator WaitForDeathAnimation()
+    {
+        if (animator == null)
+        {
+            Debug.LogWarning($"[{nameof(DashingEnemy)}] Animator is null on {gameObject.name}. Cannot wait for death animation.");
+            yield break;
+        }
+
+        string deathStateName = "Death";
+
+        while (!animator.GetCurrentAnimatorStateInfo(0).IsName(deathStateName))
+        {
+            yield return null;
+        }
+
+        while (animator.GetCurrentAnimatorStateInfo(0).IsName(deathStateName) &&
+               animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+        {
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(2f);
+
+        this.enabled = false;
+    }
+
+
 }

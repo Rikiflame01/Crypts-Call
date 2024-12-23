@@ -32,7 +32,6 @@ public class ShockwaveEnemy : BaseEnemy
 
     private ExtendedState extendedState = ExtendedState.Idle;
 
-    private Animator animator;
     protected override void Start()
     {
         animator = GetComponent<Animator>();
@@ -42,6 +41,10 @@ public class ShockwaveEnemy : BaseEnemy
 
     protected override void Update()
     {
+        if (agent == null)
+        {
+            return;
+        }
         switch (extendedState)
         {
             case ExtendedState.Idle:
@@ -152,7 +155,7 @@ public class ShockwaveEnemy : BaseEnemy
 
         float distanceToPlayer = Vector3.Distance(transform.position, detectedPlayer.transform.position);
 
-        if (distanceToPlayer > desiredMinDistance)
+        if (distanceToPlayer > desiredMinDistance && agent != null)
         {
             Vector3 directionToPlayer = (detectedPlayer.transform.position - transform.position).normalized;
             Vector3 targetPosition = detectedPlayer.transform.position - directionToPlayer * desiredMinDistance;
@@ -283,7 +286,7 @@ public class ShockwaveEnemy : BaseEnemy
     {
         cooldownTimer -= Time.deltaTime;
 
-        if (detectedPlayer != null)
+        if (detectedPlayer != null && agent != null)
         {
             float distanceToPlayer = Vector3.Distance(transform.position, detectedPlayer.transform.position);
 
@@ -291,20 +294,26 @@ public class ShockwaveEnemy : BaseEnemy
             {
                 Vector3 directionToPlayer = (detectedPlayer.transform.position - transform.position).normalized;
                 Vector3 targetPosition = detectedPlayer.transform.position - directionToPlayer * desiredMinDistance;
-                agent.SetDestination(targetPosition);
+                if (agent != null)
+                {
+                    agent.SetDestination(targetPosition);
+                }
             }
             else
             {
+                if(agent!= null)
+                {
                 agent.SetDestination(transform.position);
+                }
             }
         }
-        else
+        else if (agent != null)
         {
             EnterPatrolState();
             return;
         }
 
-        if (cooldownTimer <= 0f)
+        if (cooldownTimer <= 0f && agent != null)
         {
             shockwaveReady = true;
             EnterPlayerDetectedState();

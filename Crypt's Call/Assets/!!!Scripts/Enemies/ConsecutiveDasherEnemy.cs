@@ -34,8 +34,6 @@ public class ConsecutiveDasherEnemy : BaseEnemy
 
     private ExtendedState extendedState = ExtendedState.Idle;
 
-    Animator animator;
-
     protected override void Start()
     {
         animator = GetComponent<Animator>();
@@ -45,6 +43,8 @@ public class ConsecutiveDasherEnemy : BaseEnemy
 
     protected override void Update()
     {
+        if (isDead)
+            return;
         switch (extendedState)
         {
             case ExtendedState.Idle:
