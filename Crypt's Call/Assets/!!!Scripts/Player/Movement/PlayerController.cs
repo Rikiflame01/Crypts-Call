@@ -273,4 +273,9 @@ private void UpdateAnimations()
     {
         Debug.Log("Setup Camp Initiated");
     }
+
+    public void HandleDeath()
+    {
+        animator.SetBool("isDead", true);
+    }
 }

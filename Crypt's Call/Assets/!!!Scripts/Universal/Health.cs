@@ -18,6 +18,8 @@ public interface IHealth
 [RequireComponent(typeof(Animator))]
 public class Health : MonoBehaviour, IHealth
 {
+    [SerializeField] private GenericEventSystem eventSystem;
+
     public event Action<float, float> OnHealthChanged;
 
     public event Action OnHealthDepleted;
@@ -51,7 +53,7 @@ public class Health : MonoBehaviour, IHealth
 
     public void TakeDamage(float damage)
     {
-        if (damage <= 0 || entityStats == null) return;
+        if (damage <= 0 || entityStats == null || IsDead == true) return;
 
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, MaxHealth);
@@ -97,6 +99,12 @@ public class Health : MonoBehaviour, IHealth
     {
         OnDied?.Invoke(gameObject);
 
+        if (gameObject.name == "Player")
+        {
+            eventSystem.RaiseEvent("Player", "PlayerDeath");
+            eventSystem.RaiseEvent("PlayerUI", "DeathCanvas");
+            eventSystem.RaiseEvent("Player", "PlayerStatsReset");
+        }
     }
 
     private void OnDisable()
