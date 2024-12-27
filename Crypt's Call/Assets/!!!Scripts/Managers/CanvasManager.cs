@@ -1,9 +1,27 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class CanvasManager : MonoBehaviour
 {
     [SerializeField] private GenericEventSystem eventSystem;
+    [SerializeField] private EntityStats playerStats;
+
+    public Slider staminaSlider;
+    public Image staminaFill;
+
+    public Slider manaSlider;
+    public Image manaFill;
+
+    void Start()
+    {
+        staminaSlider.maxValue = playerStats.stamina;
+        staminaSlider.value = playerStats.stamina;
+
+        manaSlider.maxValue = playerStats.mana;
+        manaSlider.value = playerStats.mana;
+    }
 
     public void DisableCanvases()
     {
@@ -107,6 +125,15 @@ public class CanvasManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         eventSystem.RaiseEvent("SceneManagement", "LoadTown");
     }
+
+    public void UpdateStaminaUI(){
+        staminaSlider.value = playerStats.stamina;
+    }
+
+    public void UpdateManaUI(){
+        manaSlider.value = playerStats.mana;
+    }
+
 }
 
 

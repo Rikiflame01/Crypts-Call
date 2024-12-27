@@ -322,4 +322,14 @@ public class DemonFly : BaseEnemy
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, retreatMinDistance);
     }
+
+    protected override void OnDisable()
+    {
+        if (health != null)
+        {
+            health.OnDied -= HandleEnemyDeath;
+        }        
+        gameObject.SetActive(false);
+        playerController.enabled = true;
+    }
 }

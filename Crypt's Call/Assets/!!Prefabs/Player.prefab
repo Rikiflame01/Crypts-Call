@@ -28282,6 +28282,7 @@ GameObject:
   - component: {fileID: -6561675846363751419}
   - component: {fileID: 6814779321745384026}
   - component: {fileID: 3861354837180646155}
+  - component: {fileID: 6814777511182431424}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -28345,12 +28346,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68467baa1fa1d2d4fa95919aca8fe449, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSystem: {fileID: 11400000, guid: a8219d13888f38d4eb760b10ae6b4d89, type: 2}
+  playerStats: {fileID: 11400000, guid: 6a66423971b65814a8b23b1ccf335853, type: 2}
+  detectionRange: 5
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 2048
   moveSpeed: 15
   rotationSpeed: 360
   holdThreshold: 0.2
   dashSpeed: 15
   dashDuration: 0.2
   dashCooldown: 1.5
+  quickSlashCooldown: 1
   isPlayerAttacking: 0
 --- !u!54 &4860101265613814155
 Rigidbody:
@@ -28464,3 +28472,23 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3d132da7af60f1145a3deb6a8bc42a08, type: 3}
   audioSource: {fileID: 0}
   stepInterval: 0.45
+--- !u!114 &6814777511182431424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9114983129523990234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 712d09a82a46b114588497a4be2cbfaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthSlider: {fileID: 2842017686736301952}
+  fillImage: {fileID: 8780514176599222196}
+  healthBarColor: {r: 1, g: 0.07661387, b: 0, a: 1}
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashDuration: 0.2
+  lerpSpeed: 2
+  pulseScale: 1.2
+  pulseSpeed: 5

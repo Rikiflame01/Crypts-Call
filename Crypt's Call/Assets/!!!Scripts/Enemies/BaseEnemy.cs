@@ -35,7 +35,7 @@ public class BaseEnemy : MonoBehaviour
 
     private Vector3[] patrolPoints;
 
-    private Health health;
+    public Health health;
     public Animator animator;
 
     protected virtual void Awake()

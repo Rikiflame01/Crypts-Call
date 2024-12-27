@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public static class SceneNames
 {
@@ -11,12 +12,19 @@ public static class SceneNames
 
 public class PlayerController : MonoBehaviour
 {
+    public GenericEventSystem eventSystem;
+    [SerializeField] private EntityStats playerStats;
     private PlayerMovement controls;
     private PlayerInput playerInput;
 
     private float leftClickStartTime;
 
     private bool inventoryOpened = false;
+
+    [Header("Enemy Targeting Settings")]
+    [SerializeField] private float detectionRange = 5f;
+    [SerializeField] private LayerMask enemyLayer;
+    private Transform nearestEnemy;
 
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 5f;
@@ -27,6 +35,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashSpeed = 15f;
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private float dashCooldown = 1.5f;
+
+    private float quickSlashCooldownTimer = 0f;
+    [SerializeField] private float quickSlashCooldown = 1f;
 
     public bool isPlayerAttacking = false;
     private bool isDashing = false;
@@ -82,6 +93,9 @@ public class PlayerController : MonoBehaviour
         HandleCurrentMovement?.Invoke();
         UpdateAnimations();
         UpdateCooldownTimers();
+
+        FindNearestEnemy();
+        RotateTowardsEnemy();
     }
 
     private void InitializeInputActions()
@@ -168,13 +182,42 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-private void UpdateAnimations()
-{
-    bool isWalking = movementInput != Vector2.zero && !agent.isStopped;
-    animator.SetBool("isWalking", isWalking);
-}
+    private void UpdateAnimations()
+    {
+        bool isWalking = movementInput != Vector2.zero && !agent.isStopped;
+        animator.SetBool("isWalking", isWalking);
+    }
 
+    private void FindNearestEnemy()
+    {
+        Collider[] enemies = Physics.OverlapSphere(transform.position, detectionRange, enemyLayer);
 
+        if (enemies.Length > 0)
+        {
+            nearestEnemy = enemies
+                .Select(e => e.transform)
+                .OrderBy(e => Vector3.Distance(transform.position, e.position))
+                .FirstOrDefault();
+        }
+        else
+        {
+            nearestEnemy = null;
+        }
+    }
+
+    private void RotateTowardsEnemy()
+    {
+        if (nearestEnemy == null) return;
+
+        Vector3 direction = (nearestEnemy.position - transform.position).normalized;
+        direction.y = 0f;
+
+        if (direction != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
+    }
     private void OnLeftClickStarted()
     {
         leftClickStartTime = Time.time; 
@@ -183,7 +226,7 @@ private void UpdateAnimations()
     {
         float clickDuration = Time.time - leftClickStartTime;
 
-        if (clickDuration < holdThreshold)
+        if (clickDuration < holdThreshold && playerStats.stamina > 0)
         {
             TriggerQuickSlash();
         }
@@ -195,17 +238,18 @@ private void UpdateAnimations()
 
     private void TriggerQuickSlash()
     {
-        if (animator.GetBool("isWalking"))
+        if (quickSlashCooldownTimer > 0f)
         {
-            Debug.Log("Cannot attack while walking.");
             return;
         }
 
+        eventSystem.RaiseEvent("Stamina", "Change", -1);
         animator.SetTrigger("QuickSlash");
-        Debug.Log("Quick Slash Triggered!");
+
+
+        quickSlashCooldownTimer = quickSlashCooldown;
         StartCoroutine(PlayerIsAttacking());
     }
-
     private IEnumerator PlayerIsAttacking()
     {
         isPlayerAttacking = true;
@@ -219,10 +263,15 @@ private void UpdateAnimations()
         {
             dashCooldownTimer -= Time.deltaTime;
         }
+
+        if (quickSlashCooldownTimer > 0)
+        {
+            quickSlashCooldownTimer -= Time.deltaTime;
+        }
     }
     private void AttemptDash()
     {
-        if (isDashing || dashCooldownTimer > 0) return;
+        if (isDashing || dashCooldownTimer > 0 || playerStats.mana <=0 ) return;
 
         Vector3 dashDirection = GetMouseDirection();
         if (dashDirection != Vector3.zero)
@@ -231,7 +280,7 @@ private void UpdateAnimations()
         }
     }
 
-        private IEnumerator PerformDash(Vector3 dashDirection)
+    private IEnumerator PerformDash(Vector3 dashDirection)
     {
         isDashing = true;
         float startTime = Time.time;
@@ -247,7 +296,7 @@ private void UpdateAnimations()
 
         agent.isStopped = false;
         isDashing = false;
-
+        eventSystem.RaiseEvent("Mana", "Change", -1);
         dashCooldownTimer = dashCooldown;
     }
 
