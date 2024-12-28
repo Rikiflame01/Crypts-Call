@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private PlayerMovement controls;
     private PlayerInput playerInput;
 
+    public GameObject dashEffect;
     private float leftClickStartTime;
 
     private bool inventoryOpened = false;
@@ -54,6 +55,8 @@ public class PlayerController : MonoBehaviour
     private MovementHandler HandleCurrentMovement;
 
     private bool isLeftClickPressed = false;
+
+    public AudioSource dashSound;
 
     private void Awake()
     {
@@ -276,6 +279,11 @@ public class PlayerController : MonoBehaviour
         Vector3 dashDirection = GetMouseDirection();
         if (dashDirection != Vector3.zero)
         {
+            dashSound.Play();
+            foreach (var ps in dashEffect.GetComponentsInChildren<ParticleSystem>())
+            {
+                ps.Play();
+            }
             StartCoroutine(PerformDash(dashDirection));
         }
     }
@@ -287,13 +295,14 @@ public class PlayerController : MonoBehaviour
 
         agent.ResetPath();
         agent.isStopped = true;
-
+        Light dashLight = dashEffect.GetComponentInChildren<Light>();
+        dashLight.intensity = 15f;
         while (Time.time < startTime + dashDuration)
         {
             agent.Move(dashDirection * dashSpeed * Time.deltaTime);
             yield return null;
         }
-
+        dashLight.intensity = 0f;
         agent.isStopped = false;
         isDashing = false;
         eventSystem.RaiseEvent("Mana", "Change", -1);

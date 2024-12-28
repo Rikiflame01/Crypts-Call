@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    [Header("Audio Settings")]
+    [Header("Music Settings")]
     public AudioSource musicSource;
     public AudioSource queuedMusicSource;
     public AudioClip[] musicPlaylist;
     public int currentTrackIndex = 0;
     public float maxVolume = 1f;
     public float minVolume = 0f;
-    public float fadeDuration = 2f;  
+    public float fadeDuration = 2f;
 
     [Header("Distance Settings")]
     public float playableDistance = 50f;
@@ -57,6 +57,8 @@ public class SoundManager : MonoBehaviour
     {
         UpdateMusicState();
     }
+
+#region Music
 
     void UpdateMusicState()
     {
@@ -269,5 +271,9 @@ public class SoundManager : MonoBehaviour
             isMusicPlaying = false;
         }
     }
+#endregion
 
+#region SFX
+
+#endregion
 }

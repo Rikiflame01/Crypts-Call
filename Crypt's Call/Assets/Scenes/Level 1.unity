@@ -411,6 +411,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TurtleShellPolyart (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 8774328577192973730, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
+      propertyPath: m_TagString
+      value: NormalEnemy
+      objectReference: {fileID: 0}
     - target: {fileID: 8986295282691200974, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -2503,6 +2507,10 @@ PrefabInstance:
     - target: {fileID: 3438224849173968507, guid: 278133c445a7a894d83886d8a96d5707, type: 3}
       propertyPath: m_Name
       value: Swarm08 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3438224849173968507, guid: 278133c445a7a894d83886d8a96d5707, type: 3}
+      propertyPath: m_TagString
+      value: NormalEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 8921418464476924229, guid: 278133c445a7a894d83886d8a96d5707, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9219,6 +9227,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BeholderPBRDefault (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4447388131169124092, guid: 75036d26439965e46b01f975388492ec, type: 3}
+      propertyPath: m_TagString
+      value: NormalEnemy
+      objectReference: {fileID: 0}
     - target: {fileID: 8065430402579267620, guid: 75036d26439965e46b01f975388492ec, type: 3}
       propertyPath: m_IsKinematic
       value: 1
@@ -13714,6 +13726,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TurtleShellPolyart (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 8774328577192973730, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
+      propertyPath: m_TagString
+      value: NormalEnemy
+      objectReference: {fileID: 0}
     - target: {fileID: 8986295282691200974, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -13996,6 +14012,10 @@ PrefabInstance:
     - target: {fileID: 3872524672135190658, guid: d121fb3755122e445bdb961fe7413686, type: 3}
       propertyPath: m_Name
       value: ChestMonsterPBRDefault (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872524672135190658, guid: d121fb3755122e445bdb961fe7413686, type: 3}
+      propertyPath: m_TagString
+      value: NormalEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 4683993684513648350, guid: d121fb3755122e445bdb961fe7413686, type: 3}
       propertyPath: patrolAreaCenter.x
@@ -14468,6 +14488,10 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: 0.0000043480372
       objectReference: {fileID: 0}
+    - target: {fileID: 970394994600365498, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1160605252625364154, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
       propertyPath: m_PlayOnAwake
       value: 0
@@ -14540,14 +14564,6 @@ PrefabInstance:
       propertyPath: stepInterval
       value: 0.45
       objectReference: {fileID: 0}
-    - target: {fileID: 4827138504716599305, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
-      propertyPath: eventSystem
-      value: 
-      objectReference: {fileID: 11400000, guid: a8219d13888f38d4eb760b10ae6b4d89, type: 2}
-    - target: {fileID: 4827138504716599305, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
-      propertyPath: playerStats
-      value: 
-      objectReference: {fileID: 11400000, guid: 6a66423971b65814a8b23b1ccf335853, type: 2}
     - target: {fileID: 5633222449337114117, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.35748863
@@ -15102,6 +15118,53 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!1 &821732683
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 821732684}
+  - component: {fileID: 821732685}
+  m_Layer: 0
+  m_Name: HurtSFXmanager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &821732684
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821732683}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 903212802}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &821732685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821732683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 349e0863a2809f246a3ad49c6d28b0f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHurtSound: {fileID: 8300000, guid: d89f26efb5aa1425cb495d6a9a966940, type: 3}
+  normalEnemyHurtSound: {fileID: 8300000, guid: 228a434ca9f954909a9176e45f877eaa, type: 3}
+  bossEnemyHurtSound: {fileID: 8300000, guid: 8a42266be58db4c518b5d4e47cc0f780, type: 3}
 --- !u!1001 &823338914
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15970,6 +16033,38 @@ Transform:
   - {fileID: 1950014667}
   - {fileID: 1074150962}
   m_Father: {fileID: 173554697}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &903212801
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 903212802}
+  m_Layer: 0
+  m_Name: Polish
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &903212802
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903212801}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 821732684}
+  m_Father: {fileID: 2035198062}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &912400867
 GameObject:
@@ -16868,6 +16963,10 @@ PrefabInstance:
     - target: {fileID: 4447388131169124092, guid: 75036d26439965e46b01f975388492ec, type: 3}
       propertyPath: m_Name
       value: BeholderPBRDefault (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4447388131169124092, guid: 75036d26439965e46b01f975388492ec, type: 3}
+      propertyPath: m_TagString
+      value: NormalEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 8065430402579267620, guid: 75036d26439965e46b01f975388492ec, type: 3}
       propertyPath: m_IsKinematic
@@ -24804,6 +24903,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TurtleShellPolyart (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8774328577192973730, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
+      propertyPath: m_TagString
+      value: NormalEnemy
+      objectReference: {fileID: 0}
     - target: {fileID: 8986295282691200974, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -29801,6 +29904,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Swarm09 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7968187071044412958, guid: 037618c8f617f6a438ef75c1e2bb9a03, type: 3}
+      propertyPath: m_TagString
+      value: NormalEnemy
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -33993,6 +34100,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChestMonsterPBRDefault (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3872524672135190658, guid: d121fb3755122e445bdb961fe7413686, type: 3}
+      propertyPath: m_TagString
+      value: NormalEnemy
+      objectReference: {fileID: 0}
     - target: {fileID: 4683993684513648350, guid: d121fb3755122e445bdb961fe7413686, type: 3}
       propertyPath: patrolAreaCenter.x
       value: 10.795117
@@ -34864,6 +34975,7 @@ Transform:
   - {fileID: 479229572}
   - {fileID: 150511261}
   - {fileID: 2144415572}
+  - {fileID: 903212802}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2035628582
@@ -35123,6 +35235,10 @@ PrefabInstance:
     - target: {fileID: 4447388131169124092, guid: 75036d26439965e46b01f975388492ec, type: 3}
       propertyPath: m_Name
       value: BeholderPBRDefault (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4447388131169124092, guid: 75036d26439965e46b01f975388492ec, type: 3}
+      propertyPath: m_TagString
+      value: NormalEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 8065430402579267620, guid: 75036d26439965e46b01f975388492ec, type: 3}
       propertyPath: m_IsKinematic
@@ -36491,6 +36607,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TurtleShellPolyart (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8774328577192973730, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
+      propertyPath: m_TagString
+      value: NormalEnemy
+      objectReference: {fileID: 0}
     - target: {fileID: 8986295282691200974, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -36897,6 +37017,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4447388131169124092, guid: 75036d26439965e46b01f975388492ec, type: 3}
+      propertyPath: m_TagString
+      value: NormalEnemy
+      objectReference: {fileID: 0}
     - target: {fileID: 8065430402579267620, guid: 75036d26439965e46b01f975388492ec, type: 3}
       propertyPath: m_IsKinematic
       value: 1
@@ -36987,6 +37111,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8774328577192973730, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
+      propertyPath: m_TagString
+      value: NormalEnemy
+      objectReference: {fileID: 0}
     - target: {fileID: 8986295282691200974, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -37024,6 +37152,10 @@ PrefabInstance:
     - target: {fileID: 3872524672135190658, guid: d121fb3755122e445bdb961fe7413686, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872524672135190658, guid: d121fb3755122e445bdb961fe7413686, type: 3}
+      propertyPath: m_TagString
+      value: NormalEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 5150546892184355166, guid: d121fb3755122e445bdb961fe7413686, type: 3}
       propertyPath: m_AnchorMax.x
@@ -37155,6 +37287,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3997423869423968829, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: m_TagString
+      value: BossEnemy
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -37245,6 +37381,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7968187071044412958, guid: 037618c8f617f6a438ef75c1e2bb9a03, type: 3}
+      propertyPath: m_TagString
+      value: NormalEnemy
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -37278,6 +37418,10 @@ PrefabInstance:
     - target: {fileID: 764862100482853296, guid: 0f1d0a8c183d48f4a8d50bda361eeca7, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 764862100482853296, guid: 0f1d0a8c183d48f4a8d50bda361eeca7, type: 3}
+      propertyPath: m_TagString
+      value: NormalEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 4442060365446598148, guid: 0f1d0a8c183d48f4a8d50bda361eeca7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -37372,6 +37516,10 @@ PrefabInstance:
     - target: {fileID: 3438224849173968507, guid: 278133c445a7a894d83886d8a96d5707, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3438224849173968507, guid: 278133c445a7a894d83886d8a96d5707, type: 3}
+      propertyPath: m_TagString
+      value: NormalEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 8921418464476924229, guid: 278133c445a7a894d83886d8a96d5707, type: 3}
       propertyPath: m_LocalPosition.x

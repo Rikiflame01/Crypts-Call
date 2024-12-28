@@ -16,10 +16,10 @@ public class CanvasManager : MonoBehaviour
 
     void Start()
     {
-        staminaSlider.maxValue = playerStats.stamina;
+        staminaSlider.maxValue = playerStats.maxStamina;
         staminaSlider.value = playerStats.stamina;
 
-        manaSlider.maxValue = playerStats.mana;
+        manaSlider.maxValue = playerStats.maxMana;
         manaSlider.value = playerStats.mana;
     }
 
