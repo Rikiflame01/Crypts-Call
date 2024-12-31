@@ -59,7 +59,6 @@ public class Health : MonoBehaviour, IHealth
         currentHealth = Mathf.Clamp(currentHealth, 0, MaxHealth);
 
         OnHealthChanged?.Invoke(currentHealth, MaxHealth);
-        Debug.Log($"{gameObject.name} took {damage} damage.");
 
         if (floatingDamagePrefab != null)
         {

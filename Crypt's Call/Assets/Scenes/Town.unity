@@ -46515,6 +46515,75 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: ee065b02b1fbc64449912be94f3286ce, type: 2}
   m_BuildHeightMesh: 0
+--- !u!1001 &5137421277594285435
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 564282766280556964, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 3294706ffd4563142a706abc29d4f863, type: 2}
+    - target: {fileID: 867223606439857191, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 867223606439857191, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070970401191840263, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 16.087093
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070970401191840263, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.112
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070970401191840263, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 22.04665
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070970401191840263, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.77702326
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070970401191840263, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070970401191840263, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.62947196
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070970401191840263, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070970401191840263, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070970401191840263, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -78.022
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070970401191840263, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9115919135909903397, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_Name
+      value: Clerk
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
 --- !u!1001 &5208564038340896253
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -81193,3 +81262,4 @@ SceneRoots:
   - {fileID: 1486601298}
   - {fileID: 809056415}
   - {fileID: 810879298}
+  - {fileID: 5137421277594285435}

@@ -6109,7 +6109,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 1000
+  far clip plane: 100
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -6209,6 +6209,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   followSpeed: 5
+  obstructionLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  enableObjectTransparency: 1
+  transparencyLevel: 0.5
 --- !u!1001 &333787069
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14464,10 +14469,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -6561675846363751419, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
-      propertyPath: m_Speed
-      value: 20
-      objectReference: {fileID: 0}
     - target: {fileID: 708795327056451022, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
       propertyPath: m_Size.x
       value: 0.5729345
@@ -18442,6 +18443,10 @@ PrefabInstance:
       value: SM_Bld_Rockwall_Archway_01
       objectReference: {fileID: 0}
     - target: {fileID: 134056, guid: aa9bca2df395111479f08def2925a97f, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 134056, guid: aa9bca2df395111479f08def2925a97f, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -22352,6 +22357,119 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.5088648, y: 2.7009952, z: 4.00795}
   m_Center: {x: 0.0000005066396, y: 1.3504976, z: 0.0000004768373}
+--- !u!1001 &1301305774
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -1138518808914990138, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_BaseOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 564282766280556964, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 3294706ffd4563142a706abc29d4f863, type: 2}
+    - target: {fileID: 867223606439857191, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 867223606439857191, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 867223606439857191, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5904074623202129604, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: entityStats
+      value: 
+      objectReference: {fileID: 11400000, guid: 0a4ab718d9a6d9a4b9643f048670b396, type: 2}
+    - target: {fileID: 7203444782175394717, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8022800568680669543, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_Drag
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8022800568680669543, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_Mass
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8022800568680669543, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_AngularDrag
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8022800568680669543, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_Constraints
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070970401191840263, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.23
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070970401191840263, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.402
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070970401191840263, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070970401191840263, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.77702326
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070970401191840263, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070970401191840263, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.62947196
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070970401191840263, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070970401191840263, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070970401191840263, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -78.022
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070970401191840263, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8719922443379085558, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: entityStats
+      value: 
+      objectReference: {fileID: 11400000, guid: 0a4ab718d9a6d9a4b9643f048670b396, type: 2}
+    - target: {fileID: 8719922443379085558, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: eventSystem
+      value: 
+      objectReference: {fileID: 11400000, guid: a8219d13888f38d4eb760b10ae6b4d89, type: 2}
+    - target: {fileID: 8719922443379085558, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: floatingDamagePrefab
+      value: 
+      objectReference: {fileID: 6467260754619765500, guid: 9c83bd1a2e20bad4886b178c81b502b8, type: 3}
+    - target: {fileID: 9115919135909903397, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_Name
+      value: Clerk
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
 --- !u!1001 &1307082228
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37643,3 +37761,4 @@ SceneRoots:
   - {fileID: 775198995}
   - {fileID: 1049330947}
   - {fileID: 1166359095}
+  - {fileID: 1301305774}
