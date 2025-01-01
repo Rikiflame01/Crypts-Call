@@ -6,6 +6,7 @@ TagManager:
   tags:
   - BossEnemy
   - NormalEnemy
+  - HealEffect
   layers:
   - Default
   - TransparentFX

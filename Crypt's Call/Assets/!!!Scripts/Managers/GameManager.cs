@@ -47,4 +47,33 @@ public class GameManager : MonoBehaviour
             eventSystem.RaiseEvent("UI", "updateManaUI");
         }
 
+    public void OnGoldChange(object payload)
+    {
+        Debug.Log("OnManaChange was invoked!");
+        if (payload is int goldChange)
+        {
+            playerStats.Gold += goldChange;
+            Debug.Log($"Gold changed by {goldChange}. New value = {playerStats.Gold}.");
+        }
+        else
+        {
+            Debug.LogWarning($"Mana change event received a non-int payload: {payload?.GetType()}");
+        }
+        eventSystem.RaiseEvent("UI", "updateManaUI");
+    }
+
+    public void OnCrystalChange(object payload)
+    {
+        Debug.Log("OnManaChange was invoked!");
+        if (payload is int crystalChange)
+        {
+            playerStats.Crystal += crystalChange;
+            Debug.Log($"Gold changed by {crystalChange}. New value = {playerStats.Crystal}.");
+        }
+        else
+        {
+            Debug.LogWarning($"Mana change event received a non-int payload: {payload?.GetType()}");
+        }
+        eventSystem.RaiseEvent("UI", "updateManaUI");
+    }
 }

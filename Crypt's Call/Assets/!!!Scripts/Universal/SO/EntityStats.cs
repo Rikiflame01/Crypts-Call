@@ -10,6 +10,8 @@ public class EntityStats : ScriptableObject
     public float maxMana = 50f;
     public float stamina = 50f;
     public float maxStamina = 50f;
+    public int Gold = 0;
+    public int Crystal = 0;
 
     [Header("Combat Stats")]
     public float damage = 10f;

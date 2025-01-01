@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 476942}
   - component: {fileID: 3364834}
   - component: {fileID: 2317396}
+  - component: {fileID: 3211922896238272952}
   m_Layer: 0
   m_Name: SM_Bld_Castle_Door_L
   m_TagString: Untagged
@@ -86,6 +87,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &3211922896238272952
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134320}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.0710449, y: 1.5580851, z: 0.1699462}
+  m_Center: {x: -0.45037752, y: 0.77904385, z: -0.013446149}
 --- !u!1 &154870
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,6 +119,7 @@ GameObject:
   - component: {fileID: 448812}
   - component: {fileID: 3380216}
   - component: {fileID: 2341546}
+  - component: {fileID: 2990577509811397367}
   m_Layer: 0
   m_Name: SM_Bld_Castle_Door_R
   m_TagString: Untagged
@@ -172,6 +195,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &2990577509811397367
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 154870}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.1226194, y: 1.492825, z: 0.16993046}
+  m_Center: {x: 0.47205234, y: 0.7464125, z: -0.013439872}
 --- !u!1 &169348
 GameObject:
   m_ObjectHideFlags: 0

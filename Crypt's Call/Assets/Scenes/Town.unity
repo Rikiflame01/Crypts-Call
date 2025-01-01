@@ -45490,10 +45490,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -6561675846363751419, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
-      propertyPath: m_BaseOffset
-      value: -0.04
-      objectReference: {fileID: 0}
     - target: {fileID: 2865218911771384475, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -45570,6 +45566,26 @@ PrefabInstance:
       propertyPath: healthSlider
       value: 
       objectReference: {fileID: 924171155}
+    - target: {fileID: 7957001081026272452, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7957001081026272456, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7957001081026272458, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7957001081026272460, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7957001081026272462, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8263592268375630732, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -46535,6 +46551,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 867223606439857191, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8070970401191840263, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
       propertyPath: m_LocalPosition.x
       value: 16.087093
@@ -46578,6 +46598,10 @@ PrefabInstance:
     - target: {fileID: 9115919135909903397, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
       propertyPath: m_Name
       value: Clerk
+      objectReference: {fileID: 0}
+    - target: {fileID: 9115919135909903397, guid: 0ddcd6b39d867e14893d0cebe48265ff, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

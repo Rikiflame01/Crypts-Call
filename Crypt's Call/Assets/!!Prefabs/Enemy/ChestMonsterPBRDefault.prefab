@@ -514,6 +514,7 @@ GameObject:
   - component: {fileID: 4683993684513648350}
   - component: {fileID: 4113330608105533148}
   - component: {fileID: 5263527880285634059}
+  - component: {fileID: 3610780229798755847}
   m_Layer: 11
   m_Name: ChestMonsterPBRDefault
   m_TagString: Untagged
@@ -705,6 +706,20 @@ MonoBehaviour:
   lerpSpeed: 2
   pulseScale: 1.6
   pulseSpeed: 5
+--- !u!114 &3610780229798755847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3872524672135190658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4dd2dcd92cb60a46b4c1d6a9a8d1237, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rarity: Standard
+  guaranteedDrops: []
 --- !u!1 &3984017707085790115
 GameObject:
   m_ObjectHideFlags: 0

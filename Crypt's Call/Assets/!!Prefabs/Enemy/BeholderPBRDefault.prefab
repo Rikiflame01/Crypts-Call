@@ -1173,6 +1173,7 @@ GameObject:
   - component: {fileID: 1629607482843425661}
   - component: {fileID: 108348924750071433}
   - component: {fileID: 2045987768741228895}
+  - component: {fileID: -3609368396207134065}
   m_Layer: 11
   m_Name: BeholderPBRDefault
   m_TagString: Untagged
@@ -1359,6 +1360,20 @@ MonoBehaviour:
   lerpSpeed: 2
   pulseScale: 1.6
   pulseSpeed: 5
+--- !u!114 &-3609368396207134065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4447388131169124092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4dd2dcd92cb60a46b4c1d6a9a8d1237, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rarity: Mythic
+  guaranteedDrops: []
 --- !u!1 &4512204399798114393
 GameObject:
   m_ObjectHideFlags: 0

@@ -3593,10 +3593,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 564282766280556964}
-  retreatRange: 7
+  entityStats: {fileID: 11400000, guid: 0a4ab718d9a6d9a4b9643f048670b396, type: 2}
   companionHealthThreshold: 30
+  recoveryTime: 3
   playerDamageThreshold: 20
-  followDistance: 2
+  followDistance: 5
+  moveSpeed: 3.5
 --- !u!1 &9145170107017159211
 GameObject:
   m_ObjectHideFlags: 0

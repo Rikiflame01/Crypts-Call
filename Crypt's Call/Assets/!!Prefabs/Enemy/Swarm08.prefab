@@ -455,6 +455,7 @@ GameObject:
   - component: {fileID: 860697350974222729}
   - component: {fileID: 1656650373097530183}
   - component: {fileID: 1718522417001072809}
+  - component: {fileID: 9087294357109862664}
   m_Layer: 11
   m_Name: Swarm08
   m_TagString: Untagged
@@ -658,6 +659,20 @@ MonoBehaviour:
   lerpSpeed: 2
   pulseScale: 1.6
   pulseSpeed: 5
+--- !u!114 &9087294357109862664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3438224849173968507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4dd2dcd92cb60a46b4c1d6a9a8d1237, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rarity: Mythic
+  guaranteedDrops: []
 --- !u!1 &3535380360413592067
 GameObject:
   m_ObjectHideFlags: 0
