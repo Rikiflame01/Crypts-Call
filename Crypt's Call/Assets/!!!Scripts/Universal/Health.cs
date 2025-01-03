@@ -7,10 +7,10 @@ using System;
 
 public interface IHealth
 {
-    void TakeDamage(float damage);
-    void Heal(float amount);
-    float CurrentHealth { get; }
-    float MaxHealth { get; }
+    void TakeDamage(int damage);
+    void Heal(int amount);
+    int CurrentHealth { get; }
+    int MaxHealth { get; }
 
     bool IsDead { get; }
 }
@@ -20,7 +20,7 @@ public class Health : MonoBehaviour, IHealth
 {
     [SerializeField] private GenericEventSystem eventSystem;
 
-    public event Action<float, float> OnHealthChanged;
+    public event Action<int, int> OnHealthChanged;
 
     public event Action OnHealthDepleted;
 
@@ -33,10 +33,10 @@ public class Health : MonoBehaviour, IHealth
     [Tooltip("Floating damage prefab to display damage taken.")]
     [SerializeField] private GameObject floatingDamagePrefab;
 
-    private float currentHealth;
+    private int currentHealth;
 
-    public float MaxHealth => entityStats != null ? entityStats.maxHealth : 0;
-    public float CurrentHealth => currentHealth;
+    public int MaxHealth => entityStats != null ? entityStats.maxHealth : 0;
+    public int CurrentHealth => currentHealth;
 
     public bool IsDead => currentHealth <= 0;
 
@@ -51,7 +51,7 @@ public class Health : MonoBehaviour, IHealth
         currentHealth = entityStats.health;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage)
     {
         if (damage <= 0 || entityStats == null || IsDead == true) return;
 
@@ -73,7 +73,7 @@ public class Health : MonoBehaviour, IHealth
         }
     }
 
-    private void ShowFloatingDamage(float damage)
+    private void ShowFloatingDamage(int damage)
     {
         GameObject damageTextInstance = Instantiate(floatingDamagePrefab, transform.position, Quaternion.identity);
 
@@ -84,12 +84,18 @@ public class Health : MonoBehaviour, IHealth
         }
     }
 
-    public void Heal(float amount)
+    public void Heal(int amount)
     {
         if (amount <= 0 || entityStats == null) return;
 
         currentHealth += amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, MaxHealth);
+
+        if (currentHealth > MaxHealth)
+        {
+            currentHealth = MaxHealth;
+        }
+        entityStats.health = currentHealth;
 
         OnHealthChanged?.Invoke(currentHealth, MaxHealth);
     }
@@ -112,7 +118,7 @@ public class Health : MonoBehaviour, IHealth
         Time.fixedDeltaTime = 0.02f;
     }
 
-    public void EditorDamage(float damage)
+    public void EditorDamage(int damage)
     {
         TakeDamage(damage);
     }
@@ -137,7 +143,7 @@ public class HealthEditor : Editor
 
         if (GUILayout.Button("Apply Damage"))
         {
-            health.EditorDamage(damageAmount);
+            health.EditorDamage((int)damageAmount);
             EditorUtility.SetDirty(health);
         }
     }

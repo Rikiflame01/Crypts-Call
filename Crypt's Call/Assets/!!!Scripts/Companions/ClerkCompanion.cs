@@ -19,9 +19,6 @@ public class ClerkCompanion : BaseCompanion
     private Transform playerTransform;
     private NavMeshAgent agent;
 
-    private bool isResting = false;
-    private float restingTimer = 0f;
-
     private void Start()
     {
         actionCooldown = 25f;
@@ -119,9 +116,17 @@ public class ClerkCompanion : BaseCompanion
         if (playerTransform)
         {
             Health playerHealth = playerTransform.GetComponent<Health>();
-            if (playerHealth) playerHealth.Heal(20f);
+            if (playerHealth) playerHealth.Heal(20);
         }
-
+        GameObject particleObject = GameObject.FindGameObjectWithTag("HealEffect");
+        ParticleSystem[] particleSystem = particleObject.GetComponents<ParticleSystem>();
+        if (particleSystem != null)
+        {
+            foreach (ParticleSystem particle in particleSystem)
+            {
+                particle.Play();
+            }
+        }
         actionCooldown = 25f;
 
         yield return new WaitForSeconds(1.5f);

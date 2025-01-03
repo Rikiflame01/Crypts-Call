@@ -34,15 +34,17 @@ public class SceneLoader : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-        if (soundEffect != null){
-        AudioSource audioSource = GetComponent<AudioSource>();
-        audioSource.Play();
+            if (soundEffect != null)
+            {
+                AudioSource audioSource = GetComponent<AudioSource>();
+                audioSource.Play();
             }
 
             if (fadeInCoroutine == null)
             {
                 fadeInCoroutine = StartCoroutine(FadeInAndLoadScene());
             }
+
             if (cameraZoomCoroutine != null)
             {
                 StopCoroutine(cameraZoomCoroutine);
@@ -55,8 +57,9 @@ public class SceneLoader : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (soundEffect != null){
-                soundEffect.Stop();  
+            if (soundEffect != null)
+            {
+                soundEffect.Stop();
             }
 
             if (fadeInCoroutine != null)
@@ -64,10 +67,12 @@ public class SceneLoader : MonoBehaviour
                 StopCoroutine(fadeInCoroutine);
                 fadeInCoroutine = null;
             }
+
             if (!isFadingOut)
             {
                 StartCoroutine(FadeOut());
             }
+
             if (cameraZoomCoroutine != null)
             {
                 StopCoroutine(cameraZoomCoroutine);
@@ -76,31 +81,43 @@ public class SceneLoader : MonoBehaviour
         }
     }
 
-private IEnumerator FadeInAndLoadScene()
-{
-    Canvas.SetActive(true);
-
-    while (canvasGroup.alpha < 1f)
+    private IEnumerator FadeInAndLoadScene()
     {
-        canvasGroup.alpha += Time.deltaTime / zoomDuration;
-        yield return null;
+        Canvas.SetActive(true);
+
+        while (canvasGroup.alpha < 1f)
+        {
+            canvasGroup.alpha += Time.deltaTime / zoomDuration;
+            yield return null;
+        }
+
+        canvasGroup.alpha = 1f;
+        yield return new WaitForSeconds(0.5f);
+
+        if (SceneManager.GetActiveScene().name == "Level 1")
+        {
+            PlayerPrefs.SetInt("HasBeenToTown", 1);
+            PlayerPrefs.Save();
+
+            yield return StartCoroutine(LoadSceneAsync("Town"));
+        }
+        else
+        {
+            yield return StartCoroutine(LoadSceneAsync("Level 1"));
+        }
     }
 
-    canvasGroup.alpha = 1f;
-    yield return new WaitForSeconds(0.5f);
-
-    if (SceneManager.GetActiveScene().name == "Level 1")
+    private IEnumerator LoadSceneAsync(string sceneName)
     {
-        PlayerPrefs.SetInt("HasBeenToTown", 1);
-        PlayerPrefs.Save();
+        AsyncOperation asyncOp = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
 
-        SceneManager.LoadScene("Town");
+        while (!asyncOp.isDone)
+        {
+
+            yield return null;
+
+        }
     }
-    else
-    {
-        SceneManager.LoadScene("Level 1");
-    }
-}
 
     private IEnumerator FadeOut()
     {
@@ -127,10 +144,8 @@ private IEnumerator FadeInAndLoadScene()
         while (elapsedTime < zoomDuration)
         {
             elapsedTime += Time.deltaTime;
-
             mainCamera.transform.position = Vector3.Lerp(startPosition, zoomTarget.position, elapsedTime / zoomDuration);
             mainCamera.fieldOfView = Mathf.Lerp(startFOV, zoomedFOV, elapsedTime / zoomDuration);
-
             yield return null;
         }
 
@@ -148,10 +163,8 @@ private IEnumerator FadeInAndLoadScene()
         while (elapsedTime < zoomDuration)
         {
             elapsedTime += Time.deltaTime;
-
             mainCamera.transform.position = Vector3.Lerp(startPosition, originalCameraPosition, elapsedTime / zoomDuration);
             mainCamera.fieldOfView = Mathf.Lerp(startFOV, originalCameraFOV, elapsedTime / zoomDuration);
-
             yield return null;
         }
 

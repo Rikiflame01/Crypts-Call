@@ -63,7 +63,7 @@ public class HealthBar : MonoBehaviour
         }
     }
 
-    private void HandleHealthChange(float currentHealth, float maxHealth)
+    private void HandleHealthChange(int currentHealth, int maxHealth)
     {
         targetHealth = currentHealth;
         healthSlider.maxValue = maxHealth;

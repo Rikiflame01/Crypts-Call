@@ -4,17 +4,17 @@ using UnityEngine;
 public class EntityStats : ScriptableObject
 {
     [Header("Health and Stamina")]
-    public float maxHealth = 100f;
-    public float health = 100f;
-    public float mana = 50f;
-    public float maxMana = 50f;
-    public float stamina = 50f;
-    public float maxStamina = 50f;
+    public int maxHealth = 100;
+    public int health = 100;
+    public int mana = 50;
+    public int maxMana = 50;
+    public int stamina = 50;
+    public int maxStamina = 50;
     public int Gold = 0;
     public int Crystal = 0;
 
     [Header("Combat Stats")]
-    public float damage = 10f;
+    public int damage = 10;
 
     [Header("Entity Type")]
     public bool isPlayer = false;

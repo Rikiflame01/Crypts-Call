@@ -6,7 +6,7 @@ public class ShockwaveEnemy : BaseEnemy
     [Header("Shockwave Attack")]
     public float desiredMinDistance = 5f;
     public float shockwaveRadius = 8f;
-    public float shockwaveDamage = 20f;
+    public int shockwaveDamage = 20;
     public float preShockwaveWaitTime = 1f;
     public float maintainDistanceTime = 3f;
     public float shockwaveCooldown = 2f;     
