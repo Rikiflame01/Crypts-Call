@@ -1445,6 +1445,7 @@ GameObject:
   - component: {fileID: 7077821055959124351}
   - component: {fileID: 7033920739148861020}
   - component: {fileID: 4747070197044590041}
+  - component: {fileID: -9069970257612139547}
   m_Layer: 11
   m_Name: TurtleShellPolyart
   m_TagString: Untagged
@@ -1665,3 +1666,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rarity: Standard
   guaranteedDrops: []
+--- !u!114 &-9069970257612139547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8774328577192973730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320cdd2948623854dac63df3ae6d475a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueID: 97048515-aefa-49c3-b66d-4c546d5dd977

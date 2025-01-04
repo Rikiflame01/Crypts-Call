@@ -9,6 +9,8 @@ public class StaminaRecovery : MonoBehaviour
     [Header("UI Components")]
     public Slider staminaSlider;
 
+    public GameObject restCanvas;
+
     private bool isRecovering = false;
 
     public GenericEventSystem eventManager;
@@ -22,12 +24,14 @@ public class StaminaRecovery : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        restCanvas.SetActive(true);
         isRecovering = true;
         StartCoroutine(StaminaCoRoutine());
     }
 
     private void OnTriggerExit(Collider other)
     {
+        restCanvas.SetActive(false);
         isRecovering = false;
     }
 

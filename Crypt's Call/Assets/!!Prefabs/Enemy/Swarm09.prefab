@@ -882,6 +882,7 @@ GameObject:
   - component: {fileID: 5834573368704360715}
   - component: {fileID: 7249697176298444141}
   - component: {fileID: -4110083586184578516}
+  - component: {fileID: 1661807176053704609}
   m_Layer: 11
   m_Name: Swarm09
   m_TagString: Untagged
@@ -1082,6 +1083,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rarity: Mythic
   guaranteedDrops: []
+--- !u!114 &1661807176053704609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7968187071044412958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320cdd2948623854dac63df3ae6d475a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueID: 9259cc8b-e29a-405b-905f-7de973c448e8
 --- !u!1 &8235077605622620976
 GameObject:
   m_ObjectHideFlags: 0

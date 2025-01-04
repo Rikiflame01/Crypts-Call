@@ -456,6 +456,7 @@ GameObject:
   - component: {fileID: 1656650373097530183}
   - component: {fileID: 1718522417001072809}
   - component: {fileID: 9087294357109862664}
+  - component: {fileID: -8272410984924093747}
   m_Layer: 11
   m_Name: Swarm08
   m_TagString: Untagged
@@ -632,7 +633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e05a37647ed05242999e87a1ea2fdb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityStats: {fileID: 11400000, guid: e13fdf26d759f374b8226de9a53c3d5f, type: 2}
+  entityStats: {fileID: 11400000, guid: 9d7741e6cfa05cd4c9fcf05f1ba538b5, type: 2}
   VFX: []
   audioSource: {fileID: 0}
   audioClips: []
@@ -673,6 +674,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rarity: Mythic
   guaranteedDrops: []
+--- !u!114 &-8272410984924093747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3438224849173968507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320cdd2948623854dac63df3ae6d475a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueID: 15823963-31b7-48dd-9d36-f74368c3027c
 --- !u!1 &3535380360413592067
 GameObject:
   m_ObjectHideFlags: 0

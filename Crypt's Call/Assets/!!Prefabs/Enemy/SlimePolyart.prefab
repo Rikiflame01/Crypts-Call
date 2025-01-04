@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 3244386248231311409}
   - component: {fileID: 7709672053737223632}
   - component: {fileID: -869372127174249418}
+  - component: {fileID: -6791965369086586165}
   m_Layer: 11
   m_Name: SlimePolyart
   m_TagString: Untagged
@@ -246,6 +247,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rarity: Standard
   guaranteedDrops: []
+--- !u!114 &-6791965369086586165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 764862100482853296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320cdd2948623854dac63df3ae6d475a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueID: 0a43f0e8-1702-44ab-b9a9-cb44624fb16b
 --- !u!1 &1154726211205819226
 GameObject:
   m_ObjectHideFlags: 0

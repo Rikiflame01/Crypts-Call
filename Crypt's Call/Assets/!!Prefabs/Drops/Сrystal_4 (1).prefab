@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GoldAmount: 0
-  CrystalAmount: 10
+  CrystalAmount: 20
   HealthAmount: 0
   ManaAmount: 0
   isHealthItem: 0

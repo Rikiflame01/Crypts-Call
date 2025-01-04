@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   health: 100
-  mana: 19
+  mana: 50
   maxMana: 50
-  stamina: 50
+  stamina: 48
   maxStamina: 50
-  Gold: 1
-  Crystal: 3
+  Gold: 0
+  Crystal: 0
   damage: 10
   isPlayer: 1
   isMelee: 0

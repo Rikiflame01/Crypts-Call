@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -41,7 +42,16 @@ public class CollisionHandling : MonoBehaviour
                 eventSystem.RaiseEvent("Crystal", "Change", CrystalAmount);
             }
 
-            Destroy(gameObject);
+            SceneObjectState state = GetComponent<SceneObjectState>();
+
+            if (state != null) { 
+                state.MarkDestroyedAndSave(state.UniqueID);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+
 
             }
     }

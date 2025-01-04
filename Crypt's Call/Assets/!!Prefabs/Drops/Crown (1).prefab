@@ -294,7 +294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee30f8622f2510044994208a98558fce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GoldAmount: 40
+  GoldAmount: 100
   CrystalAmount: 0
   HealthAmount: 0
   ManaAmount: 0

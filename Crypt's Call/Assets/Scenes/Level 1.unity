@@ -336,6 +336,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 134320, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
   m_PrefabInstance: {fileID: 1027690883}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8123262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8123261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320cdd2948623854dac63df3ae6d475a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueID: 2a2f870f-b4f0-4796-a848-fac7b703d5d7
 --- !u!1001 &13539001
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2557,6 +2570,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9087294357109862664, guid: 278133c445a7a894d83886d8a96d5707, type: 3}
+      propertyPath: guaranteedDrops.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9087294357109862664, guid: 278133c445a7a894d83886d8a96d5707, type: 3}
+      propertyPath: guaranteedDrops.Array.data[0].itemName
+      value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: 9087294357109862664, guid: 278133c445a7a894d83886d8a96d5707, type: 3}
+      propertyPath: guaranteedDrops.Array.data[0].itemPrefab
+      value: 
+      objectReference: {fileID: 3403761220113027200, guid: 710eb8732a837d14b93355b62e9feef4, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3490,6 +3515,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 134320, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
   m_PrefabInstance: {fileID: 1709600290}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &182363414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182363413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320cdd2948623854dac63df3ae6d475a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueID: 83f8b9e6-9382-43c3-8693-b67c6ebc36c7
 --- !u!1 &183824805
 GameObject:
   m_ObjectHideFlags: 0
@@ -9218,16 +9256,24 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -3609368396207134065, guid: 75036d26439965e46b01f975388492ec, type: 3}
       propertyPath: guaranteedDrops.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -3609368396207134065, guid: 75036d26439965e46b01f975388492ec, type: 3}
       propertyPath: guaranteedDrops.Array.data[0].itemName
       value: Key
       objectReference: {fileID: 0}
     - target: {fileID: -3609368396207134065, guid: 75036d26439965e46b01f975388492ec, type: 3}
+      propertyPath: guaranteedDrops.Array.data[1].itemName
+      value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: -3609368396207134065, guid: 75036d26439965e46b01f975388492ec, type: 3}
       propertyPath: guaranteedDrops.Array.data[0].itemPrefab
       value: 
       objectReference: {fileID: 1551384354563202895, guid: 3eab33905f4b1b14094c7785341bca8f, type: 3}
+    - target: {fileID: -3609368396207134065, guid: 75036d26439965e46b01f975388492ec, type: 3}
+      propertyPath: guaranteedDrops.Array.data[1].itemPrefab
+      value: 
+      objectReference: {fileID: 3403761220113027200, guid: 710eb8732a837d14b93355b62e9feef4, type: 3}
     - target: {fileID: 108348924750071433, guid: 75036d26439965e46b01f975388492ec, type: 3}
       propertyPath: maxRetreatTime
       value: 1
@@ -14070,6 +14116,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 328429372}
     m_Modifications:
+    - target: {fileID: 3610780229798755847, guid: d121fb3755122e445bdb961fe7413686, type: 3}
+      propertyPath: guaranteedDrops.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610780229798755847, guid: d121fb3755122e445bdb961fe7413686, type: 3}
+      propertyPath: guaranteedDrops.Array.data[0].itemName
+      value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610780229798755847, guid: d121fb3755122e445bdb961fe7413686, type: 3}
+      propertyPath: guaranteedDrops.Array.data[0].itemPrefab
+      value: 
+      objectReference: {fileID: 3403761220113027200, guid: 710eb8732a837d14b93355b62e9feef4, type: 3}
     - target: {fileID: 3872524672135190658, guid: d121fb3755122e445bdb961fe7413686, type: 3}
       propertyPath: m_Name
       value: ChestMonsterPBRDefault (1)
@@ -14162,6 +14220,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 134320, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
   m_PrefabInstance: {fileID: 1093997825}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &749230867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 749230866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320cdd2948623854dac63df3ae6d475a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueID: 3bc326de-2242-4238-bb9a-f5dcf5fabbcd
 --- !u!1001 &760663054
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14970,8 +15041,29 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1551384354563202895, guid: 3eab33905f4b1b14094c7785341bca8f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 801900795}
   m_SourcePrefab: {fileID: 100100000, guid: 3eab33905f4b1b14094c7785341bca8f, type: 3}
+--- !u!1 &801900794 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1551384354563202895, guid: 3eab33905f4b1b14094c7785341bca8f, type: 3}
+  m_PrefabInstance: {fileID: 801900793}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &801900795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801900794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320cdd2948623854dac63df3ae6d475a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueID: 85f6018e-da95-41f1-ae47-2c65f5b6819c
 --- !u!1001 &806128270
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15067,6 +15159,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 154870, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
   m_PrefabInstance: {fileID: 1093997825}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &819322426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819322425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320cdd2948623854dac63df3ae6d475a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueID: ecabd1a1-5f9d-42ba-a565-66f6675bc28a
 --- !u!1 &821405368
 GameObject:
   m_ObjectHideFlags: 0
@@ -17050,6 +17155,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 328429372}
     m_Modifications:
+    - target: {fileID: -3609368396207134065, guid: 75036d26439965e46b01f975388492ec, type: 3}
+      propertyPath: guaranteedDrops.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3609368396207134065, guid: 75036d26439965e46b01f975388492ec, type: 3}
+      propertyPath: guaranteedDrops.Array.data[0].itemName
+      value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: -3609368396207134065, guid: 75036d26439965e46b01f975388492ec, type: 3}
+      propertyPath: guaranteedDrops.Array.data[0].itemPrefab
+      value: 
+      objectReference: {fileID: 3403761220113027200, guid: 710eb8732a837d14b93355b62e9feef4, type: 3}
     - target: {fileID: 108348924750071433, guid: 75036d26439965e46b01f975388492ec, type: 3}
       propertyPath: patrolAreaCenter.x
       value: -12.903011
@@ -18015,7 +18132,13 @@ PrefabInstance:
     - {fileID: 64167375417298364, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 134320, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8123262}
+    - targetCorrespondingSourceObject: {fileID: 154870, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1545786915}
   m_SourcePrefab: {fileID: 100100000, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
 --- !u!4 &1027690884 stripped
 Transform:
@@ -19505,7 +19628,13 @@ PrefabInstance:
     - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 134320, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 749230867}
+    - targetCorrespondingSourceObject: {fileID: 154870, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 819322426}
   m_SourcePrefab: {fileID: 100100000, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
 --- !u!4 &1093997826 stripped
 Transform:
@@ -20207,6 +20336,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 154870, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
   m_PrefabInstance: {fileID: 1162097685}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1135668220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1135668219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320cdd2948623854dac63df3ae6d475a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueID: d5770be1-1009-4025-aaed-442445b63749
 --- !u!1001 &1135768776
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20720,7 +20862,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 134320, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1443354531}
+    - targetCorrespondingSourceObject: {fileID: 154870, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1135668220}
   m_SourcePrefab: {fileID: 100100000, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
 --- !u!4 &1162097686 stripped
 Transform:
@@ -21033,6 +21181,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 154870, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
   m_PrefabInstance: {fileID: 1709600290}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1176629876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1176629875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320cdd2948623854dac63df3ae6d475a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueID: f3bcb7f6-e2b9-424e-9f7d-45d472d219d8
 --- !u!1001 &1186600130
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24830,6 +24991,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 134320, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
   m_PrefabInstance: {fileID: 1162097685}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1443354531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443354530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320cdd2948623854dac63df3ae6d475a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueID: 5010892d-d5be-4c76-b032-b870cd3c7f7a
 --- !u!1 &1445792533
 GameObject:
   m_ObjectHideFlags: 0
@@ -25109,6 +25283,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 328429372}
     m_Modifications:
+    - target: {fileID: 4747070197044590041, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
+      propertyPath: guaranteedDrops.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4747070197044590041, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
+      propertyPath: guaranteedDrops.Array.data[0].itemName
+      value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: 4747070197044590041, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
+      propertyPath: guaranteedDrops.Array.data[1].itemName
+      value: Emerald
+      objectReference: {fileID: 0}
+    - target: {fileID: 4747070197044590041, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
+      propertyPath: guaranteedDrops.Array.data[0].itemPrefab
+      value: 
+      objectReference: {fileID: 1234786956161415900, guid: 3d408df60ade7ba4ba8063101981f926, type: 3}
+    - target: {fileID: 4747070197044590041, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
+      propertyPath: guaranteedDrops.Array.data[1].itemPrefab
+      value: 
+      objectReference: {fileID: 6914493248570940969, guid: 5139815a49f879b44aa39d09f00b1f17, type: 3}
     - target: {fileID: 5567246257208102667, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
       propertyPath: m_IsKinematic
       value: 1
@@ -26584,6 +26778,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 154870, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
   m_PrefabInstance: {fileID: 1027690883}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1545786915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1545786914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320cdd2948623854dac63df3ae6d475a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueID: c0613be6-f753-4d5f-9f53-4f2c9c996292
 --- !u!1 &1549111532
 GameObject:
   m_ObjectHideFlags: 0
@@ -28873,7 +29080,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 134320, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 182363414}
+    - targetCorrespondingSourceObject: {fileID: 154870, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1176629876}
   m_SourcePrefab: {fileID: 100100000, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
 --- !u!4 &1709600291 stripped
 Transform:
@@ -30335,6 +30548,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 328429372}
     m_Modifications:
+    - target: {fileID: -4110083586184578516, guid: 037618c8f617f6a438ef75c1e2bb9a03, type: 3}
+      propertyPath: guaranteedDrops.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -4110083586184578516, guid: 037618c8f617f6a438ef75c1e2bb9a03, type: 3}
+      propertyPath: guaranteedDrops.Array.data[0].itemName
+      value: Mana
+      objectReference: {fileID: 0}
+    - target: {fileID: -4110083586184578516, guid: 037618c8f617f6a438ef75c1e2bb9a03, type: 3}
+      propertyPath: guaranteedDrops.Array.data[1].itemName
+      value: Health
+      objectReference: {fileID: 0}
+    - target: {fileID: -4110083586184578516, guid: 037618c8f617f6a438ef75c1e2bb9a03, type: 3}
+      propertyPath: guaranteedDrops.Array.data[2].itemName
+      value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: -4110083586184578516, guid: 037618c8f617f6a438ef75c1e2bb9a03, type: 3}
+      propertyPath: guaranteedDrops.Array.data[0].itemPrefab
+      value: 
+      objectReference: {fileID: 6861138936073014844, guid: 0aa95a8613678e64fb968e416baa73ac, type: 3}
+    - target: {fileID: -4110083586184578516, guid: 037618c8f617f6a438ef75c1e2bb9a03, type: 3}
+      propertyPath: guaranteedDrops.Array.data[1].itemPrefab
+      value: 
+      objectReference: {fileID: 8378105444829492551, guid: 6fa30ba28a45da941963f12624fa3ee8, type: 3}
+    - target: {fileID: -4110083586184578516, guid: 037618c8f617f6a438ef75c1e2bb9a03, type: 3}
+      propertyPath: guaranteedDrops.Array.data[2].itemPrefab
+      value: 
+      objectReference: {fileID: 3403761220113027200, guid: 710eb8732a837d14b93355b62e9feef4, type: 3}
     - target: {fileID: 1508673165787855625, guid: 037618c8f617f6a438ef75c1e2bb9a03, type: 3}
       propertyPath: patrolAreaCenter.x
       value: -2.664225
@@ -34599,6 +34840,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 328429372}
     m_Modifications:
+    - target: {fileID: 3610780229798755847, guid: d121fb3755122e445bdb961fe7413686, type: 3}
+      propertyPath: guaranteedDrops.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610780229798755847, guid: d121fb3755122e445bdb961fe7413686, type: 3}
+      propertyPath: guaranteedDrops.Array.data[0].itemName
+      value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610780229798755847, guid: d121fb3755122e445bdb961fe7413686, type: 3}
+      propertyPath: guaranteedDrops.Array.data[0].itemPrefab
+      value: 
+      objectReference: {fileID: 3403761220113027200, guid: 710eb8732a837d14b93355b62e9feef4, type: 3}
     - target: {fileID: 3872524672135190658, guid: d121fb3755122e445bdb961fe7413686, type: 3}
       propertyPath: m_Name
       value: ChestMonsterPBRDefault (2)
@@ -35109,7 +35362,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 134320, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2014531265}
+    - targetCorrespondingSourceObject: {fileID: 154870, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2048426000}
   m_SourcePrefab: {fileID: 100100000, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
 --- !u!4 &2000974545 stripped
 Transform:
@@ -35222,6 +35481,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 134320, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
   m_PrefabInstance: {fileID: 2000974544}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2014531265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2014531264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320cdd2948623854dac63df3ae6d475a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueID: 5f4219f2-6c67-4a58-a170-e6e57b60da5e
 --- !u!1 &2023176177
 GameObject:
   m_ObjectHideFlags: 0
@@ -35680,6 +35952,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 328429372}
     m_Modifications:
+    - target: {fileID: -3609368396207134065, guid: 75036d26439965e46b01f975388492ec, type: 3}
+      propertyPath: guaranteedDrops.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3609368396207134065, guid: 75036d26439965e46b01f975388492ec, type: 3}
+      propertyPath: guaranteedDrops.Array.data[0].itemName
+      value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: -3609368396207134065, guid: 75036d26439965e46b01f975388492ec, type: 3}
+      propertyPath: guaranteedDrops.Array.data[0].itemPrefab
+      value: 
+      objectReference: {fileID: 3403761220113027200, guid: 710eb8732a837d14b93355b62e9feef4, type: 3}
     - target: {fileID: 108348924750071433, guid: 75036d26439965e46b01f975388492ec, type: 3}
       propertyPath: patrolAreaCenter.x
       value: 10.514578
@@ -35767,6 +36051,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 154870, guid: 89ece42cbeee51544aacc46371afce2a, type: 3}
   m_PrefabInstance: {fileID: 2000974544}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2048426000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2048425999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320cdd2948623854dac63df3ae6d475a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueID: be917d60-89ff-40fe-9a1c-de87787c1ed8
 --- !u!1 &2048776786
 GameObject:
   m_ObjectHideFlags: 0
@@ -37054,16 +37351,24 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4747070197044590041, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
       propertyPath: guaranteedDrops.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4747070197044590041, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
       propertyPath: guaranteedDrops.Array.data[0].itemName
       value: Key
       objectReference: {fileID: 0}
     - target: {fileID: 4747070197044590041, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
+      propertyPath: guaranteedDrops.Array.data[1].itemName
+      value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: 4747070197044590041, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
       propertyPath: guaranteedDrops.Array.data[0].itemPrefab
       value: 
       objectReference: {fileID: 1551384354563202895, guid: 3eab33905f4b1b14094c7785341bca8f, type: 3}
+    - target: {fileID: 4747070197044590041, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
+      propertyPath: guaranteedDrops.Array.data[1].itemPrefab
+      value: 
+      objectReference: {fileID: 1234786956161415900, guid: 3d408df60ade7ba4ba8063101981f926, type: 3}
     - target: {fileID: 5567246257208102667, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
       propertyPath: m_IsKinematic
       value: 1
@@ -37454,6 +37759,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 328429372}
     m_Modifications:
+    - target: {fileID: -3609368396207134065, guid: 75036d26439965e46b01f975388492ec, type: 3}
+      propertyPath: guaranteedDrops.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3609368396207134065, guid: 75036d26439965e46b01f975388492ec, type: 3}
+      propertyPath: guaranteedDrops.Array.data[0].itemName
+      value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: -3609368396207134065, guid: 75036d26439965e46b01f975388492ec, type: 3}
+      propertyPath: guaranteedDrops.Array.data[0].itemPrefab
+      value: 
+      objectReference: {fileID: 3403761220113027200, guid: 710eb8732a837d14b93355b62e9feef4, type: 3}
     - target: {fileID: 108348924750071433, guid: 75036d26439965e46b01f975388492ec, type: 3}
       propertyPath: burstInterval
       value: 4
@@ -37570,16 +37887,24 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4747070197044590041, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
       propertyPath: guaranteedDrops.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4747070197044590041, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
       propertyPath: guaranteedDrops.Array.data[0].itemName
       value: Key
       objectReference: {fileID: 0}
     - target: {fileID: 4747070197044590041, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
+      propertyPath: guaranteedDrops.Array.data[1].itemName
+      value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: 4747070197044590041, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
       propertyPath: guaranteedDrops.Array.data[0].itemPrefab
       value: 
       objectReference: {fileID: 1551384354563202895, guid: 3eab33905f4b1b14094c7785341bca8f, type: 3}
+    - target: {fileID: 4747070197044590041, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
+      propertyPath: guaranteedDrops.Array.data[1].itemPrefab
+      value: 
+      objectReference: {fileID: 6450868072015008486, guid: 5337a6fa499e3f540946c58f9f6c0b32, type: 3}
     - target: {fileID: 5567246257208102667, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
       propertyPath: m_IsKinematic
       value: 1
@@ -41736,16 +42061,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3610780229798755847, guid: d121fb3755122e445bdb961fe7413686, type: 3}
       propertyPath: guaranteedDrops.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3610780229798755847, guid: d121fb3755122e445bdb961fe7413686, type: 3}
       propertyPath: guaranteedDrops.Array.data[0].itemName
       value: Key
       objectReference: {fileID: 0}
     - target: {fileID: 3610780229798755847, guid: d121fb3755122e445bdb961fe7413686, type: 3}
+      propertyPath: guaranteedDrops.Array.data[1].itemName
+      value: goldBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610780229798755847, guid: d121fb3755122e445bdb961fe7413686, type: 3}
+      propertyPath: guaranteedDrops.Array.data[2].itemName
+      value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610780229798755847, guid: d121fb3755122e445bdb961fe7413686, type: 3}
       propertyPath: guaranteedDrops.Array.data[0].itemPrefab
       value: 
       objectReference: {fileID: 1551384354563202895, guid: 3eab33905f4b1b14094c7785341bca8f, type: 3}
+    - target: {fileID: 3610780229798755847, guid: d121fb3755122e445bdb961fe7413686, type: 3}
+      propertyPath: guaranteedDrops.Array.data[1].itemPrefab
+      value: 
+      objectReference: {fileID: 8364424383744352607, guid: f87ff8d09ddd8024e9bd4ac411d555f9, type: 3}
+    - target: {fileID: 3610780229798755847, guid: d121fb3755122e445bdb961fe7413686, type: 3}
+      propertyPath: guaranteedDrops.Array.data[2].itemPrefab
+      value: 
+      objectReference: {fileID: 1234786956161415900, guid: 3d408df60ade7ba4ba8063101981f926, type: 3}
     - target: {fileID: 3872524672135190658, guid: d121fb3755122e445bdb961fe7413686, type: 3}
       propertyPath: m_Name
       value: ChestMonsterPBRDefault
@@ -41830,16 +42171,120 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
       propertyPath: guaranteedDrops.Array.size
-      value: 1
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
       propertyPath: guaranteedDrops.Array.data[0].itemName
       value: Key
       objectReference: {fileID: 0}
     - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[1].itemName
+      value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[2].itemName
+      value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[3].itemName
+      value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[4].itemName
+      value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[5].itemName
+      value: Crown
+      objectReference: {fileID: 0}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[6].itemName
+      value: Gold
+      objectReference: {fileID: 0}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[7].itemName
+      value: Gold
+      objectReference: {fileID: 0}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[8].itemName
+      value: Gold
+      objectReference: {fileID: 0}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[9].itemName
+      value: Gold
+      objectReference: {fileID: 0}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[10].itemName
+      value: Gold
+      objectReference: {fileID: 0}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[11].itemName
+      value: Gold
+      objectReference: {fileID: 0}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[12].itemName
+      value: mana
+      objectReference: {fileID: 0}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[13].itemName
+      value: mana
+      objectReference: {fileID: 0}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
       propertyPath: guaranteedDrops.Array.data[0].itemPrefab
       value: 
       objectReference: {fileID: 1551384354563202895, guid: 3eab33905f4b1b14094c7785341bca8f, type: 3}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[1].itemPrefab
+      value: 
+      objectReference: {fileID: 3403761220113027200, guid: 710eb8732a837d14b93355b62e9feef4, type: 3}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[2].itemPrefab
+      value: 
+      objectReference: {fileID: 3403761220113027200, guid: 710eb8732a837d14b93355b62e9feef4, type: 3}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[3].itemPrefab
+      value: 
+      objectReference: {fileID: 3403761220113027200, guid: 710eb8732a837d14b93355b62e9feef4, type: 3}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[4].itemPrefab
+      value: 
+      objectReference: {fileID: 3403761220113027200, guid: 710eb8732a837d14b93355b62e9feef4, type: 3}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[5].itemPrefab
+      value: 
+      objectReference: {fileID: 4912325607740399457, guid: a40a923351ac9974686468974bcc2700, type: 3}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[6].itemPrefab
+      value: 
+      objectReference: {fileID: 8364424383744352607, guid: f87ff8d09ddd8024e9bd4ac411d555f9, type: 3}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[7].itemPrefab
+      value: 
+      objectReference: {fileID: 8364424383744352607, guid: f87ff8d09ddd8024e9bd4ac411d555f9, type: 3}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[8].itemPrefab
+      value: 
+      objectReference: {fileID: 8364424383744352607, guid: f87ff8d09ddd8024e9bd4ac411d555f9, type: 3}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[9].itemPrefab
+      value: 
+      objectReference: {fileID: 8364424383744352607, guid: f87ff8d09ddd8024e9bd4ac411d555f9, type: 3}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[10].itemPrefab
+      value: 
+      objectReference: {fileID: 8364424383744352607, guid: f87ff8d09ddd8024e9bd4ac411d555f9, type: 3}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[11].itemPrefab
+      value: 
+      objectReference: {fileID: 8364424383744352607, guid: f87ff8d09ddd8024e9bd4ac411d555f9, type: 3}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[12].itemPrefab
+      value: 
+      objectReference: {fileID: 6861138936073014844, guid: 0aa95a8613678e64fb968e416baa73ac, type: 3}
+    - target: {fileID: 151487972868466265, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
+      propertyPath: guaranteedDrops.Array.data[13].itemPrefab
+      value: 
+      objectReference: {fileID: 6861138936073014844, guid: 0aa95a8613678e64fb968e416baa73ac, type: 3}
     - target: {fileID: 703263738433987252, guid: a7d1d6830dfff6746a50f10b966e575b, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -41922,6 +42367,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 328429372}
     m_Modifications:
+    - target: {fileID: -4110083586184578516, guid: 037618c8f617f6a438ef75c1e2bb9a03, type: 3}
+      propertyPath: guaranteedDrops.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4110083586184578516, guid: 037618c8f617f6a438ef75c1e2bb9a03, type: 3}
+      propertyPath: guaranteedDrops.Array.data[0].itemName
+      value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: -4110083586184578516, guid: 037618c8f617f6a438ef75c1e2bb9a03, type: 3}
+      propertyPath: guaranteedDrops.Array.data[0].itemPrefab
+      value: 
+      objectReference: {fileID: 3403761220113027200, guid: 710eb8732a837d14b93355b62e9feef4, type: 3}
     - target: {fileID: 1508673165787855625, guid: 037618c8f617f6a438ef75c1e2bb9a03, type: 3}
       propertyPath: patrolAreaRadius
       value: 2.03
@@ -42016,6 +42473,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 328429372}
     m_Modifications:
+    - target: {fileID: -869372127174249418, guid: 0f1d0a8c183d48f4a8d50bda361eeca7, type: 3}
+      propertyPath: guaranteedDrops.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -869372127174249418, guid: 0f1d0a8c183d48f4a8d50bda361eeca7, type: 3}
+      propertyPath: guaranteedDrops.Array.data[0].itemName
+      value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: -869372127174249418, guid: 0f1d0a8c183d48f4a8d50bda361eeca7, type: 3}
+      propertyPath: guaranteedDrops.Array.data[1].itemName
+      value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: -869372127174249418, guid: 0f1d0a8c183d48f4a8d50bda361eeca7, type: 3}
+      propertyPath: guaranteedDrops.Array.data[0].itemPrefab
+      value: 
+      objectReference: {fileID: 1234786956161415900, guid: 3d408df60ade7ba4ba8063101981f926, type: 3}
+    - target: {fileID: -869372127174249418, guid: 0f1d0a8c183d48f4a8d50bda361eeca7, type: 3}
+      propertyPath: guaranteedDrops.Array.data[1].itemPrefab
+      value: 
+      objectReference: {fileID: 1234786956161415900, guid: 3d408df60ade7ba4ba8063101981f926, type: 3}
     - target: {fileID: 462717859654078505, guid: 0f1d0a8c183d48f4a8d50bda361eeca7, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -42174,6 +42651,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9087294357109862664, guid: 278133c445a7a894d83886d8a96d5707, type: 3}
+      propertyPath: guaranteedDrops.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9087294357109862664, guid: 278133c445a7a894d83886d8a96d5707, type: 3}
+      propertyPath: guaranteedDrops.Array.data[0].itemName
+      value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: 9087294357109862664, guid: 278133c445a7a894d83886d8a96d5707, type: 3}
+      propertyPath: guaranteedDrops.Array.data[0].itemPrefab
+      value: 
+      objectReference: {fileID: 3403761220113027200, guid: 710eb8732a837d14b93355b62e9feef4, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

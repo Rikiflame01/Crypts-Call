@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SceneLoader : MonoBehaviour
 {
@@ -85,6 +86,7 @@ public class SceneLoader : MonoBehaviour
     {
         Canvas.SetActive(true);
 
+        // Fade in
         while (canvasGroup.alpha < 1f)
         {
             canvasGroup.alpha += Time.deltaTime / zoomDuration;
@@ -93,6 +95,8 @@ public class SceneLoader : MonoBehaviour
 
         canvasGroup.alpha = 1f;
         yield return new WaitForSeconds(0.5f);
+
+        SaveCurrentScene();
 
         if (SceneManager.GetActiveScene().name == "Level 1")
         {
@@ -107,15 +111,39 @@ public class SceneLoader : MonoBehaviour
         }
     }
 
+    private void SaveCurrentScene()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+
+        SceneObjectState[] objectsToSave = FindObjectsByType<SceneObjectState>(FindObjectsSortMode.None);
+        var newData = new Dictionary<string, SavedObjectState>();
+        foreach (var objState in objectsToSave)
+        {
+            newData[objState.UniqueID] = objState.GetCurrentState();
+        }
+
+        var oldData = SceneStateManager.Instance.GetSceneState(currentSceneName);
+
+        foreach (var kvp in oldData)
+        {
+            if (!newData.ContainsKey(kvp.Key))
+            {
+                newData[kvp.Key] = kvp.Value;
+            }
+        }
+
+        SceneStateManager.Instance.SaveSceneState(currentSceneName, newData);
+    }
+
+
+
     private IEnumerator LoadSceneAsync(string sceneName)
     {
         AsyncOperation asyncOp = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
 
         while (!asyncOp.isDone)
         {
-
             yield return null;
-
         }
     }
 

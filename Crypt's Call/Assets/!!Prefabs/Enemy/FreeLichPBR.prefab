@@ -547,6 +547,7 @@ GameObject:
   - component: {fileID: 2933479934109375424}
   - component: {fileID: 8732817438169670214}
   - component: {fileID: 151487972868466265}
+  - component: {fileID: -3058671756668902432}
   m_Layer: 11
   m_Name: FreeLichPBR
   m_TagString: Untagged
@@ -715,6 +716,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rarity: Boss
   guaranteedDrops: []
+--- !u!114 &-3058671756668902432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3997423869423968829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320cdd2948623854dac63df3ae6d475a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueID: 5e888bb4-0ab4-4c3b-bc03-adfafbab6be2
 --- !u!1 &4042948644228886619
 GameObject:
   m_ObjectHideFlags: 0
