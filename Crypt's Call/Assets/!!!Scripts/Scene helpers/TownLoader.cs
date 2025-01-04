@@ -48,6 +48,8 @@ public class TownLoader : MonoBehaviour
     void OnApplicationQuit()
     {
         PlayerPrefs.SetInt("HasBeenToTown", 0);
+
+        PlayerPrefs.SetInt("DungeonDoorIndex", 0);
         PlayerPrefs.Save();
         Debug.Log("PlayerPrefs reset on application quit.");
     }

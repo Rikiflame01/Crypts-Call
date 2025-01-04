@@ -23,6 +23,7 @@ public class CollisionHandling : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             if (isKey == true) {
+                Debug.Log("Key Collision is working");
                 eventSystem.RaiseEvent("ItemDrop","Key");
             }
             if (isHealthItem == true)

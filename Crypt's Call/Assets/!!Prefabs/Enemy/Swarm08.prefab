@@ -589,7 +589,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventSystem: {fileID: 0}
-  entityStats: {fileID: 11400000, guid: e13fdf26d759f374b8226de9a53c3d5f, type: 2}
+  entityStats: {fileID: 11400000, guid: 9d7741e6cfa05cd4c9fcf05f1ba538b5, type: 2}
   floatingDamagePrefab: {fileID: 6467260754619765500, guid: 9c83bd1a2e20bad4886b178c81b502b8, type: 3}
 --- !u!114 &860697350974222729
 MonoBehaviour:

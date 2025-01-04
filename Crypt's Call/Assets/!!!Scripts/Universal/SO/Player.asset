@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c666f850210e8f34a8de2950e63a167a, type: 3}
   m_Name: Player
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  health: 100
+  maxHealth: 500
+  health: 500
   mana: 50
   maxMana: 50
-  stamina: 48
+  stamina: 50
   maxStamina: 50
-  Gold: 0
-  Crystal: 0
+  Gold: 81
+  Crystal: 185
   damage: 10
   isPlayer: 1
   isMelee: 0

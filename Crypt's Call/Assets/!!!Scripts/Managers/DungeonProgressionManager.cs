@@ -10,6 +10,8 @@ public class DungeonProgressionManager : MonoBehaviour
     [Header("List of Door Pairs")]
     public List<DoorPair> doorPairs = new List<DoorPair>();
 
+    private const string DOOR_INDEX_PREF = "DungeonDoorIndex";
+
     private int currentDoorIndex = 0;
 
     public float rotationDuration = 2f;
@@ -39,6 +41,8 @@ public class DungeonProgressionManager : MonoBehaviour
 
     private void Awake()
     {
+        currentDoorIndex = PlayerPrefs.GetInt(DOOR_INDEX_PREF, 0);
+
         AudioSource source = GetComponent<AudioSource>();
         source.clip = doorOpen;
     }
@@ -49,9 +53,14 @@ public class DungeonProgressionManager : MonoBehaviour
         {
             doorAudioSource.Play();
             DoorPair pairToOpen = doorPairs[currentDoorIndex];
+
             StartCoroutine(RotateDoor(pairToOpen.door1));
             StartCoroutine(RotateDoor(pairToOpen.door2));
+
             currentDoorIndex++;
+
+            PlayerPrefs.SetInt(DOOR_INDEX_PREF, currentDoorIndex);
+            PlayerPrefs.Save();
         }
         else
         {
@@ -71,22 +80,40 @@ public class DungeonProgressionManager : MonoBehaviour
 
         if (doorRotation.initialRotationOffset != Vector3.zero)
         {
-            doorTransform.rotation = Quaternion.Euler(doorTransform.eulerAngles + doorRotation.initialRotationOffset);
+            doorTransform.rotation = Quaternion.Euler(
+                doorTransform.eulerAngles + doorRotation.initialRotationOffset
+            );
         }
 
         Quaternion initialRotation = doorTransform.rotation;
-        Quaternion rotationDelta = Quaternion.AngleAxis(doorRotation.rotationAngle, doorRotation.rotationAxis.normalized);
+        Quaternion rotationDelta = Quaternion.AngleAxis(
+            doorRotation.rotationAngle,
+            doorRotation.rotationAxis.normalized
+        );
         Quaternion targetRotation = initialRotation * rotationDelta;
 
         float elapsedTime = 0f;
 
         while (elapsedTime < rotationDuration)
         {
-            doorTransform.rotation = Quaternion.Slerp(initialRotation, targetRotation, elapsedTime / rotationDuration);
+            doorTransform.rotation = Quaternion.Slerp(
+                initialRotation,
+                targetRotation,
+                elapsedTime / rotationDuration
+            );
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
         doorTransform.rotation = targetRotation;
+    }
+
+    void OnApplicationQuit()
+    {
+        PlayerPrefs.SetInt("HasBeenToTown", 0);
+
+        PlayerPrefs.SetInt("DungeonDoorIndex", 0);
+        PlayerPrefs.Save();
+        Debug.Log("PlayerPrefs reset on application quit.");
     }
 }
