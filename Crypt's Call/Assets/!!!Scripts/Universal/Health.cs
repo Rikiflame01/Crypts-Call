@@ -102,10 +102,23 @@ public class Health : MonoBehaviour, IHealth
 
     protected virtual void HandleDeath()
     {
+        if (gameObject.CompareTag("BossEnemy"))
+        {
+            eventSystem.RaiseEvent("BossDeath", "DisplayEndOfDemo");
+        }
         OnDied?.Invoke(gameObject);
 
         if (gameObject.name == "Player")
         {
+            GameObject[] Keys = GameObject.FindGameObjectsWithTag("Key");
+            if (Keys.Length >0)
+            {
+                foreach (var key in Keys)
+                {
+                    eventSystem.RaiseEvent("ItemDrop", "Key");
+                    Destroy(key);
+                } 
+            }
             eventSystem.RaiseEvent("Player", "PlayerDeath");
             eventSystem.RaiseEvent("PlayerUI", "DeathCanvas");
             eventSystem.RaiseEvent("Player", "PlayerStatsReset");

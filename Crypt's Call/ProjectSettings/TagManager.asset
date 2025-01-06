@@ -8,6 +8,7 @@ TagManager:
   - NormalEnemy
   - HealEffect
   - Button
+  - Key
   layers:
   - Default
   - TransparentFX

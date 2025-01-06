@@ -76,5 +76,6 @@ public class SceneObjectState : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
 }
 

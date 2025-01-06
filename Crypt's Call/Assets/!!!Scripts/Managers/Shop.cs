@@ -52,6 +52,11 @@ public class Shop : MonoBehaviour
         }
         playerStats.Gold -= 10;
 
+        if (playerStats.mana > playerStats.maxMana)
+        {
+            playerStats.mana = playerStats.maxMana;
+        }
+
         float replenishAmnt = (playerStats.maxMana - playerStats.mana);
         GenericEventSystem.RaiseEvent("Mana", "Change", (int)replenishAmnt);
 

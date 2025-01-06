@@ -1,6 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CanvasManager : MonoBehaviour
@@ -122,10 +124,34 @@ public class CanvasManager : MonoBehaviour
     }
 
     private IEnumerator LoadTown(){
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(5f);
+        SaveCurrentScene();
         eventSystem.RaiseEvent("SceneManagement", "LoadTown");
     }
 
+    private void SaveCurrentScene()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+
+        SceneObjectState[] objectsToSave = FindObjectsByType<SceneObjectState>(FindObjectsSortMode.None);
+        var newData = new Dictionary<string, SavedObjectState>();
+        foreach (var objState in objectsToSave)
+        {
+            newData[objState.UniqueID] = objState.GetCurrentState();
+        }
+
+        var oldData = SceneStateManager.Instance.GetSceneState(currentSceneName);
+
+        foreach (var kvp in oldData)
+        {
+            if (!newData.ContainsKey(kvp.Key))
+            {
+                newData[kvp.Key] = kvp.Value;
+            }
+        }
+
+        SceneStateManager.Instance.SaveSceneState(currentSceneName, newData);
+    }
     public void UpdateStaminaUI(){
         staminaSlider.value = playerStats.stamina;
     }
