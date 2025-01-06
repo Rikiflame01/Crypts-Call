@@ -82,4 +82,15 @@ public class GameManager : MonoBehaviour
         }
         eventSystem.RaiseEvent("UI", "updateManaUI");
     }
+
+    public void OnHealthChange(object payload) 
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        Health health = player.GetComponent<Health>();
+
+        if (payload is int healthChange)
+        {
+            health.Heal(healthChange);
+        }
+    }
 }

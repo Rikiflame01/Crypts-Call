@@ -6857,6 +6857,63 @@ Transform:
   - {fileID: 1746687720}
   m_Father: {fileID: 1730768039}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &353462273
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8378105444829492551, guid: 6fa30ba28a45da941963f12624fa3ee8, type: 3}
+      propertyPath: m_Name
+      value: Elixir_Of_Health (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066011746361006404, guid: 6fa30ba28a45da941963f12624fa3ee8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.4390899
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066011746361006404, guid: 6fa30ba28a45da941963f12624fa3ee8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066011746361006404, guid: 6fa30ba28a45da941963f12624fa3ee8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 11.832496
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066011746361006404, guid: 6fa30ba28a45da941963f12624fa3ee8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066011746361006404, guid: 6fa30ba28a45da941963f12624fa3ee8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.000000021855694
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066011746361006404, guid: 6fa30ba28a45da941963f12624fa3ee8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066011746361006404, guid: 6fa30ba28a45da941963f12624fa3ee8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066011746361006404, guid: 6fa30ba28a45da941963f12624fa3ee8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066011746361006404, guid: 6fa30ba28a45da941963f12624fa3ee8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066011746361006404, guid: 6fa30ba28a45da941963f12624fa3ee8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6fa30ba28a45da941963f12624fa3ee8, type: 3}
 --- !u!1 &360808871
 GameObject:
   m_ObjectHideFlags: 0
@@ -7942,6 +7999,23 @@ MonoBehaviour:
         - m_Target: {fileID: 2144415573}
           m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
           m_MethodName: OnCrystalChange
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - category: Health
+    eventName: Change
+    onEventRaised:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2144415573}
+          m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+          m_MethodName: OnHealthChange
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -42922,3 +42996,4 @@ SceneRoots:
   - {fileID: 1301305774}
   - {fileID: 3967168381696608175}
   - {fileID: 801900793}
+  - {fileID: 353462273}
