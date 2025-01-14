@@ -93,4 +93,12 @@ public class GameManager : MonoBehaviour
             health.Heal(healthChange);
         }
     }
+    public void ReloadScene()
+    {
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.name);
+    }
+    public void ExitApplication(){
+        Application.Quit();
+    }
 }

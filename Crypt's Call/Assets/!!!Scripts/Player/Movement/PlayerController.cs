@@ -4,6 +4,7 @@ using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using UnityEngine.EventSystems;
 
 public static class SceneNames
 {
@@ -65,6 +66,11 @@ public class PlayerController : MonoBehaviour
     public AudioSource dashSound;
 
     private PlayerAttacks playerAttack;
+
+    public int ComboStep => comboStep;
+    private int comboStep = 0; 
+    [SerializeField] private float comboResetTime = 1f;
+    private float lastAttackTime = 0f;
 
     private void Awake()
     {
@@ -140,12 +146,10 @@ public class PlayerController : MonoBehaviour
         if (sceneName.Equals(SceneNames.Town, System.StringComparison.OrdinalIgnoreCase))
         {
             HandleCurrentMovement = HandleStationaryCameraMovement;
-            Debug.Log("Switched to Town Movement (Stationary Camera Relative)");
         }
         else
         {
             HandleCurrentMovement = HandleCameraRelativeMovement;
-            Debug.Log("Switched to Normal Movement (Camera Relative)");
         }
     }
 
@@ -263,12 +267,39 @@ public class PlayerController : MonoBehaviour
         }
 
         eventSystem.RaiseEvent("Stamina", "Change", -1);
-        animator.SetTrigger("QuickSlash");
 
         quickSlashCooldownTimer = quickSlashCooldown;
         StartCoroutine(PlayerIsAttacking());
 
         AttemptQuickSlashDash();
+
+        comboStep++;
+        lastAttackTime = Time.time;
+
+        if (comboStep > 3)
+        {
+            comboStep = 1;
+        }
+
+        switch (comboStep)
+        {
+            case 1:
+                animator.SetTrigger("QuickSlash");
+                Debug.Log("Triggered QuickSlash");
+                break;
+            case 2:
+                animator.SetTrigger("Attack2");
+                Debug.Log("Triggered Attack2");
+                break;
+            case 3:
+                animator.SetTrigger("Attack3");
+                Debug.Log("Triggered Attack3");
+                break;
+            default:
+                animator.SetTrigger("QuickSlash");
+                Debug.Log("Triggered QuickSlash (Default)");
+                break;
+        }
     }
 
     private IEnumerator PlayerIsAttacking()
@@ -279,7 +310,8 @@ public class PlayerController : MonoBehaviour
         {
             playerAttack.PerformQuickSlash();
         }
-        yield return new WaitForSeconds(1.5f);
+
+        yield return new WaitForSeconds(comboResetTime);
         isPlayerAttacking = false;
     }
 
@@ -298,6 +330,11 @@ public class PlayerController : MonoBehaviour
         if (quickSlashCooldownTimer > 0)
         {
             quickSlashCooldownTimer -= Time.deltaTime;
+        }
+
+        if (comboStep > 0 && Time.time - lastAttackTime > comboResetTime)
+        {
+            comboStep = 0;
         }
     }
 
@@ -408,4 +445,6 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetBool("isDead", true);
     }
+
+
 }

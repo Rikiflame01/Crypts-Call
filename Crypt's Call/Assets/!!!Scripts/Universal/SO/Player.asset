@@ -19,7 +19,7 @@ MonoBehaviour:
   stamina: 50
   maxStamina: 50
   Gold: 50
-  Crystal: 85
+  Crystal: 190
   damage: 10
   isPlayer: 1
   isMelee: 0

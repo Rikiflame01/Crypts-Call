@@ -32,8 +32,7 @@ public class Damager : MonoBehaviour
 
 private void OnCollisionEnter(Collision other)
 {
-    Debug.Log($"Collision detected with {other.gameObject.name}");
-    
+
     if (entityStats == null)
     {
         Debug.LogWarning("EntityStats not assigned to Damager.");
@@ -45,11 +44,9 @@ private void OnCollisionEnter(Collision other)
     if (!isPlayerWeapon)
     {
         IEnemy enemy = this.gameObject.GetComponent<IEnemy>();
-        Debug.Log($"IEnemy found: {enemy != null}, IHealth found: {health != null}");
 
         if (enemy != null && health != null && enemy.IsAttacking && other.gameObject.CompareTag("Player"))
         {
-            Debug.Log($"{gameObject.name} dealt {entityStats.damage} damage to {other.gameObject.name}");
             health.TakeDamage(entityStats.damage);
             StartCoroutine(StartDamageCooldown());
         }
@@ -63,7 +60,6 @@ private void OnCollisionEnter(Collision other)
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             PlaySparkVFX(other);
-            Debug.Log($"{gameObject.name} dealt {entityStats.damage} damage to {other.gameObject.name}");
             health.TakeDamage(entityStats.damage);
             StartCoroutine(StartDamageCooldown());
         }

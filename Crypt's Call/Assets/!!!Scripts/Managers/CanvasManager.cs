@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -28,6 +29,7 @@ public class CanvasManager : MonoBehaviour
     public void DisableCanvases()
     {
         Canvas[] canvases = Object.FindObjectsByType<Canvas>(FindObjectsSortMode.None);
+        if (canvases.Length < 0) {return;}
         foreach (Canvas canvas in canvases)
         {
             canvas.enabled = false;
@@ -35,18 +37,21 @@ public class CanvasManager : MonoBehaviour
     }
 
     public void EnableCanvas(string canvasName){
-        Debug.Log("Enabling canvas: " + canvasName);
+
         Canvas canvas = GameObject.Find(canvasName).GetComponent<Canvas>();
+        if (canvas == null) {return;}
         canvas.enabled = true;
     }
 
     public void DisableCanvas(string canvasName){
         Canvas canvas = GameObject.Find(canvasName).GetComponent<Canvas>();
+        if (canvas == null) {return;}
         canvas.enabled = false;
     }
     public void FadeInCanvas(string canvasName)
     {
         Canvas canvas = GameObject.Find(canvasName).GetComponent<Canvas>();
+        if (canvas == null) {return;}
         canvas.enabled = true;
 
         CanvasGroup group = canvas.GetComponent<CanvasGroup>();
@@ -67,8 +72,6 @@ public class CanvasManager : MonoBehaviour
         float endTime = startTime + duration;
         group.alpha = startAlpha;
 
-        Debug.Log("Fading in canvas group: " + group.name);
-
         while (Time.time < endTime)
         {
             float elapsedTime = Time.time - startTime;
@@ -83,7 +86,7 @@ public class CanvasManager : MonoBehaviour
     {
         Canvas canvas = GameObject.Find(canvasName).GetComponent<Canvas>();
         CanvasGroup group = canvas.GetComponent<CanvasGroup>();
-        if (group == null)
+        if (group == null && canvas != null)
         {
             group = canvas.gameObject.AddComponent<CanvasGroup>();
         }
@@ -117,10 +120,16 @@ public class CanvasManager : MonoBehaviour
     public void HandlePlayerDeath(){
         DisableCanvases();
         FadeInCanvas("PlayerDeath");
-        FadeOutCanvas("PlayerDeath");
-
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            PlayerController playerController = player.GetComponent<PlayerController>();
+            if (playerController != null)
+            {
+                playerController.enabled = false;
+            }
+        }
         StartCoroutine(LoadTown());
-
     }
 
     private IEnumerator LoadTown(){
