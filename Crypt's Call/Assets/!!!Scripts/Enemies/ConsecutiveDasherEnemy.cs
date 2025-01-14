@@ -22,6 +22,12 @@ public class ConsecutiveDasherEnemy : BaseEnemy
     private float dashIntervalTimer = 0f;
     private Vector3 dashDirection;
 
+    public override bool IsAttacking
+    {
+        get => base.IsAttacking;
+        protected set => base.IsAttacking = value;
+    }
+
     private enum ExtendedState
     {
         Idle,
@@ -48,21 +54,26 @@ public class ConsecutiveDasherEnemy : BaseEnemy
         switch (extendedState)
         {
             case ExtendedState.Idle:
+                IsAttacking = false;
                 IdleUpdate();
                 break;
             case ExtendedState.Patrol:
+                IsAttacking = false;
                 PatrolUpdate();
                 break;
             case ExtendedState.PlayerDetected:
                 PlayerDetectedUpdate();
                 break;
             case ExtendedState.PreparingDash:
+                IsAttacking = false;
                 PreparingDashUpdate();
                 break;
             case ExtendedState.Dashing:
+                IsAttacking = true;
                 DashingUpdate();
                 break;
             case ExtendedState.WaitingForNextDash:
+                IsAttacking = false;
                 WaitingForNextDashUpdate();
                 break;
         }
@@ -84,7 +95,6 @@ public class ConsecutiveDasherEnemy : BaseEnemy
             Debug.LogWarning("Animator or NavMeshAgent component is missing.");
         }
     }
-
 
     private new void CheckPlayerDetection()
     {

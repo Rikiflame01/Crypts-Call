@@ -39,6 +39,12 @@ public class DemonFly : BaseEnemy
 
     private ExtendedState extendedState = ExtendedState.None;
 
+    public override bool IsAttacking
+    {
+        get => base.IsAttacking;
+        protected set => base.IsAttacking = value;
+    }
+
     protected override void Start()
     {
         animator = GetComponent<Animator>();
@@ -64,15 +70,19 @@ public class DemonFly : BaseEnemy
         switch (extendedState)
         {
             case ExtendedState.Dashing:
+                IsAttacking = false;
                 DashingUpdate();
                 break;
             case ExtendedState.Attacking:
+                IsAttacking = true;
                 AttackPlayer();
                 break;
             case ExtendedState.Cooldown:
+                IsAttacking = false;
                 CooldownUpdate();
                 break;
             case ExtendedState.Retreating:
+                IsAttacking = false;
                 RetreatUpdate();
                 break;
             default:

@@ -34,8 +34,14 @@ public class PlayerController : MonoBehaviour
 
     [Header("Dash Settings")]
     [SerializeField] private float dashSpeed = 15f;
+
+    [SerializeField] private float attackDashSpeed = 5f;
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private float dashCooldown = 1.5f;
+
+    [Header("Quick Slash Dash Cooldown Settings")]
+    [SerializeField] private float quickSlashDashCooldown = 2f;
+    private float quickSlashDashCooldownTimer = 0f;
 
     private float quickSlashCooldownTimer = 0f;
     [SerializeField] private float quickSlashCooldown = 1f;
@@ -58,6 +64,8 @@ public class PlayerController : MonoBehaviour
 
     public AudioSource dashSound;
 
+    private PlayerAttacks playerAttack;
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -72,6 +80,12 @@ public class PlayerController : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         agent.speed = moveSpeed;
+
+        playerAttack = GetComponent<PlayerAttacks>();
+        if (playerAttack == null)
+        {
+            Debug.LogError("PlayerAttack component missing from the player.");
+        }
     }
 
     private void OnEnable() => controls.controls.Enable();
@@ -221,10 +235,12 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
+
     private void OnLeftClickStarted()
     {
         leftClickStartTime = Time.time; 
     }
+
     private void OnLeftClickCanceled()
     {
         float clickDuration = Time.time - leftClickStartTime;
@@ -249,13 +265,20 @@ public class PlayerController : MonoBehaviour
         eventSystem.RaiseEvent("Stamina", "Change", -1);
         animator.SetTrigger("QuickSlash");
 
-
         quickSlashCooldownTimer = quickSlashCooldown;
         StartCoroutine(PlayerIsAttacking());
+
+        AttemptQuickSlashDash();
     }
+
     private IEnumerator PlayerIsAttacking()
     {
         isPlayerAttacking = true;
+
+        if (playerAttack != null)
+        {
+            playerAttack.PerformQuickSlash();
+        }
         yield return new WaitForSeconds(1.5f);
         isPlayerAttacking = false;
     }
@@ -267,14 +290,20 @@ public class PlayerController : MonoBehaviour
             dashCooldownTimer -= Time.deltaTime;
         }
 
+        if (quickSlashDashCooldownTimer > 0)
+        {
+            quickSlashDashCooldownTimer -= Time.deltaTime;
+        }
+
         if (quickSlashCooldownTimer > 0)
         {
             quickSlashCooldownTimer -= Time.deltaTime;
         }
     }
+
     private void AttemptDash()
     {
-        if (isDashing || dashCooldownTimer > 0 || playerStats.mana <=0 ) return;
+        if (isDashing || dashCooldownTimer > 0 || playerStats.mana <= 0) return;
 
         Vector3 dashDirection = GetMouseDirection();
         if (dashDirection != Vector3.zero)
@@ -284,11 +313,44 @@ public class PlayerController : MonoBehaviour
             {
                 ps.Play();
             }
-            StartCoroutine(PerformDash(dashDirection));
+            StartCoroutine(PerformDash(dashDirection, dashSpeed));
+
+            dashCooldownTimer = dashCooldown;
         }
     }
 
-    private IEnumerator PerformDash(Vector3 dashDirection)
+    private void AttemptQuickSlashDash()
+    {
+        if (isDashing || quickSlashDashCooldownTimer > 0 || playerStats.mana <= 0) return;
+
+        Vector3 dashDirection;
+
+        if (nearestEnemy != null)
+        {
+            dashDirection = (nearestEnemy.position - transform.position).normalized;
+            dashDirection.y = 0f;
+        }
+        else
+        {
+            dashDirection = transform.forward;
+        }
+
+        if (dashDirection == Vector3.zero)
+        {
+            dashDirection = transform.forward;
+        }
+
+        dashSound.Play();
+        foreach (var ps in dashEffect.GetComponentsInChildren<ParticleSystem>())
+        {
+            ps.Play();
+        }
+        StartCoroutine(PerformDash(dashDirection, attackDashSpeed));
+
+        quickSlashDashCooldownTimer = quickSlashDashCooldown;
+    }
+
+    private IEnumerator PerformDash(Vector3 dashDirection, float dashSpeedM)
     {
         isDashing = true;
         float startTime = Time.time;
@@ -296,17 +358,27 @@ public class PlayerController : MonoBehaviour
         agent.ResetPath();
         agent.isStopped = true;
         Light dashLight = dashEffect.GetComponentInChildren<Light>();
-        dashLight.intensity = 15f;
+        if (dashLight != null)
+        {
+            dashLight.intensity = 15f;
+        }
+
+        Vector3 normalizedDashDirection = dashDirection.normalized;
+
         while (Time.time < startTime + dashDuration)
         {
-            agent.Move(dashDirection * dashSpeed * Time.deltaTime);
+            transform.position += normalizedDashDirection * dashSpeedM * Time.deltaTime;
             yield return null;
         }
-        dashLight.intensity = 0f;
+
+        if (dashLight != null)
+        {
+            dashLight.intensity = 0f;
+        }
+
         agent.isStopped = false;
         isDashing = false;
         eventSystem.RaiseEvent("Mana", "Change", -1);
-        dashCooldownTimer = dashCooldown;
     }
 
     private Vector3 GetMouseDirection()

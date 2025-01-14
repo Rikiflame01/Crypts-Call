@@ -21,6 +21,12 @@ public class DashingEnemy : BaseEnemy
     private float preDashTimer = 0f;
     private Vector3 dashDirection;
 
+    public override bool IsAttacking
+    {
+        get => base.IsAttacking;
+        protected set => base.IsAttacking = value;
+    }
+
     private enum ExtendedState 
     {
         Idle,
@@ -66,18 +72,23 @@ public class DashingEnemy : BaseEnemy
         switch (extendedState)
         {
             case ExtendedState.Idle:
+                IsAttacking = false;
                 IdleUpdate();
                 break;
             case ExtendedState.Patrol:
+                IsAttacking = false;
                 PatrolUpdate();
                 break;
             case ExtendedState.PlayerDetected:
+                IsAttacking = false;
                 PlayerDetectedUpdate();
                 break;
             case ExtendedState.PreparingDash:
+                IsAttacking = false;
                 PreparingDashUpdate();
                 break;
             case ExtendedState.Dashing:
+                IsAttacking = true;
                 DashingUpdate();
                 break;
         }

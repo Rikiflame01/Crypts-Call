@@ -19482,6 +19482,7 @@ GameObject:
   - component: {fileID: 6382548051355531575}
   - component: {fileID: -7629095109357698450}
   - component: {fileID: -2230626897022982558}
+  - component: {fileID: 2204421675619916759}
   m_Layer: 0
   m_Name: BossProjectile
   m_TagString: Untagged
@@ -19627,6 +19628,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 076c674d9627d49d7bc9428ecb754613, type: 3}
   isPlayerWeapon: 0
   isProjectile: 1
+  damageCooldown: 2
 --- !u!114 &-7629095109357698450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19737,6 +19739,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2204421675619916759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7619343313238021192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0017cae008469c4b8e18322f650d077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8273695104016673234
 GameObject:
   m_ObjectHideFlags: 0

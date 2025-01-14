@@ -8,11 +8,13 @@ public class Damager : MonoBehaviour
     public GameObject[] VFX;
     public AudioSource audioSource;
     public AudioClip[] audioClips;
-
     public AudioClip[] projectileClips;
+
     private PlayerController playerController;
-    [SerializeField] private bool isPlayerWeapon =false;
+    [SerializeField] private bool isPlayerWeapon = false;
     [SerializeField] private bool isProjectile = false;
+    private bool canDealDamage = true;
+    [SerializeField] private float damageCooldown = 2f;
 
     void Start()
     {
@@ -27,47 +29,59 @@ public class Damager : MonoBehaviour
             playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         }
     }
-    private void OnCollisionEnter(Collision other)
-    {
-        if (isProjectile == true)
-        {
-            audioSource.clip = projectileClips[1];
-            audioSource.Play();
-            StartCoroutine(DestroyAfterDelay());
-        }
-        if (entityStats == null)
-        {
-            Debug.LogWarning("EntityStats not assigned to Damager on " + gameObject.name);
-            return;
-        }
-        IHealth health = other.gameObject.GetComponent<IHealth>();
 
-        if (health != null && other.gameObject.CompareTag("Player") && isPlayerWeapon == false)
+private void OnCollisionEnter(Collision other)
+{
+    Debug.Log($"Collision detected with {other.gameObject.name}");
+    
+    if (entityStats == null)
+    {
+        Debug.LogWarning("EntityStats not assigned to Damager.");
+        return;
+    }
+
+    IHealth health = other.gameObject.GetComponent<IHealth>();
+
+    if (!isPlayerWeapon)
+    {
+        IEnemy enemy = this.gameObject.GetComponent<IEnemy>();
+        Debug.Log($"IEnemy found: {enemy != null}, IHealth found: {health != null}");
+
+        if (enemy != null && health != null && enemy.IsAttacking && other.gameObject.CompareTag("Player"))
         {
             Debug.Log($"{gameObject.name} dealt {entityStats.damage} damage to {other.gameObject.name}");
             health.TakeDamage(entityStats.damage);
-        }
-        else if (health != null && isPlayerWeapon == true && playerController.isPlayerAttacking == true)
-        {
-            if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-            {
-                PlaySparkVFX(other);
-                Debug.Log($"{gameObject.name} dealt {entityStats.damage} damage to {other.gameObject.name}");
-                health.TakeDamage(entityStats.damage);
-            }
+            StartCoroutine(StartDamageCooldown());
         }
         else
         {
-           return;
+            Debug.Log("Enemy is not attacking or damage conditions not met.");
         }
+    }
+    else if (health != null && playerController.isPlayerAttacking)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            PlaySparkVFX(other);
+            Debug.Log($"{gameObject.name} dealt {entityStats.damage} damage to {other.gameObject.name}");
+            health.TakeDamage(entityStats.damage);
+            StartCoroutine(StartDamageCooldown());
+        }
+    }
+}
 
+    private IEnumerator StartDamageCooldown()
+    {
+        canDealDamage = false;
+        yield return new WaitForSeconds(damageCooldown);
+        canDealDamage = true;
     }
 
     private IEnumerator DestroyAfterDelay()
-        {
-                yield return new WaitForSeconds(2f);
-                Destroy(gameObject);
-        }
+    {
+        yield return new WaitForSeconds(2f);
+        Destroy(gameObject);
+    }
 
     private void PlaySparkVFX(Collision other)
     {
@@ -76,7 +90,7 @@ public class Damager : MonoBehaviour
         Vector3 hitPoint = other.GetContact(0).point;
         Vector3 hitNormal = other.GetContact(0).normal;
         GameObject randomVFX = VFX[Random.Range(0, VFX.Length)];
-        
+
         GameObject sparkVFX = Instantiate(randomVFX, hitPoint, Quaternion.LookRotation(hitNormal));
         Destroy(sparkVFX, 1f);
     }

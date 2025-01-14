@@ -3,9 +3,16 @@ using UnityEngine.AI;
 using System;
 using System.Collections;
 
-public class BaseEnemy : MonoBehaviour
+public interface IEnemy
+{
+    bool IsAttacking { get; }
+}
+
+
+public class BaseEnemy : MonoBehaviour, IEnemy
 {
 
+    protected bool isAttacking = false;
     protected bool isDead = false;
 
     Rigidbody rb;
@@ -37,6 +44,9 @@ public class BaseEnemy : MonoBehaviour
 
     public Health health;
     public Animator animator;
+
+    public virtual bool IsAttacking { get; protected set; }
+
 
     protected virtual void Awake()
     {
