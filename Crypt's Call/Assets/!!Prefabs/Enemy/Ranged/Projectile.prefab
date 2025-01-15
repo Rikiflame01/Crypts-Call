@@ -19629,6 +19629,8 @@ MonoBehaviour:
   isPlayerWeapon: 0
   isProjectile: 1
   damageCooldown: 2
+  knockbackForce: 7
+  knockbackDuration: 0.5
 --- !u!114 &-7629095109357698450
 MonoBehaviour:
   m_ObjectHideFlags: 0

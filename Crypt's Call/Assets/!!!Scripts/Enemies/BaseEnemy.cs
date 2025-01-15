@@ -259,7 +259,6 @@ public class BaseEnemy : MonoBehaviour, IEnemy
     {
         if (deadEnemy == this.gameObject)
         {
-            Debug.Log($"{gameObject.name}: Detected own death. Disabling movement script.");
             isDead = true;
             DisableMovement();
         }

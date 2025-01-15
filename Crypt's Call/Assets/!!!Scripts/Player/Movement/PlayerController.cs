@@ -285,19 +285,15 @@ public class PlayerController : MonoBehaviour
         {
             case 1:
                 animator.SetTrigger("QuickSlash");
-                Debug.Log("Triggered QuickSlash");
                 break;
             case 2:
                 animator.SetTrigger("Attack2");
-                Debug.Log("Triggered Attack2");
                 break;
             case 3:
                 animator.SetTrigger("Attack3");
-                Debug.Log("Triggered Attack3");
                 break;
             default:
                 animator.SetTrigger("QuickSlash");
-                Debug.Log("Triggered QuickSlash (Default)");
                 break;
         }
     }

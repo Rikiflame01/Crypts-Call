@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyDamager : MonoBehaviour
 {
@@ -9,6 +11,9 @@ public class EnemyDamager : MonoBehaviour
     [SerializeField] private float damageInterval = 2.0f;
 
     private float lastDamageTime = -Mathf.Infinity;
+    
+    public float knockbackForce = 7f;
+    public float knockbackDuration = 0.5f;
 
     private Animator animator;
 
@@ -33,8 +38,7 @@ public class EnemyDamager : MonoBehaviour
                 if (Time.time - lastDamageTime >= damageInterval)
                 {
                     animator.SetBool("isAttacking", true);
-                    
-                    Debug.Log($"{gameObject.name} dealt {entityStats.damage} damage to {collision.gameObject.name}");
+                    ApplyKnockback(collision.gameObject);
                     playerHealth.TakeDamage(entityStats.damage);
                     
                     lastDamageTime = Time.time;
@@ -47,12 +51,58 @@ public class EnemyDamager : MonoBehaviour
         }
     }
 
+        private void ApplyKnockback(GameObject target)
+    {
+        Vector3 knockbackDirection = target.transform.position - transform.position;
+        knockbackDirection.y = 0;
+        knockbackDirection.Normalize();
+
+        NavMeshAgent agent = target.GetComponent<NavMeshAgent>();
+        if (agent != null)
+        {
+            StartCoroutine(KnockbackAgent(agent, knockbackDirection));
+        }
+        else
+        {
+            Rigidbody rb = target.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
+            }
+            else
+            {
+                Debug.LogWarning("The object to knock back does not have a NavMeshAgent or Rigidbody component.");
+            }
+        }
+    }
+
+    private IEnumerator KnockbackAgent(NavMeshAgent agent, Vector3 direction)
+    {
+        if (agent == null)
+            yield break;
+
+        agent.isStopped = true;
+        agent.velocity = Vector3.zero;
+
+        float elapsed = 0f;
+        Vector3 initialPosition = agent.transform.position;
+        Vector3 knockbackMovement = direction * knockbackForce;
+
+        while (elapsed < knockbackDuration)
+        {
+            agent.transform.position += knockbackMovement * Time.deltaTime;
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        agent.isStopped = false;
+    }
+
     private void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
             animator.SetBool("isAttacking", false);
-            lastDamageTime = -Mathf.Infinity;
         }
     }
 }

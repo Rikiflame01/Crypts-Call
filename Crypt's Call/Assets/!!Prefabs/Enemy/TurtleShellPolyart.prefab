@@ -1632,6 +1632,9 @@ MonoBehaviour:
   projectileClips: []
   isPlayerWeapon: 0
   isProjectile: 0
+  damageCooldown: 2
+  knockbackForce: 5
+  knockbackDuration: 0.5
 --- !u!114 &7033920739148861020
 MonoBehaviour:
   m_ObjectHideFlags: 0

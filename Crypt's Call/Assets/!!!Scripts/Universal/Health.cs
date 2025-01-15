@@ -60,6 +60,8 @@ public class Health : MonoBehaviour, IHealth
 
         OnHealthChanged?.Invoke(currentHealth, MaxHealth);
 
+        eventSystem.RaiseEvent("Colour","Change", this.gameObject);
+
         if (floatingDamagePrefab != null)
         {
             ShowFloatingDamage(damage);
@@ -67,7 +69,6 @@ public class Health : MonoBehaviour, IHealth
 
         if (currentHealth <= 0)
         {
-            Debug.Log($"{gameObject.name} has died.");
             OnHealthDepleted?.Invoke();
             HandleDeath();
         }

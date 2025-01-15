@@ -13,7 +13,6 @@ public class EnemyDrop : MonoBehaviour
     {
         if (ItemDropManager.Instance != null)
         {
-            Debug.Log("EnemyDrop an item as been spawned");
             ItemDropManager.Instance.HandleDrop(this);
         }
     }

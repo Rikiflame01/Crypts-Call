@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PlayerAttacks : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class PlayerAttacks : MonoBehaviour
     [SerializeField] private LayerMask enemyLayer;
 
     private PlayerController playerController;
+
+    public float knockbackForce = 7f;
+    public float knockbackDuration = 0.5f;
 
     private void Start()
     {
@@ -125,7 +129,6 @@ public class PlayerAttacks : MonoBehaviour
         validTargets.Sort((a, b) => Vector3.Distance(transform.position, a.position).CompareTo(Vector3.Distance(transform.position, b.position)));
 
         int targetsToHit = Mathf.Min(maxTargets, validTargets.Count);
-        Debug.Log($"Targets to hit: {targetsToHit}");
 
         for (int i = 0; i < targetsToHit; i++)
         {
@@ -141,12 +144,59 @@ public class PlayerAttacks : MonoBehaviour
         if (enemyHealth != null)
         {
             enemyHealth.TakeDamage(damageAmount);
-            Debug.Log($"Attack dealt {damageAmount} damage to {enemy.name}");
+            ApplyKnockback(enemy.gameObject);
         }
         else
         {
             Debug.LogWarning($"Enemy {enemy.name} does not have an IHealth component.");
         }
+    }
+
+    private void ApplyKnockback(GameObject target)
+    {
+        Vector3 knockbackDirection = target.transform.position - transform.position;
+        knockbackDirection.y = 0;
+        knockbackDirection.Normalize();
+
+        NavMeshAgent agent = target.GetComponent<NavMeshAgent>();
+        if (agent != null)
+        {
+            StartCoroutine(KnockbackAgent(agent, knockbackDirection));
+        }
+        else
+        {
+            Rigidbody rb = target.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
+            }
+            else
+            {
+                Debug.LogWarning("The object to knock back does not have a NavMeshAgent or Rigidbody component.");
+            }
+        }
+    }
+
+    private IEnumerator KnockbackAgent(NavMeshAgent agent, Vector3 direction)
+    {
+        if (agent == null)
+            yield break;
+
+        agent.isStopped = true;
+        agent.velocity = Vector3.zero;
+
+        float elapsed = 0f;
+        Vector3 initialPosition = agent.transform.position;
+        Vector3 knockbackMovement = direction * knockbackForce;
+
+        while (elapsed < knockbackDuration)
+        {
+            agent.transform.position += knockbackMovement * Time.deltaTime;
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        agent.isStopped = false;
     }
 
     private void PlayHitEffects(Transform enemy)
@@ -161,7 +211,6 @@ public class PlayerAttacks : MonoBehaviour
         {
             AudioClip clip = hitClips[Random.Range(0, hitClips.Length)];
             audioSource.PlayOneShot(clip);
-            Debug.Log($"Played hit audio clip: {clip.name}");
         }
     }
 
