@@ -13,6 +13,10 @@ public interface IHealth
     int MaxHealth { get; }
 
     bool IsDead { get; }
+
+    event Action<int, int> OnHealthChanged;
+
+    event Action<GameObject> OnDied;
 }
 
 [RequireComponent(typeof(Animator))]

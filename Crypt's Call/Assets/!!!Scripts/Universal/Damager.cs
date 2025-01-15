@@ -15,29 +15,48 @@ public class Damager : MonoBehaviour
     private PlayerController playerController;
     [SerializeField] private bool isPlayerWeapon = false;
     [SerializeField] private bool isProjectile = false;
-    private bool canDealDamage = true;
     [SerializeField] private float damageCooldown = 2f;
-    
+    private bool canDealDamage = true;
+
     public float knockbackForce = 7f;
     public float knockbackDuration = 0.5f;
 
     void Start()
     {
-        if (isProjectile == true)
+        if (isProjectile)
         {
             audioSource = GetComponent<AudioSource>();
-            audioSource.clip = projectileClips[0];
-            audioSource.Play();
+            if (projectileClips.Length > 0)
+            {
+                audioSource.clip = projectileClips[0];
+                audioSource.Play();
+            }
+            else
+            {
+                Debug.LogWarning("No projectile clips assigned.");
+            }
         }
-        if (isPlayerWeapon == true)
+
+        if (isPlayerWeapon)
         {
-            playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                playerController = player.GetComponent<PlayerController>();
+                if (playerController == null)
+                {
+                    Debug.LogWarning("PlayerController component not found on Player.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Player object with tag 'Player' not found.");
+            }
         }
     }
 
     private void OnCollisionEnter(Collision other)
     {
-
         if (entityStats == null)
         {
             Debug.LogWarning("EntityStats not assigned to Damager.");
@@ -46,29 +65,40 @@ public class Damager : MonoBehaviour
 
         IHealth health = other.gameObject.GetComponent<IHealth>();
 
+        if (!canDealDamage)
+            return;
+
         if (!isPlayerWeapon)
         {
             IEnemy enemy = this.gameObject.GetComponent<IEnemy>();
 
             if (enemy != null && health != null && enemy.IsAttacking && other.gameObject.CompareTag("Player"))
             {
-                health.TakeDamage(entityStats.damage);
-                ApplyKnockback(other.gameObject);
-                StartCoroutine(StartDamageCooldown());
+                DealDamage(health, other.gameObject);
             }
         }
-        else if (health != null && playerController.isPlayerAttacking)
+        else if (health != null && playerController != null && playerController.isPlayerAttacking)
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
+                DealDamage(health, other.gameObject);
                 PlaySparkVFX(other);
-                health.TakeDamage(entityStats.damage);
-                ApplyKnockback(other.gameObject);
-                StartCoroutine(StartDamageCooldown());
             }
         }
-        if (isProjectile == true) {StartCoroutine(DestroyAfterDelay());}
+
+        if (isProjectile)
+        {
+            StartCoroutine(DestroyAfterDelay());
+        }
     }
+
+    private void DealDamage(IHealth health, GameObject target)
+    {
+        health.TakeDamage(entityStats.damage);
+        ApplyKnockback(target);
+        StartCoroutine(StartDamageCooldown());
+    }
+
     private void ApplyKnockback(GameObject target)
     {
         Vector3 knockbackDirection = target.transform.position - transform.position;
@@ -94,7 +124,7 @@ public class Damager : MonoBehaviour
         }
     }
 
-        private IEnumerator KnockbackAgent(NavMeshAgent agent, Vector3 direction)
+    private IEnumerator KnockbackAgent(NavMeshAgent agent, Vector3 direction)
     {
         if (agent == null)
             yield break;
@@ -103,7 +133,6 @@ public class Damager : MonoBehaviour
         agent.velocity = Vector3.zero;
 
         float elapsed = 0f;
-        Vector3 initialPosition = agent.transform.position;
         Vector3 knockbackMovement = direction * knockbackForce;
 
         while (elapsed < knockbackDuration)
@@ -115,7 +144,6 @@ public class Damager : MonoBehaviour
 
         agent.isStopped = false;
     }
-
 
     private IEnumerator StartDamageCooldown()
     {
@@ -132,13 +160,28 @@ public class Damager : MonoBehaviour
 
     private void PlaySparkVFX(Collision other)
     {
-        AudioClip randomClip = audioClips[Random.Range(0, audioClips.Length)];
-        audioSource.PlayOneShot(randomClip);
-        Vector3 hitPoint = other.GetContact(0).point;
-        Vector3 hitNormal = other.GetContact(0).normal;
-        GameObject randomVFX = VFX[Random.Range(0, VFX.Length)];
+        if (audioClips.Length > 0)
+        {
+            AudioClip randomClip = audioClips[Random.Range(0, audioClips.Length)];
+            audioSource.PlayOneShot(randomClip);
+        }
+        else
+        {
+            Debug.LogWarning("No audio clips assigned for VFX.");
+        }
 
-        GameObject sparkVFX = Instantiate(randomVFX, hitPoint, Quaternion.LookRotation(hitNormal));
-        Destroy(sparkVFX, 1f);
+        if (VFX.Length > 0)
+        {
+            Vector3 hitPoint = other.GetContact(0).point;
+            Vector3 hitNormal = other.GetContact(0).normal;
+            GameObject randomVFX = VFX[Random.Range(0, VFX.Length)];
+
+            GameObject sparkVFX = Instantiate(randomVFX, hitPoint, Quaternion.LookRotation(hitNormal));
+            Destroy(sparkVFX, 1f);
+        }
+        else
+        {
+            Debug.LogWarning("No VFX prefabs assigned.");
+        }
     }
 }
