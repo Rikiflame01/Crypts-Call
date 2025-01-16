@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -6731430030436022019}
   - component: {fileID: -1969879444716246227}
   - component: {fileID: -4794336911720906386}
+  - component: {fileID: -7218162366869215253}
   m_Layer: 0
   m_Name: Ruby (1)
   m_TagString: Untagged
@@ -182,3 +183,16 @@ MonoBehaviour:
   isCrystalItem: 1
   isKey: 0
   eventSystem: {fileID: 11400000, guid: a8219d13888f38d4eb760b10ae6b4d89, type: 2}
+--- !u!114 &-7218162366869215253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3302710695297762150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5356e1bb93853444a8a3d4d1c1bb5dc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lerpSpeed: 6

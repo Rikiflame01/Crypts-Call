@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2944219237435800914}
   - component: {fileID: -1612823781205034540}
   - component: {fileID: -577606051148803108}
+  - component: {fileID: -946134151902457276}
   m_Layer: 0
   m_Name: "\u0421rystal_2 (1)"
   m_TagString: Untagged
@@ -182,3 +183,16 @@ MonoBehaviour:
   isCrystalItem: 1
   isKey: 0
   eventSystem: {fileID: 11400000, guid: a8219d13888f38d4eb760b10ae6b4d89, type: 2}
+--- !u!114 &-946134151902457276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6450868072015008486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5356e1bb93853444a8a3d4d1c1bb5dc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lerpSpeed: 6
