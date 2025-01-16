@@ -1,8 +1,11 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
+    public static SoundManager Instance { get; private set; }
+
     [Header("Music Settings")]
     public AudioSource musicSource;
     public AudioSource queuedMusicSource;
@@ -14,12 +17,15 @@ public class SoundManager : MonoBehaviour
 
     [Header("Distance Settings")]
     public float playableDistance = 50f;
-    public float pauseDistance = 100f;  
-    public float yOffset = 1f;            
+    public float pauseDistance = 100f;
+    public float yOffset = 1f;
 
     [Header("References")]
-    public Transform playerTransform;       
-    public LayerMask enemyLayer;         
+    public Transform playerTransform;
+    public LayerMask enemyLayer;
+
+    [Header("SFX Settings")]
+    public List<SFX> sfxList;
 
     private Coroutine volumeCoroutine;
     private Coroutine fadeCoroutine;
@@ -27,20 +33,41 @@ public class SoundManager : MonoBehaviour
     private bool isMusicPlaying = false;
     private bool isFading = false;
 
+    void Awake()
+    {
+        // Implement Singleton Pattern
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Persist across scenes
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        // Initialize SFX AudioSources
+        InitializeSFX();
+    }
+
     void Start()
     {
         if (musicSource == null)
         {
+            Debug.LogWarning("Music Source is not assigned.");
             return;
         }
 
         if (queuedMusicSource == null)
         {
+            Debug.LogWarning("Queued Music Source is not assigned.");
             return;
         }
 
         if (musicPlaylist == null || musicPlaylist.Length == 0)
         {
+            Debug.LogWarning("Music Playlist is empty.");
             return;
         }
 
@@ -58,7 +85,7 @@ public class SoundManager : MonoBehaviour
         UpdateMusicState();
     }
 
-#region Music
+    #region Music
 
     void UpdateMusicState()
     {
@@ -271,9 +298,66 @@ public class SoundManager : MonoBehaviour
             isMusicPlaying = false;
         }
     }
-#endregion
 
-#region SFX
+    #endregion
 
-#endregion
+    #region SFX
+
+    [System.Serializable]
+    public class SFX
+    {
+        public string name;     
+        public AudioClip clip;     
+        [HideInInspector]
+        public AudioSource source; 
+    }
+
+    void InitializeSFX()
+    {
+        foreach (var sfx in sfxList)
+        {
+            if (sfx.clip == null || string.IsNullOrEmpty(sfx.name))
+            {
+                Debug.LogWarning("SFX entry is missing a name or AudioClip.");
+                continue;
+            }
+
+            GameObject sfxObject = new GameObject($"SFX_{sfx.name}");
+            sfxObject.transform.parent = this.transform;
+
+            sfx.source = sfxObject.AddComponent<AudioSource>();
+            sfx.source.clip = sfx.clip;
+            sfx.source.playOnAwake = false;
+            sfx.source.spatialBlend = 0f;
+
+        }
+    }
+
+    public void PlaySFX(string sfxName)
+    {
+        SFX sfx = sfxList.Find(s => s.name.Equals(sfxName, System.StringComparison.OrdinalIgnoreCase));
+        if (sfx != null && sfx.source != null)
+        {
+            sfx.source.Play();
+        }
+        else
+        {
+            Debug.LogWarning($"SFX '{sfxName}' not found or AudioSource is missing.");
+        }
+    }
+
+    public void PlaySFX(string sfxName, Vector3 position)
+    {
+        SFX sfx = sfxList.Find(s => s.name.Equals(sfxName, System.StringComparison.OrdinalIgnoreCase));
+        if (sfx != null && sfx.clip != null)
+        {
+            AudioSource.PlayClipAtPoint(sfx.clip, position);
+        }
+        else
+        {
+            Debug.LogWarning($"SFX '{sfxName}' not found or AudioClip is missing.");
+        }
+    }
+
+    #endregion
 }

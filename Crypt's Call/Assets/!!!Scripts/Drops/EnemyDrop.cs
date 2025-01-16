@@ -9,11 +9,11 @@ public class EnemyDrop : MonoBehaviour
     [Tooltip("Items that are guaranteed to drop when this enemy dies.")]
     public Item[] guaranteedDrops;
 
-    private void OnDisable()
-    {
+    public void HandleDrop(){
         if (ItemDropManager.Instance != null)
         {
             ItemDropManager.Instance.HandleDrop(this);
         }
     }
+
 }

@@ -48,8 +48,11 @@ public class BaseEnemy : MonoBehaviour, IEnemy
     public virtual bool IsAttacking { get; protected set; }
     public bool isStunned { get; set; }
 
+    EnemyDrop enemyDrop;
+
     protected virtual void Awake()
     {
+        enemyDrop = GetComponent<EnemyDrop>();
         rb = GetComponent<Rigidbody>();
 
         health = GetComponent<Health>();
@@ -297,7 +300,10 @@ private IEnumerator WaitForDeathAnimation()
     }
 
     yield return new WaitForSeconds(2f);
-
+        if(enemyDrop != null){
+            Debug.Log("Handledrop called from health script");
+            enemyDrop.HandleDrop();
+        }
     this.enabled = false;
 }
 

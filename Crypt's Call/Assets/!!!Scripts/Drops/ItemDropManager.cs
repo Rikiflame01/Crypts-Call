@@ -37,6 +37,7 @@ public class ItemDropManager : MonoBehaviour
                 {
                     int itemIndex = Random.Range(0, rarity.items.Length);
                     DropItem(rarity.items[itemIndex], enemy.transform.position);
+                    Debug.Log("Dropped item!" + rarity.items[itemIndex].ToString());
                 }
             }
         }

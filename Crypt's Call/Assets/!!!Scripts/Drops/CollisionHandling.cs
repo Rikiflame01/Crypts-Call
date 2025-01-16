@@ -43,9 +43,8 @@ public class CollisionHandling : MonoBehaviour
             {
                 eventSystem.RaiseEvent("Crystal", "Change", CrystalAmount);
             }
-
+/*
             SceneObjectState state = GetComponent<SceneObjectState>();
-
             if (state != null) { 
                 state.MarkDestroyedAndSave(state.UniqueID);
             }
@@ -53,8 +52,8 @@ public class CollisionHandling : MonoBehaviour
             {
                 Destroy(gameObject);
             }
-
-
+*/
+            Destroy(gameObject);
             }
     }
 

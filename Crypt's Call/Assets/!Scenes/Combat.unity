@@ -363,7 +363,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: a8219d13888f38d4eb760b10ae6b4d89, type: 2}
     - target: {fileID: 4747070197044590041, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5567246257208102667, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
       propertyPath: m_Constraints
@@ -2816,7 +2816,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9087294357109862664, guid: 278133c445a7a894d83886d8a96d5707, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9087294357109862664, guid: 278133c445a7a894d83886d8a96d5707, type: 3}
       propertyPath: guaranteedDrops.Array.size
@@ -14779,7 +14779,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: a8219d13888f38d4eb760b10ae6b4d89, type: 2}
     - target: {fileID: 4747070197044590041, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5567246257208102667, guid: 928f884e6328a844690d189ce707fa7a, type: 3}
       propertyPath: m_Constraints
@@ -15124,7 +15124,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: a8219d13888f38d4eb760b10ae6b4d89, type: 2}
     - target: {fileID: 3610780229798755847, guid: d121fb3755122e445bdb961fe7413686, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3610780229798755847, guid: d121fb3755122e445bdb961fe7413686, type: 3}
       propertyPath: guaranteedDrops.Array.size
@@ -18186,14 +18186,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 855202055}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d6991176b2b29247acc9d4fbb0d1f56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dropRarities:
   - rarityName: Standard
-    dropChance: 66
+    dropChance: 100
     items:
     - itemName: Emerald
       itemPrefab: {fileID: 6914493248570940969, guid: 5139815a49f879b44aa39d09f00b1f17, type: 3}
@@ -18206,7 +18206,7 @@ MonoBehaviour:
     - itemName: GoldCoin
       itemPrefab: {fileID: 3675575143944924402, guid: 179cf0a550b52844caf7db09ad747a38, type: 3}
   - rarityName: Mythic
-    dropChance: 66
+    dropChance: 100
     items:
     - itemName: GoldBar
       itemPrefab: {fileID: 8364424383744352607, guid: f87ff8d09ddd8024e9bd4ac411d555f9, type: 3}
@@ -19151,7 +19151,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -3609368396207134065, guid: 75036d26439965e46b01f975388492ec, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -3609368396207134065, guid: 75036d26439965e46b01f975388492ec, type: 3}
       propertyPath: guaranteedDrops.Array.size
@@ -37626,7 +37626,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: a8219d13888f38d4eb760b10ae6b4d89, type: 2}
     - target: {fileID: 3610780229798755847, guid: d121fb3755122e445bdb961fe7413686, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3610780229798755847, guid: d121fb3755122e445bdb961fe7413686, type: 3}
       propertyPath: guaranteedDrops.Array.size
@@ -38789,7 +38789,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -3609368396207134065, guid: 75036d26439965e46b01f975388492ec, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -3609368396207134065, guid: 75036d26439965e46b01f975388492ec, type: 3}
       propertyPath: guaranteedDrops.Array.size

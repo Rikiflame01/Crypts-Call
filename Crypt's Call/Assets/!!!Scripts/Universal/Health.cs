@@ -37,6 +37,8 @@ public class Health : MonoBehaviour, IHealth
     [Tooltip("Floating damage prefab to display damage taken.")]
     [SerializeField] private GameObject floatingDamagePrefab;
 
+    EnemyDrop enemyDrop;
+
     private int currentHealth;
 
     public int MaxHealth => entityStats != null ? entityStats.maxHealth : 0;
