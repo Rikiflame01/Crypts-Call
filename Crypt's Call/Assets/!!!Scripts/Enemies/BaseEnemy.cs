@@ -6,8 +6,8 @@ using System.Collections;
 public interface IEnemy
 {
     bool IsAttacking { get; }
+    bool isStunned { get; set; }
 }
-
 
 public class BaseEnemy : MonoBehaviour, IEnemy
 {
@@ -46,7 +46,7 @@ public class BaseEnemy : MonoBehaviour, IEnemy
     public Animator animator;
 
     public virtual bool IsAttacking { get; protected set; }
-
+    public bool isStunned { get; set; }
 
     protected virtual void Awake()
     {
@@ -304,11 +304,21 @@ private IEnumerator WaitForDeathAnimation()
 
     protected virtual void OnDisable()
     {
-        if (health != null)
-        {
-            health.OnDied -= HandleEnemyDeath;
-        }        
-        gameObject.SetActive(false);
+        if (!isStunned){
 
+            if (health != null)
+            {
+                health.OnDied -= HandleEnemyDeath;
+            }        
+            gameObject.SetActive(false);
+        
+        }
+        if (health.CurrentHealth <=0){
+            if (health != null)
+            {
+                health.OnDied -= HandleEnemyDeath;
+            }        
+            gameObject.SetActive(false);
+        }
     }
 }

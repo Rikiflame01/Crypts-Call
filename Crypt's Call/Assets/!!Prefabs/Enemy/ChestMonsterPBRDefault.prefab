@@ -515,6 +515,7 @@ GameObject:
   - component: {fileID: 4113330608105533148}
   - component: {fileID: 5263527880285634059}
   - component: {fileID: 3610780229798755847}
+  - component: {fileID: 8720348607217071712}
   - component: {fileID: 8208051081231283482}
   m_Layer: 11
   m_Name: ChestMonsterPBRDefault
@@ -687,6 +688,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityStats: {fileID: 11400000, guid: e13fdf26d759f374b8226de9a53c3d5f, type: 2}
   damageInterval: 2
+  knockbackForce: 7
+  knockbackDuration: 0.5
 --- !u!114 &5263527880285634059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -721,6 +724,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rarity: Standard
   guaranteedDrops: []
+--- !u!114 &8720348607217071712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3872524672135190658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ac73eeb64b419846b5500dd7c794553, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vfxPrefab: {fileID: 4115607041632727605, guid: e1e39e02e58ea8148876bcfabb365585, type: 3}
 --- !u!114 &8208051081231283482
 MonoBehaviour:
   m_ObjectHideFlags: 0

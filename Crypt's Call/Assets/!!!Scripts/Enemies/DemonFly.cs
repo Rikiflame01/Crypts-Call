@@ -45,8 +45,14 @@ public class DemonFly : BaseEnemy
         protected set => base.IsAttacking = value;
     }
 
+    PlayerTriggerStunner playerTriggerStunner;
+    GameObject player;
+
     protected override void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerTriggerStunner = player.GetComponent<PlayerTriggerStunner>();
+
         animator = GetComponent<Animator>();
         base.Start();
         remainingAttacks = attackCount;
@@ -64,7 +70,7 @@ public class DemonFly : BaseEnemy
 
     protected override void Update()
     {
-        if (isDead)
+        if (isDead || isStunned == true)
             return;
         base.Update(); 
         switch (extendedState)
@@ -180,6 +186,7 @@ public class DemonFly : BaseEnemy
 
     private void EnterAttackingState(GameObject player)
     {
+        if (playerTriggerStunner.enabled == true) {return;}
         extendedState = ExtendedState.Attacking;
         agent.isStopped = true;
 
@@ -190,7 +197,7 @@ public class DemonFly : BaseEnemy
         }
 
         Rigidbody playerRb = player.GetComponent<Rigidbody>();
-        if (playerRb != null)
+        if (playerRb != null && playerTriggerStunner.enabled != true)
         {
             playerRb.constraints = RigidbodyConstraints.FreezePosition;
         }
@@ -201,8 +208,9 @@ public class DemonFly : BaseEnemy
 
     private void AttackPlayer()
     {
+        if (playerTriggerStunner.enabled == true) {return;}
         attackTimer -= Time.deltaTime;
-        if (attackTimer <= 0f)
+        if (attackTimer <= 0f && playerTriggerStunner.enabled != true)
         {
             IHealth health = detectedPlayer ? detectedPlayer.GetComponent<IHealth>() : null;
             health?.TakeDamage(10);
@@ -223,6 +231,7 @@ public class DemonFly : BaseEnemy
 
     private void EnterCooldownState()
     {
+        if (playerTriggerStunner.enabled == true) {return;}
         extendedState = ExtendedState.Cooldown;
         cooldownTimer = attackCooldown;
 
@@ -234,7 +243,7 @@ public class DemonFly : BaseEnemy
                 playerRb.constraints = RigidbodyConstraints.None;
             }
 
-            if (playerController != null)
+            if (playerController != null && playerTriggerStunner.enabled != true)
             {
                 playerController.enabled = true;
                 playerController = null;
@@ -335,11 +344,22 @@ public class DemonFly : BaseEnemy
 
     protected override void OnDisable()
     {
-        if (health != null)
-        {
-            health.OnDied -= HandleEnemyDeath;
-        }        
-        gameObject.SetActive(false);
+        if (!isStunned){
+
+            if (health != null)
+            {
+                health.OnDied -= HandleEnemyDeath;
+            }        
+            gameObject.SetActive(false);
+        
+        }
+        if (health.CurrentHealth <=0){
+            if (health != null)
+            {
+                health.OnDied -= HandleEnemyDeath;
+            }        
+            gameObject.SetActive(false);
+        }
         playerController.enabled = true;
     }
 }

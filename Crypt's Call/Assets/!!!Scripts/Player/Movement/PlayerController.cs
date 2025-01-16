@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
     private bool isDashing = false;
     private float dashCooldownTimer = 0f;
 
+    PlayerTriggerStunner playerTriggerStunner;
     private NavMeshAgent agent;
     private Camera mainCamera;
     private Vector2 movementInput;
@@ -74,6 +75,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        playerTriggerStunner = GetComponent<PlayerTriggerStunner>();
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
@@ -341,6 +343,7 @@ public class PlayerController : MonoBehaviour
         Vector3 dashDirection = GetMouseDirection();
         if (dashDirection != Vector3.zero)
         {
+            playerTriggerStunner.enabled = true;
             dashSound.Play();
             foreach (var ps in dashEffect.GetComponentsInChildren<ParticleSystem>())
             {
@@ -403,7 +406,6 @@ public class PlayerController : MonoBehaviour
             transform.position += normalizedDashDirection * dashSpeedM * Time.deltaTime;
             yield return null;
         }
-
         if (dashLight != null)
         {
             dashLight.intensity = 0f;
@@ -411,7 +413,13 @@ public class PlayerController : MonoBehaviour
 
         agent.isStopped = false;
         isDashing = false;
+        StartCoroutine(stunTimerCoRoutine());
         eventSystem.RaiseEvent("Mana", "Change", -1);
+    }
+
+    private IEnumerator stunTimerCoRoutine(){
+        yield return new WaitForSeconds(1f);
+         playerTriggerStunner.enabled = false;
     }
 
     private Vector3 GetMouseDirection()

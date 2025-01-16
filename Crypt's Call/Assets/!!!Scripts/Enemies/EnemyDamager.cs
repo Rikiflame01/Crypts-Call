@@ -23,6 +23,9 @@ public class EnemyDamager : MonoBehaviour
     }
     private void OnCollisionStay(Collision collision)
     {
+        if (!enabled)
+            return;
+
         if (entityStats == null)
         {
             Debug.LogWarning($"EntityStats not assigned to EnemyDamager on {gameObject.name}");
@@ -51,7 +54,7 @@ public class EnemyDamager : MonoBehaviour
         }
     }
 
-        private void ApplyKnockback(GameObject target)
+    private void ApplyKnockback(GameObject target)
     {
         Vector3 knockbackDirection = target.transform.position - transform.position;
         knockbackDirection.y = 0;
