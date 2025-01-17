@@ -19,6 +19,10 @@ public class PlayerAttacks : MonoBehaviour
     [Header("Layer Settings")]
     [SerializeField] private LayerMask enemyLayer;
 
+    [Header("Heavy Attack Dash Damage Settings")]
+    [SerializeField] private float heavyAttackDashDamageRadius = 3f;
+    [SerializeField] private int heavyAttackDashDamageAmount = 20;
+
     private PlayerController playerController;
 
     public float knockbackForce = 7f;
@@ -186,7 +190,6 @@ public class PlayerAttacks : MonoBehaviour
         agent.velocity = Vector3.zero;
 
         float elapsed = 0f;
-        Vector3 initialPosition = agent.transform.position;
         Vector3 knockbackMovement = direction * knockbackForce;
 
         while (elapsed < knockbackDuration)
@@ -214,6 +217,22 @@ public class PlayerAttacks : MonoBehaviour
         }
     }
 
+    public void ApplyHeavyAttackDamage(Vector3 position, HashSet<Transform> hitEnemies)
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(position, heavyAttackDashDamageRadius, enemyLayer);
+        
+        foreach (Collider collider in hitColliders)
+        {
+            Transform enemy = collider.transform;
+            if (!hitEnemies.Contains(enemy))
+            {
+                ApplyDamage(enemy, heavyAttackDashDamageAmount);
+                PlayHitEffects(enemy);
+                hitEnemies.Add(enemy);
+            }
+        }
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
@@ -227,5 +246,8 @@ public class PlayerAttacks : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(transform.position, transform.position + leftBoundary);
         Gizmos.DrawLine(transform.position, transform.position + rightBoundary);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, heavyAttackDashDamageRadius);
     }
 }

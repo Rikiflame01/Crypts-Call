@@ -15585,6 +15585,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6561675846363751419, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
+      propertyPath: m_Acceleration
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: -6561675846363751419, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
+      propertyPath: m_StoppingDistance
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 440812681324772900, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
       propertyPath: m_RootBone
       value: 
@@ -16302,6 +16310,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4827138504716599305, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
+      propertyPath: dashSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4827138504716599305, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
       propertyPath: rotationSpeed
       value: 540
       objectReference: {fileID: 0}
@@ -16314,8 +16326,16 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4827138504716599305, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
+      propertyPath: heavyAttackDashSpeed
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4827138504716599305, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
       propertyPath: quickSlashDashCooldown
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4827138504716599305, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
+      propertyPath: heavyAttackShakeDuration
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5513892057099696141, guid: 6a8335afe43b5ce46a27dc229b75b29a, type: 3}
       propertyPath: m_Radius
@@ -31586,6 +31606,8 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 2048
+  heavyAttackDashDamageRadius: 3
+  heavyAttackDashDamageAmount: 20
   knockbackForce: 5
   knockbackDuration: 0.3
 --- !u!136 &1708142034

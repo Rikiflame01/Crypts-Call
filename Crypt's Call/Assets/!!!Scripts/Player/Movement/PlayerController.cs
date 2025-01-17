@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using System.Linq;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public static class SceneNames
 {
@@ -35,17 +36,32 @@ public class PlayerController : MonoBehaviour
 
     [Header("Dash Settings")]
     [SerializeField] private float dashSpeed = 15f;
-
-    [SerializeField] private float attackDashSpeed = 5f;
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private float dashCooldown = 1.5f;
 
-    [Header("Quick Slash Dash Cooldown Settings")]
+    [Header("Quick Slash Dash Settings")]
+    [SerializeField] private float attackDashSpeed = 5f;
     [SerializeField] private float quickSlashDashCooldown = 2f;
     private float quickSlashDashCooldownTimer = 0f;
 
     private float quickSlashCooldownTimer = 0f;
     [SerializeField] private float quickSlashCooldown = 1f;
+
+    [Header("Heavy Attack Settings")]
+    [SerializeField] private float heavyAttackCooldown = 10f;
+    private float heavyAttackCooldownTimer = 0f;
+
+    [SerializeField] private float heavyAttackStaminaCost = 2f;
+    [SerializeField] private float heavyAttackSpeedMultiplier = 0.5f;
+    [SerializeField] private float heavyAttackShakeAmount = 0.1f;
+    [SerializeField] private float heavyAttackShakeDuration = 0.5f;
+
+    [Header("Heavy Attack Dash Damage Settings")]
+    [SerializeField] private float heavyAttackDashDamageRadius = 3f;
+    [SerializeField] private int heavyAttackDashDamageAmount = 20;
+
+    [SerializeField] private float heavyAttackDashSpeed = 25f;
+    [SerializeField] private float heavyAttackDashDuration = 0.3f;
 
     public bool isPlayerAttacking = false;
     private bool isDashing = false;
@@ -63,6 +79,8 @@ public class PlayerController : MonoBehaviour
     private MovementHandler HandleCurrentMovement;
 
     private bool isLeftClickPressed = false;
+    private Coroutine heavyAttackAnticipationCoroutine;
+    private Coroutine currentShakeCoroutine;
 
     public AudioSource dashSound;
 
@@ -82,7 +100,7 @@ public class PlayerController : MonoBehaviour
 
         if (agent == null) Debug.LogError("NavMeshAgent component missing from the player.");
         if (animator == null) Debug.LogError("Animator component missing from the player.");
-        
+
         controls = new PlayerMovement();
         InitializeInputActions();
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -168,7 +186,6 @@ public class PlayerController : MonoBehaviour
         MoveAgentRelativeToCamera();
     }
 
-
     private void HandleCameraRelativeMovement()
     {
         if (movementInput == Vector2.zero)
@@ -181,7 +198,6 @@ public class PlayerController : MonoBehaviour
 
         MoveAgentRelativeToCamera();
     }
-
 
     private void MoveAgentRelativeToCamera()
     {
@@ -198,7 +214,7 @@ public class PlayerController : MonoBehaviour
         Vector3 targetPosition = transform.position + moveDirection * moveSpeed * Time.deltaTime;
         agent.SetDestination(targetPosition);
 
-        if (moveDirection != Vector3.zero)
+        if (moveDirection != Vector3.zero && !isDashing)
         {
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
@@ -244,16 +260,32 @@ public class PlayerController : MonoBehaviour
 
     private void OnLeftClickStarted()
     {
-        leftClickStartTime = Time.time; 
+        leftClickStartTime = Time.time;
+        isLeftClickPressed = true;
+
+        heavyAttackAnticipationCoroutine = StartCoroutine(HeavyAttackAnticipation());
     }
 
     private void OnLeftClickCanceled()
     {
         float clickDuration = Time.time - leftClickStartTime;
+        isLeftClickPressed = false;
+
+        if (heavyAttackAnticipationCoroutine != null)
+        {
+            StopCoroutine(heavyAttackAnticipationCoroutine);
+            heavyAttackAnticipationCoroutine = null;
+            RestorePlayerSpeed();
+            StopShake();
+        }
 
         if (clickDuration < holdThreshold && playerStats.stamina > 0)
         {
             TriggerQuickSlash();
+        }
+        else if (clickDuration >= holdThreshold)
+        {
+            AttemptHeavyAttack();
         }
         else
         {
@@ -330,6 +362,11 @@ public class PlayerController : MonoBehaviour
             quickSlashCooldownTimer -= Time.deltaTime;
         }
 
+        if (heavyAttackCooldownTimer > 0)
+        {
+            heavyAttackCooldownTimer -= Time.deltaTime;
+        }
+
         if (comboStep > 0 && Time.time - lastAttackTime > comboResetTime)
         {
             comboStep = 0;
@@ -376,6 +413,7 @@ public class PlayerController : MonoBehaviour
             dashDirection = transform.forward;
         }
 
+        playerAttack.ApplyHeavyAttackDamage(transform.position, new HashSet<Transform>());
         dashSound.Play();
         foreach (var ps in dashEffect.GetComponentsInChildren<ParticleSystem>())
         {
@@ -386,13 +424,108 @@ public class PlayerController : MonoBehaviour
         quickSlashDashCooldownTimer = quickSlashDashCooldown;
     }
 
-    private IEnumerator PerformDash(Vector3 dashDirection, float dashSpeedM)
+    private void AttemptHeavyAttack()
+    {
+        if (isDashing || heavyAttackCooldownTimer > 0f)
+        {
+            Debug.Log("Heavy Attack is on cooldown.");
+            return;
+        }
+
+        if (playerStats.mana < 1)
+        {
+            Debug.Log("Not enough mana for Heavy Attack.");
+            return;
+        }
+
+        if (playerStats.stamina < heavyAttackStaminaCost)
+        {
+            Debug.Log("Not enough stamina for Heavy Attack.");
+            return;
+        }
+
+        eventSystem.RaiseEvent("Mana", "Change", -1);
+        eventSystem.RaiseEvent("Stamina", "Change", -heavyAttackStaminaCost);
+
+        Vector3 dashDirection = GetMouseDirection();
+        if (dashDirection == Vector3.zero)
+        {
+            dashDirection = transform.forward;
+        }
+
+        playerTriggerStunner.enabled = true;
+        dashSound.Play();
+        foreach (var ps in dashEffect.GetComponentsInChildren<ParticleSystem>())
+        {
+            ps.Play();
+        }
+        StartCoroutine(PerformHeavyAttackDash(dashDirection, heavyAttackDashSpeed, heavyAttackDashDuration));
+
+        heavyAttackCooldownTimer = heavyAttackCooldown;
+    }
+
+    private IEnumerator HeavyAttackAnticipation()
+    {
+        yield return new WaitForSeconds(holdThreshold);
+
+        if (isLeftClickPressed)
+        {
+            agent.speed *= heavyAttackSpeedMultiplier;
+
+            StartShake();
+        }
+    }
+
+    private void RestorePlayerSpeed()
+    {
+        agent.speed = moveSpeed;
+    }
+
+    private void StartShake()
+    {
+        if (currentShakeCoroutine != null)
+        {
+            StopCoroutine(currentShakeCoroutine);
+        }
+        currentShakeCoroutine = StartCoroutine(ShakePlayer());
+    }
+
+    private void StopShake()
+    {
+        if (currentShakeCoroutine != null)
+        {
+            StopCoroutine(currentShakeCoroutine);
+            currentShakeCoroutine = null;
+        }
+    }
+
+    private IEnumerator ShakePlayer()
+    {
+        float elapsed = 0f;
+        Vector3 originalPosition = transform.position;
+
+        while (elapsed < heavyAttackShakeDuration)
+        {
+            float x = Random.Range(-heavyAttackShakeAmount, heavyAttackShakeAmount);
+            float y = Random.Range(-heavyAttackShakeAmount, heavyAttackShakeAmount);
+            transform.position = originalPosition + new Vector3(x, y, 0);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = originalPosition;
+        currentShakeCoroutine = null;
+    }
+
+    private IEnumerator PerformHeavyAttackDash(Vector3 dashDirection, float dashSpeedH, float dashDurationH)
     {
         isDashing = true;
         float startTime = Time.time;
 
         agent.ResetPath();
         agent.isStopped = true;
+
         Light dashLight = dashEffect.GetComponentInChildren<Light>();
         if (dashLight != null)
         {
@@ -401,11 +534,38 @@ public class PlayerController : MonoBehaviour
 
         Vector3 normalizedDashDirection = dashDirection.normalized;
 
-        while (Time.time < startTime + dashDuration)
+        if (normalizedDashDirection != Vector3.zero)
         {
-            transform.position += normalizedDashDirection * dashSpeedM * Time.deltaTime;
+            Quaternion targetRotation = Quaternion.LookRotation(normalizedDashDirection, Vector3.up);
+            transform.rotation = targetRotation;
+        }
+
+        HashSet<Transform> hitEnemies = new HashSet<Transform>();
+
+        animator.SetBool("isHeavyAttacking", true);
+        float originalAnimatorSpeed = animator.speed;
+        animator.speed = 2f;
+
+        float damageInterval = 0.1f;
+        float nextDamageTime = startTime;
+
+        while (Time.time < startTime + dashDurationH)
+        {
+            transform.position += normalizedDashDirection * dashSpeedH * Time.deltaTime;
+
+            if (Time.time >= nextDamageTime)
+            {
+                playerAttack.ApplyHeavyAttackDamage(transform.position, hitEnemies);
+
+                nextDamageTime += damageInterval;
+            }
+
             yield return null;
         }
+
+        animator.SetBool("isHeavyAttacking", false);
+        animator.speed = originalAnimatorSpeed;
+
         if (dashLight != null)
         {
             dashLight.intensity = 0f;
@@ -413,13 +573,56 @@ public class PlayerController : MonoBehaviour
 
         agent.isStopped = false;
         isDashing = false;
+
         StartCoroutine(stunTimerCoRoutine());
+
+        RestorePlayerSpeed();
+    }
+
+    private IEnumerator PerformDash(Vector3 dashDirection, float dashSpeedM)
+    {
+        isDashing = true;
+        float startTime = Time.time;
+
+        agent.ResetPath();
+        agent.isStopped = true;
+
+        Light dashLight = dashEffect.GetComponentInChildren<Light>();
+        if (dashLight != null)
+        {
+            dashLight.intensity = 15f;
+        }
+
+        Vector3 normalizedDashDirection = dashDirection.normalized;
+
+        if (normalizedDashDirection != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(normalizedDashDirection, Vector3.up);
+            transform.rotation = targetRotation;
+        }
+
+        while (Time.time < startTime + dashDuration)
+        {
+            transform.position += normalizedDashDirection * dashSpeedM * Time.deltaTime;
+            yield return null;
+        }
+
+        if (dashLight != null)
+        {
+            dashLight.intensity = 0f;
+        }
+
+        agent.isStopped = false;
+        isDashing = false;
+
+        StartCoroutine(stunTimerCoRoutine());
+
         eventSystem.RaiseEvent("Mana", "Change", -1);
     }
 
     private IEnumerator stunTimerCoRoutine(){
         yield return new WaitForSeconds(1f);
-         playerTriggerStunner.enabled = false;
+        playerTriggerStunner.enabled = false;
     }
 
     private Vector3 GetMouseDirection()
@@ -450,5 +653,21 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("isDead", true);
     }
 
+    private IEnumerator Shake()
+    {
+        float elapsed = 0f;
+        Vector3 originalPosition = transform.localPosition;
 
+        while (elapsed < heavyAttackShakeDuration)
+        {
+            float x = Random.Range(-heavyAttackShakeAmount, heavyAttackShakeAmount);
+            float y = Random.Range(-heavyAttackShakeAmount, heavyAttackShakeAmount);
+            transform.localPosition = originalPosition + new Vector3(x, y, 0);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.localPosition = originalPosition;
+    }
 }
