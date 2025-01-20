@@ -191,8 +191,13 @@ public class DemonFly : BaseEnemy
         agent.isStopped = true;
 
         playerController = player.GetComponent<PlayerController>();
+
         if (playerController != null)
         {
+            Animator playerAnimator = player.GetComponent<Animator>();
+            playerAnimator.SetBool("isStunned", true);
+            EventManager.TriggerStunApplied(player);
+            EventManager.TriggerPoisonApplied(player);
             playerController.enabled = false;
         }
 
@@ -200,6 +205,7 @@ public class DemonFly : BaseEnemy
         if (playerRb != null && playerTriggerStunner.enabled != true)
         {
             playerRb.constraints = RigidbodyConstraints.FreezePosition;
+            playerRb.isKinematic = true;
         }
 
         attackTimer = attackDuration; 
@@ -237,10 +243,13 @@ public class DemonFly : BaseEnemy
 
         if (detectedPlayer != null)
         {
+            Animator playerAnimator = player.GetComponent<Animator>();
+            playerAnimator.SetBool("isStunned", false);
             Rigidbody playerRb = detectedPlayer.GetComponent<Rigidbody>();
             if (playerRb != null)
             {
                 playerRb.constraints = RigidbodyConstraints.None;
+                playerRb.isKinematic=false;
             }
 
             if (playerController != null && playerTriggerStunner.enabled != true)

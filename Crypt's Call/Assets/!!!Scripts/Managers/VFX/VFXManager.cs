@@ -3,11 +3,15 @@ using UnityEngine;
 public class VFXManager : MonoBehaviour
 {
     [SerializeField] private GameObject bloodVFXPrefab;
+    [SerializeField] private GameObject stunVFXPrefab;
+    [SerializeField] private GameObject poisonVFXPrefab;
     [SerializeField] private float vfxSpawnHeight = 1.0f;
 
     private void Start()
     {
         SubscribeToAllHealthComponents();
+        EventManager.OnStunApplied += HandleOnStunApplied;
+        EventManager.OnPoisonApplied += HandleOnPoisonApplied;
     }
 
     private void SubscribeToAllHealthComponents()
@@ -39,6 +43,9 @@ public class VFXManager : MonoBehaviour
         {
             health.OnDied -= HandleOnDied;
         }
+
+        EventManager.OnStunApplied -= HandleOnStunApplied;
+        EventManager.OnPoisonApplied -= HandleOnPoisonApplied;
     }
 
     private void HandleOnDied(GameObject diedObject)
@@ -52,5 +59,33 @@ public class VFXManager : MonoBehaviour
         Vector3 spawnPosition = diedObject.transform.position + Vector3.up * vfxSpawnHeight;
 
         Instantiate(bloodVFXPrefab, spawnPosition, Quaternion.identity);
+    }
+
+    private void HandleOnStunApplied(GameObject player)
+    {
+        if (stunVFXPrefab == null)
+        {
+            Debug.LogError("Stun VFX Prefab is not assigned in VFXManager!");
+            return;
+        }
+
+        GameObject stunVFX = Instantiate(stunVFXPrefab, player.transform);
+        stunVFX.transform.localPosition = Vector3.up * 1.5f;
+
+        Destroy(stunVFX, 3f);
+    }
+
+    private void HandleOnPoisonApplied(GameObject player)
+    {
+        if (poisonVFXPrefab == null)
+        {
+            Debug.LogError("Poison VFX Prefab is not assigned in VFXManager!");
+            return;
+        }
+
+        GameObject poisonVFX = Instantiate(poisonVFXPrefab, player.transform);
+        poisonVFX.transform.localPosition = Vector3.up * -0.1f;
+
+        Destroy(poisonVFX, 3f);
     }
 }

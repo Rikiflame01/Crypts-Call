@@ -4526,7 +4526,7 @@ GameObject:
   - component: {fileID: 200100318}
   - component: {fileID: 200100319}
   m_Layer: 0
-  m_Name: ColourFeedbackManager
+  m_Name: DamageFeedbackManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22348,6 +22348,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bloodVFXPrefab: {fileID: 7375970174483393333, guid: 615171fc473130a4caa72b5f4c34d2d5, type: 3}
+  stunVFXPrefab: {fileID: 4115607041632727605, guid: 747afa9184f471549b1a5b07e09580ca, type: 3}
+  poisonVFXPrefab: {fileID: 100000, guid: 158d80b9eb6c2a149a1fc3a0d832f768, type: 3}
   vfxSpawnHeight: 0
 --- !u!1 &1123152215
 GameObject:
