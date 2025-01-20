@@ -301,7 +301,7 @@ public class PlayerController : MonoBehaviour
         }
 
         eventSystem.RaiseEvent("Stamina", "Change", -1);
-
+        EventManager.TriggerAbilityUsed("standard", (int)quickSlashCooldown);
         quickSlashCooldownTimer = quickSlashCooldown;
         StartCoroutine(PlayerIsAttacking());
 
@@ -389,6 +389,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(PerformDash(dashDirection, dashSpeed));
 
             dashCooldownTimer = dashCooldown;
+            EventManager.TriggerAbilityUsed("dash", 0);
         }
     }
 
@@ -446,6 +447,7 @@ public class PlayerController : MonoBehaviour
 
         eventSystem.RaiseEvent("Mana", "Change", -1);
         eventSystem.RaiseEvent("Stamina", "Change", -heavyAttackStaminaCost);
+        EventManager.TriggerAbilityUsed("heavy", (int)heavyAttackCooldown);
 
         Vector3 dashDirection = GetMouseDirection();
         if (dashDirection == Vector3.zero)
