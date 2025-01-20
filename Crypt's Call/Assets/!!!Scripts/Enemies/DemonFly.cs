@@ -353,21 +353,15 @@ public class DemonFly : BaseEnemy
 
     protected override void OnDisable()
     {
-        if (!isStunned){
-
+        if (!isStunned || health.CurrentHealth <= 0){
+            Animator playerAnimator = player.GetComponent<Animator>();
+            playerAnimator.SetBool("isStunned", false);
             if (health != null)
             {
                 health.OnDied -= HandleEnemyDeath;
             }        
             gameObject.SetActive(false);
         
-        }
-        if (health.CurrentHealth <=0){
-            if (health != null)
-            {
-                health.OnDied -= HandleEnemyDeath;
-            }        
-            gameObject.SetActive(false);
         }
         playerController.enabled = true;
     }

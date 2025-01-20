@@ -117,6 +117,8 @@ public class PlayerController : MonoBehaviour
     private void OnEnable() => controls.controls.Enable();
     private void OnDisable() => controls.controls.Disable();
 
+    public TrailRenderer trailRenderer;
+
     private void Start()
     {
         mainCamera = Camera.main;
@@ -299,6 +301,7 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
+        EnableTrail();
 
         eventSystem.RaiseEvent("Stamina", "Change", -1);
         EventManager.TriggerAbilityUsed("standard", (int)quickSlashCooldown);
@@ -313,6 +316,7 @@ public class PlayerController : MonoBehaviour
         if (comboStep > 3)
         {
             comboStep = 1;
+            DisableTrail();
         }
 
         switch (comboStep)
@@ -416,10 +420,7 @@ public class PlayerController : MonoBehaviour
 
         playerAttack.ApplyHeavyAttackDamage(transform.position, new HashSet<Transform>());
         dashSound.Play();
-        foreach (var ps in dashEffect.GetComponentsInChildren<ParticleSystem>())
-        {
-            ps.Play();
-        }
+
         StartCoroutine(PerformDash(dashDirection, attackDashSpeed));
 
         quickSlashDashCooldownTimer = quickSlashDashCooldown;
@@ -444,7 +445,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Not enough stamina for Heavy Attack.");
             return;
         }
-
+        EnableTrail();
         eventSystem.RaiseEvent("Mana", "Change", -1);
         eventSystem.RaiseEvent("Stamina", "Change", -heavyAttackStaminaCost);
         EventManager.TriggerAbilityUsed("heavy", (int)heavyAttackCooldown);
@@ -464,6 +465,7 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(PerformHeavyAttackDash(dashDirection, heavyAttackDashSpeed, heavyAttackDashDuration));
 
         heavyAttackCooldownTimer = heavyAttackCooldown;
+        DisableTrail();
     }
 
     private IEnumerator HeavyAttackAnticipation()
@@ -590,7 +592,7 @@ public class PlayerController : MonoBehaviour
         agent.isStopped = true;
 
         Light dashLight = dashEffect.GetComponentInChildren<Light>();
-        if (dashLight != null)
+        if (dashLight != null && dashSpeedM < 15)
         {
             dashLight.intensity = 15f;
         }
@@ -609,7 +611,7 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
-        if (dashLight != null)
+        if (dashLight != null && dashSpeedM < 15)
         {
             dashLight.intensity = 0f;
         }
@@ -671,5 +673,27 @@ public class PlayerController : MonoBehaviour
         }
 
         transform.localPosition = originalPosition;
+    }
+
+    private void EnableTrail()
+    {
+        if (trailRenderer != null)
+        {
+            trailRenderer.enabled = true;
+        }
+    }
+
+    private void DisableTrail()
+    {
+        if (trailRenderer != null)
+        {
+            StartCoroutine(FadeOutTrail());
+        }
+    }
+
+    private IEnumerator FadeOutTrail()
+    {
+        yield return new WaitForSeconds(5f);
+        trailRenderer.enabled = false;
     }
 }
