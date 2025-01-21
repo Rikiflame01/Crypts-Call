@@ -10,6 +10,9 @@ public class SoundManager : MonoBehaviour
     public AudioSource musicSource;
     public AudioSource queuedMusicSource;
     public AudioClip[] musicPlaylist;
+
+    [SerializeField] private AudioClip[] deathSoundSFX;
+    [SerializeField] private AudioSource deathAudioSource;
     public int currentTrackIndex = 0;
     public float maxVolume = 1f;
     public float minVolume = 0f;
@@ -356,6 +359,22 @@ public class SoundManager : MonoBehaviour
         else
         {
             Debug.LogWarning($"SFX '{sfxName}' not found or AudioClip is missing.");
+        }
+    }
+
+    public void PlayDeathSound(GameObject target)
+    {
+        if (target.layer == LayerMask.NameToLayer("Enemy") && target.CompareTag("NormalEnemy"))
+        {
+            if (deathSoundSFX.Length > 0 && deathAudioSource != null)
+            {
+                AudioClip randomClip = deathSoundSFX[Random.Range(0, deathSoundSFX.Length)];
+                deathAudioSource.PlayOneShot(randomClip, 2);
+            }
+            else
+            {
+                Debug.LogWarning("Death sound SFX array is empty or AudioSource is not assigned.");
+            }
         }
     }
 

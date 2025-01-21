@@ -23,6 +23,10 @@ public class RangedEnemy : BaseEnemy
     private int shotsRemainingInBurst = 0;          
     private float shotTimer = 0f;                   
 
+    [Header("Visibility Check")]
+    [Tooltip("Assign the SkinnedMeshRenderer of this enemy here for visibility checks.")]
+    public SkinnedMeshRenderer skinnedMeshRenderer;
+
     private enum ExtendedState
     {
         Idle,
@@ -32,7 +36,6 @@ public class RangedEnemy : BaseEnemy
 
     private ExtendedState extendedState = ExtendedState.Idle;
 
-
     protected override void Start()
     {
         animator = GetComponent<Animator>();
@@ -41,9 +44,8 @@ public class RangedEnemy : BaseEnemy
     }
 
     protected override void Update()
-    {        
-        if (isDead)
-        return;
+    {
+        if (isDead) return;
 
         switch (extendedState)
         {
@@ -76,8 +78,15 @@ public class RangedEnemy : BaseEnemy
         }
     }
 
+    private bool IsVisibleToCamera()
+    {
+        return IsFullyVisible(skinnedMeshRenderer);
+    }
+
     private new void CheckPlayerDetection()
     {
+        if (!IsVisibleToCamera()) return;
+
         Collider[] hits = Physics.OverlapSphere(transform.position, detectionRadius, playerLayer);
         if (hits.Length > 0)
         {
@@ -97,29 +106,67 @@ public class RangedEnemy : BaseEnemy
         }
     }
 
+private bool IsFullyVisible(SkinnedMeshRenderer rend)
+{
+    if (!rend || !Camera.main) return false;
+
+    Bounds bounds = rend.bounds;
+    Vector3 center = bounds.center;
+    Vector3 extents = bounds.extents;
+
+    //Calculate all 8 corners of the bounding box
+    Vector3[] corners = new Vector3[8];
+    corners[0] = center + new Vector3(+extents.x, +extents.y, +extents.z);
+    corners[1] = center + new Vector3(+extents.x, +extents.y, -extents.z);
+    corners[2] = center + new Vector3(+extents.x, -extents.y, +extents.z);
+    corners[3] = center + new Vector3(+extents.x, -extents.y, -extents.z);
+    corners[4] = center + new Vector3(-extents.x, +extents.y, +extents.z);
+    corners[5] = center + new Vector3(-extents.x, +extents.y, -extents.z);
+    corners[6] = center + new Vector3(-extents.x, -extents.y, +extents.z);
+    corners[7] = center + new Vector3(-extents.x, -extents.y, -extents.z);
+
+    //Convert each corner to viewport space and check if it is within [0..1]
+    foreach (var corner in corners)
+    {
+        Vector3 viewportPos = Camera.main.WorldToViewportPoint(corner);
+
+        //If any corner is off-screen or behind the camera, return false
+        if (viewportPos.z < 0f ||
+            viewportPos.x < 0f || viewportPos.x > 1f ||
+            viewportPos.y < 0f || viewportPos.y > 1f)
+        {
+            return false;
+        }
+    }
+
+    //All corners are fully within the camera's view
+    return true;
+}
+
+
     protected override void IdleUpdate()
     {
         EnterPatrolState();
     }
 
-private new void EnterPatrolState()
-{
-    extendedState = ExtendedState.Patrol;
-    agent.isStopped = false;
-    SetNextPatrolDestination();
-}
-
-protected override void PatrolUpdate()
-{
-    if (agent != null && !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+    private new void EnterPatrolState()
     {
-        patrolWaitTime -= Time.deltaTime;
-        if (patrolWaitTime <= 0f)
+        extendedState = ExtendedState.Patrol;
+        agent.isStopped = false;
+        SetNextPatrolDestination();
+    }
+
+    protected override void PatrolUpdate()
+    {
+        if (agent != null && !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
-            SetNextPatrolDestination();
+            patrolWaitTime -= Time.deltaTime;
+            if (patrolWaitTime <= 0f)
+            {
+                SetNextPatrolDestination();
+            }
         }
     }
-}
 
     private void EnterPlayerDetectedState()
     {
@@ -205,6 +252,8 @@ protected override void PatrolUpdate()
 
     private void HandleFiring()
     {
+        if (!IsVisibleToCamera()) return;
+
         if (shotsRemainingInBurst <= 0)
         {
             nextBurstTimer -= Time.deltaTime;
@@ -212,7 +261,6 @@ protected override void PatrolUpdate()
             {
                 shotsRemainingInBurst = shotsPerBurst;
                 shotTimer = 0f;
-
                 animator.SetBool("isAttacking", true);
             }
         }
@@ -315,6 +363,5 @@ protected override void PatrolUpdate()
 
         this.enabled = false;
     }
-
 
 }

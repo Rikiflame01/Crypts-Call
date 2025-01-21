@@ -1326,14 +1326,14 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 1024
-  patrolAreaCenter: {x: -3.46, y: -4.4499993, z: 8.53}
+  patrolAreaCenter: {x: -12.903011, y: -15.915461, z: 50.899452}
   patrolAreaRadius: 2.3
   minPatrolWait: 2
   maxPatrolWait: 5
   patrolWaitTime: 0
   health: {fileID: 0}
   animator: {fileID: 0}
-  desiredDistance: 10
+  desiredDistance: 6
   projectilePrefab: {fileID: 7619343313238021192, guid: c8afd72a1231bfb4eb86f684e3d2bfa8, type: 3}
   firePoint: {fileID: 5242758433415601752}
   projectileForce: 20
@@ -1341,6 +1341,7 @@ MonoBehaviour:
   shotsPerBurst: 5
   timeBetweenShotsInBurst: 1
   burstInterval: 5
+  skinnedMeshRenderer: {fileID: 3643745689780529634}
 --- !u!114 &2045987768741228895
 MonoBehaviour:
   m_ObjectHideFlags: 0

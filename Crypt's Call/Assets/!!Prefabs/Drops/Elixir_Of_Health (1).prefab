@@ -183,6 +183,8 @@ MonoBehaviour:
   isGoldItem: 0
   isCrystalItem: 0
   isKey: 0
+  healingVFXPrefab: {fileID: 100000, guid: be5912b8efa97f745a577d20ecc27fc1, type: 3}
+  healingVFXOffset: {x: 0, y: -1, z: 0}
   eventSystem: {fileID: 11400000, guid: a8219d13888f38d4eb760b10ae6b4d89, type: 2}
 --- !u!114 &-8201563657861840803
 MonoBehaviour:

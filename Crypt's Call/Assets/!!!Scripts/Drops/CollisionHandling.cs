@@ -1,6 +1,4 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class CollisionHandling : MonoBehaviour
 {
@@ -13,8 +11,10 @@ public class CollisionHandling : MonoBehaviour
     [SerializeField] private bool isManaItem = false;
     [SerializeField] private bool isGoldItem = false;
     [SerializeField] private bool isCrystalItem = false;
-
     [SerializeField] private bool isKey = false;
+
+    [SerializeField] private GameObject healingVFXPrefab;
+    [SerializeField] private Vector3 healingVFXOffset = new Vector3(0f, -1f, 0f);
 
     public GenericEventSystem eventSystem;
 
@@ -22,39 +22,43 @@ public class CollisionHandling : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (isKey == true)
+            if (isKey)
             {
                 Debug.Log("Key Collision is working");
                 eventSystem.RaiseEvent("ItemDrop", "Key");
             }
-            if (isHealthItem == true)
+            if (isHealthItem)
             {
                 eventSystem.RaiseEvent("Health", "Change", HealthAmount);
+                PlayHealingVFX(collision.gameObject);
             }
-            if (isManaItem == true)
+            if (isManaItem)
             {
                 eventSystem.RaiseEvent("Mana", "Change", ManaAmount);
             }
-            if (isGoldItem == true)
+            if (isGoldItem)
             {
                 eventSystem.RaiseEvent("Gold", "Change", GoldAmount);
             }
-            if (isCrystalItem == true)
+            if (isCrystalItem)
             {
                 eventSystem.RaiseEvent("Crystal", "Change", CrystalAmount);
             }
-/*
-            SceneObjectState state = GetComponent<SceneObjectState>();
-            if (state != null) { 
-                state.MarkDestroyedAndSave(state.UniqueID);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-*/
+            
             Destroy(gameObject);
-            }
+        }
     }
 
+    private void PlayHealingVFX(GameObject player)
+    {
+        if (healingVFXPrefab != null)
+        {
+            GameObject vfxInstance = Instantiate(healingVFXPrefab, player.transform.position + healingVFXOffset, Quaternion.identity);
+            vfxInstance.transform.SetParent(player.transform);
+        }
+        else
+        {
+            Debug.LogWarning("Healing VFX Prefab is not assigned.");
+        }
+    }
 }

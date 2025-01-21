@@ -9,7 +9,7 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private Image fillImage;
 
     [Header("Settings")]
-    [SerializeField] private Color healthBarColor = Color.green;
+    [SerializeField] private Color healthBarColor = Color.red;
     [Tooltip("Flash color for when the health changes.")]
     [SerializeField] private Color flashColor = Color.white;
     [Tooltip("Time the health bar flashes.")]

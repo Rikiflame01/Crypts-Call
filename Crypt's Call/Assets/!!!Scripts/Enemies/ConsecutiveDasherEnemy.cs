@@ -51,6 +51,9 @@ public class ConsecutiveDasherEnemy : BaseEnemy
     {
         if (isDead)
             return;
+
+        AvoidPlayer();  
+
         switch (extendedState)
         {
             case ExtendedState.Idle:
@@ -81,6 +84,25 @@ public class ConsecutiveDasherEnemy : BaseEnemy
         UpdateWalkingAnimation();
 
         CheckPlayerDetection();
+    }
+
+        private void AvoidPlayer()
+    {
+        if (detectedPlayer != null)
+        {
+            float distanceToPlayer = Vector3.Distance(transform.position, detectedPlayer.transform.position);
+            
+            if (distanceToPlayer < 2)
+            {
+                Vector3 awayFromPlayer = (transform.position - detectedPlayer.transform.position).normalized;
+                Vector3 newPosition = transform.position + awayFromPlayer * 1.5f;
+
+                if (NavMesh.SamplePosition(newPosition, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
+                {
+                    agent.SetDestination(hit.position);
+                }
+            }
+        }
     }
 
     private void UpdateWalkingAnimation()

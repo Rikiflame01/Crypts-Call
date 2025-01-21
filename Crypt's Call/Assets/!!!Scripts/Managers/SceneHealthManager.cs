@@ -11,7 +11,7 @@ public class SceneHealthManager : MonoBehaviour
     [SerializeField] private AudioClip bossEnemyHurtSound;
 
     private AudioSource audioSource;
-    private List<Health> healthComponents = new List<Health>();
+    private Dictionary<Health, float> previousHealthValues = new Dictionary<Health, float>();
 
     private void Awake()
     {
@@ -34,24 +34,24 @@ public class SceneHealthManager : MonoBehaviour
 
     public void RegisterHealthComponent(Health health)
     {
-        if (!healthComponents.Contains(health))
+        if (!previousHealthValues.ContainsKey(health))
         {
-            healthComponents.Add(health);
-            health.OnHealthChanged += (current, max) => PlayHurtSound(health);
+            previousHealthValues[health] = health.CurrentHealth;
+            health.OnHealthChanged += (current, max) => PlayHurtSound(health, current);
         }
     }
 
     public void UnregisterHealthComponent(Health health)
     {
-        if (healthComponents.Contains(health))
+        if (previousHealthValues.ContainsKey(health))
         {
-            healthComponents.Remove(health);
+            previousHealthValues.Remove(health);
         }
     }
 
     private void RefreshHealthComponents()
     {
-        healthComponents.Clear();
+        previousHealthValues.Clear();
         var foundComponents = FindObjectsByType<Health>(FindObjectsSortMode.None);
         foreach (var health in foundComponents)
         {
@@ -59,30 +59,35 @@ public class SceneHealthManager : MonoBehaviour
         }
     }
 
-    private void PlayHurtSound(Health health)
+    private void PlayHurtSound(Health health, float currentHealth)
     {
         if (health.IsDead) return;
 
-        AudioClip hurtSound = null;
-        float volume = 0.5f;
+        if (previousHealthValues.TryGetValue(health, out float previousHealth) && currentHealth < previousHealth)
+        {
+            AudioClip hurtSound = null;
+            float volume = 0.5f;
 
-        if (health.CompareTag("Player"))
-        {
-            hurtSound = playerHurtSound;
-            volume = 1.2f;
-        }
-        else if (health.CompareTag("BossEnemy"))
-        {
-            hurtSound = bossEnemyHurtSound;
-        }
-        else if (health.CompareTag("NormalEnemy"))
-        {
-            hurtSound = normalEnemyHurtSound;
+            if (health.CompareTag("Player"))
+            {
+                hurtSound = playerHurtSound;
+                volume = 1.2f;
+            }
+            else if (health.CompareTag("BossEnemy"))
+            {
+                hurtSound = bossEnemyHurtSound;
+            }
+            else if (health.CompareTag("NormalEnemy"))
+            {
+                hurtSound = normalEnemyHurtSound;
+            }
+
+            if (hurtSound != null)
+            {
+                audioSource.PlayOneShot(hurtSound, volume);
+            }
         }
 
-        if (hurtSound != null)
-        {
-            audioSource.PlayOneShot(hurtSound, volume);
-        }
+        previousHealthValues[health] = currentHealth;
     }
 }

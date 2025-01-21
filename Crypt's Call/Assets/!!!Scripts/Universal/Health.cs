@@ -114,6 +114,7 @@ public class Health : MonoBehaviour, IHealth
             eventSystem.RaiseEvent("BossDeath", "DisplayEndOfDemo");
         }
         OnDied?.Invoke(gameObject);
+        SoundManager.Instance.PlayDeathSound(gameObject);
 
         if (gameObject.name == "Player")
         {
