@@ -349,6 +349,21 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    public void PlaySFX(string sfxName, float volume)
+    {
+        SFX sfx = sfxList.Find(s => s.name.Equals(sfxName, System.StringComparison.OrdinalIgnoreCase));
+        if (sfx != null && sfx.source != null)
+        {
+            sfx.source.volume = Mathf.Clamp01(volume);
+            sfx.source.Play();
+        }
+        else
+        {
+            Debug.LogWarning($"SFX '{sfxName}' not found or AudioSource is missing.");
+        }
+    }
+
+
     public void PlaySFX(string sfxName, Vector3 position)
     {
         SFX sfx = sfxList.Find(s => s.name.Equals(sfxName, System.StringComparison.OrdinalIgnoreCase));

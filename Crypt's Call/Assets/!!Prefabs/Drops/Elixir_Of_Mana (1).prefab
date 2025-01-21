@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 3872530622503069435}
   m_Layer: 0
   m_Name: Elixir_Of_Mana (1)
-  m_TagString: Untagged
+  m_TagString: Potion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -183,6 +183,8 @@ MonoBehaviour:
   isGoldItem: 0
   isCrystalItem: 0
   isKey: 0
+  healingVFXPrefab: {fileID: 0}
+  healingVFXOffset: {x: 0, y: -1, z: 0}
   eventSystem: {fileID: 11400000, guid: a8219d13888f38d4eb760b10ae6b4d89, type: 2}
 --- !u!114 &3872530622503069435
 MonoBehaviour:

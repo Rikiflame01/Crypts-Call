@@ -12538,7 +12538,16 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 2048
-  sfxList: []
+  sfxList:
+  - name: Crystal
+    clip: {fileID: 8300000, guid: c7857f3390ced0c45b44d6c9bf00b3cc, type: 3}
+    source: {fileID: 0}
+  - name: GlassBottle
+    clip: {fileID: 8300000, guid: 5e29faeb0eade4e499e7cdcaf503cd54, type: 3}
+    source: {fileID: 0}
+  - name: Metal
+    clip: {fileID: 8300000, guid: 8c27a1c0e408d94488779dfb73fe35f5, type: 3}
+    source: {fileID: 0}
 --- !u!4 &572063361
 Transform:
   m_ObjectHideFlags: 0

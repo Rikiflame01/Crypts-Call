@@ -53,6 +53,19 @@ public class ItemDropManager : MonoBehaviour
         if (item.itemPrefab != null)
         {
             Instantiate(item.itemPrefab, position, Quaternion.identity);
+            
+            if (item.itemPrefab.CompareTag("Potion"))
+            {
+                SoundManager.Instance.PlaySFX("GlassBottle", 0.5f);
+            }
+            if (item.itemPrefab.CompareTag("Gold"))
+            {
+                SoundManager.Instance.PlaySFX("Metal");
+            }
+            if (item.itemPrefab.CompareTag("Crystal"))
+            {
+                SoundManager.Instance.PlaySFX("Crystal", 0.5f);
+            }
         }
         else
         {

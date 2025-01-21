@@ -9,6 +9,9 @@ TagManager:
   - HealEffect
   - Button
   - Key
+  - Gold
+  - Crystal
+  - Potion
   layers:
   - Default
   - TransparentFX
