@@ -143,6 +143,10 @@ public class ButtonManager : MonoBehaviour
             yield break;
         }
 
+        if (mainMenuCanvas == null){
+            yield break;
+        }
+
         Vector3 startPos = mainCamera.transform.position;
         Vector3 endPos = startPos + mainCamera.transform.forward * cameraMoveDistance;
 
@@ -158,6 +162,47 @@ public class ButtonManager : MonoBehaviour
         mainCamera.transform.position = endPos;
 
         SceneManager.LoadScene("Town");
+    }
+
+
+    public void LoadTutorialScene()
+    {
+        if (mainMenuCanvas != null)
+        {
+            mainMenuCanvas.enabled = false;
+        }
+
+        StartCoroutine(LoadTutorial());
+    }
+
+    private IEnumerator LoadTutorial()
+    {
+        if (mainCamera == null)
+        {
+            Debug.LogError("No camera assigned to ButtonManager. Cannot move camera before loading scene.");
+            SceneManager.LoadScene("Tutorial");
+            yield break;
+        }
+
+        Vector3 startPos = mainCamera.transform.position;
+        Vector3 endPos = startPos + mainCamera.transform.forward * cameraMoveDistance;
+
+        float elapsed = 0f;
+        while (elapsed < cameraMoveDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / cameraMoveDuration);
+            mainCamera.transform.position = Vector3.Lerp(startPos, endPos, t);
+            yield return null;
+        }
+
+        mainCamera.transform.position = endPos;
+
+        SceneManager.LoadScene("Tutorial");
+    }
+
+    public void LoadScene (string sceneName){
+        SceneManager.LoadScene(sceneName);
     }
 
     public void ExitGame()

@@ -414,7 +414,7 @@ public class PlayerController : MonoBehaviour
 
         EnableTrail();
         eventSystem.RaiseEvent("Mana", "Change", -1);
-        eventSystem.RaiseEvent("Stamina", "Change", -heavyAttackStaminaCost);
+        eventSystem.RaiseEvent("Stamina", "Change", (int)-heavyAttackStaminaCost);
         EventManager.TriggerAbilityUsed("heavy", (int)heavyAttackCooldown);
 
         Vector3 dashDirection = GetMouseDirection();

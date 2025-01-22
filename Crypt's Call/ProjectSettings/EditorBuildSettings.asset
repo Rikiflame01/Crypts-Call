@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/!Scenes/MainMenu.unity
     guid: d4656e20ee4981a488b78a88ea228f49
   - enabled: 0
@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/!Scenes/Combat.unity
     guid: 13d7a5de1f4467f46b8cc6abbc34d776
+  - enabled: 1
+    path: Assets/!Scenes/Tutorial.unity
+    guid: 5f335656ee2341742a3824826aa06a3c
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 76f560dfd17cd1740aeb878ecc5d2385, type: 3}
   m_UseUCBPForAssetBundles: 0

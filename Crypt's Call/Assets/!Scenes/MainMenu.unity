@@ -3851,7 +3851,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1062495006}
         m_TargetAssemblyTypeName: ButtonManager, Assembly-CSharp
-        m_MethodName: LoadTownScene
+        m_MethodName: LoadTutorialScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
