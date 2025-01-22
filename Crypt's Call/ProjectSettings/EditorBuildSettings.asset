@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/!Scenes/Tutorial.unity
     guid: 5f335656ee2341742a3824826aa06a3c
+  - enabled: 1
+    path: Assets/!Scenes/Challenge.unity
+    guid: 56f4a7856abe1a746bac5a7ecd93567d
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 76f560dfd17cd1740aeb878ecc5d2385, type: 3}
   m_UseUCBPForAssetBundles: 0
