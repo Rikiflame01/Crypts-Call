@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using System.Linq;
@@ -30,7 +29,9 @@ public class PlayerController : MonoBehaviour
     private Transform nearestEnemy;
 
     [Header("Movement Settings")]
-    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float defaultMoveSpeed = 5f;
+    private float currentMoveSpeed;
+
     [SerializeField] private float rotationSpeed = 720f;
     [SerializeField] private float holdThreshold = 0.2f;
 
@@ -67,8 +68,6 @@ public class PlayerController : MonoBehaviour
     private bool isDashing = false;
     private float dashCooldownTimer = 0f;
 
-    PlayerTriggerStunner playerTriggerStunner;
-    private NavMeshAgent agent;
     private Camera mainCamera;
     private Vector2 movementInput;
 
@@ -83,7 +82,6 @@ public class PlayerController : MonoBehaviour
     private Coroutine currentShakeCoroutine;
 
     public AudioSource dashSound;
-
     private PlayerAttacks playerAttack;
 
     public int ComboStep => comboStep;
@@ -91,21 +89,22 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float comboResetTime = 1f;
     private float lastAttackTime = 0f;
 
+    private PlayerTriggerStunner playerTriggerStunner;
+
+    public TrailRenderer trailRenderer;
+
     private void Awake()
     {
+        currentMoveSpeed = defaultMoveSpeed;
         playerTriggerStunner = GetComponent<PlayerTriggerStunner>();
-        agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
 
-        if (agent == null) Debug.LogError("NavMeshAgent component missing from the player.");
         if (animator == null) Debug.LogError("Animator component missing from the player.");
 
         controls = new PlayerMovement();
         InitializeInputActions();
         SceneManager.sceneLoaded += OnSceneLoaded;
-
-        agent.speed = moveSpeed;
 
         playerAttack = GetComponent<PlayerAttacks>();
         if (playerAttack == null)
@@ -116,8 +115,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable() => controls.controls.Enable();
     private void OnDisable() => controls.controls.Disable();
-
-    public TrailRenderer trailRenderer;
 
     private void Start()
     {
@@ -179,29 +176,25 @@ public class PlayerController : MonoBehaviour
     {
         if (movementInput == Vector2.zero)
         {
-            agent.ResetPath();              
-            agent.velocity = Vector3.zero; 
             animator.SetBool("isWalking", false);
             return;
         }
 
-        MoveAgentRelativeToCamera();
+        MovePlayerRelativeToCamera();
     }
 
     private void HandleCameraRelativeMovement()
     {
         if (movementInput == Vector2.zero)
         {
-            agent.ResetPath();              
-            agent.velocity = Vector3.zero; 
             animator.SetBool("isWalking", false);
             return;
         }
 
-        MoveAgentRelativeToCamera();
+        MovePlayerRelativeToCamera();
     }
 
-    private void MoveAgentRelativeToCamera()
+    private void MovePlayerRelativeToCamera()
     {
         Vector3 forward = mainCamera.transform.forward;
         Vector3 right = mainCamera.transform.right;
@@ -213,19 +206,21 @@ public class PlayerController : MonoBehaviour
 
         Vector3 moveDirection = (forward * movementInput.y + right * movementInput.x).normalized;
 
-        Vector3 targetPosition = transform.position + moveDirection * moveSpeed * Time.deltaTime;
-        agent.SetDestination(targetPosition);
-
-        if (moveDirection != Vector3.zero && !isDashing)
+        if (!isDashing)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            transform.position += moveDirection * currentMoveSpeed * Time.deltaTime;
+
+            if (moveDirection != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            }
         }
     }
 
     private void UpdateAnimations()
     {
-        bool isWalking = movementInput != Vector2.zero && !agent.isStopped;
+        bool isWalking = (movementInput != Vector2.zero && !isDashing);
         animator.SetBool("isWalking", isWalking);
     }
 
@@ -264,7 +259,6 @@ public class PlayerController : MonoBehaviour
     {
         leftClickStartTime = Time.time;
         isLeftClickPressed = true;
-
         heavyAttackAnticipationCoroutine = StartCoroutine(HeavyAttackAnticipation());
     }
 
@@ -295,14 +289,63 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private IEnumerator HeavyAttackAnticipation()
+    {
+        yield return new WaitForSeconds(holdThreshold);
+
+        if (isLeftClickPressed)
+        {
+            currentMoveSpeed *= heavyAttackSpeedMultiplier;
+            StartShake();
+        }
+        }
+    private void RestorePlayerSpeed()
+    {
+        currentMoveSpeed = defaultMoveSpeed;
+    }
+
+    private void StartShake()
+    {
+        if (currentShakeCoroutine != null)
+        {
+            StopCoroutine(currentShakeCoroutine);
+        }
+        currentShakeCoroutine = StartCoroutine(ShakePlayer());
+    }
+
+    private void StopShake()
+    {
+        if (currentShakeCoroutine != null)
+        {
+            StopCoroutine(currentShakeCoroutine);
+            currentShakeCoroutine = null;
+        }
+    }
+
+    private IEnumerator ShakePlayer()
+    {
+        float elapsed = 0f;
+        Vector3 originalPosition = transform.position;
+
+        while (elapsed < heavyAttackShakeDuration)
+        {
+            float x = Random.Range(-heavyAttackShakeAmount, heavyAttackShakeAmount);
+            float y = Random.Range(-heavyAttackShakeAmount, heavyAttackShakeAmount);
+            transform.position = originalPosition + new Vector3(x, y, 0);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = originalPosition;
+        currentShakeCoroutine = null;
+    }
+
     private void TriggerQuickSlash()
     {
-        if (quickSlashCooldownTimer > 0f)
-        {
-            return;
-        }
-        EnableTrail();
+        if (quickSlashCooldownTimer > 0f) return;
 
+        EnableTrail();
         eventSystem.RaiseEvent("Stamina", "Change", -1);
         EventManager.TriggerAbilityUsed("standard", (int)quickSlashCooldown);
         quickSlashCooldownTimer = quickSlashCooldown;
@@ -349,6 +392,203 @@ public class PlayerController : MonoBehaviour
         isPlayerAttacking = false;
     }
 
+    private void AttemptHeavyAttack()
+    {
+        if (isDashing || heavyAttackCooldownTimer > 0f)
+        {
+            Debug.Log("Heavy Attack is on cooldown.");
+            return;
+        }
+
+        if (playerStats.mana < 1)
+        {
+            Debug.Log("Not enough mana for Heavy Attack.");
+            return;
+        }
+
+        if (playerStats.stamina < heavyAttackStaminaCost)
+        {
+            Debug.Log("Not enough stamina for Heavy Attack.");
+            return;
+        }
+
+        EnableTrail();
+        eventSystem.RaiseEvent("Mana", "Change", -1);
+        eventSystem.RaiseEvent("Stamina", "Change", -heavyAttackStaminaCost);
+        EventManager.TriggerAbilityUsed("heavy", (int)heavyAttackCooldown);
+
+        Vector3 dashDirection = GetMouseDirection();
+        if (dashDirection == Vector3.zero)
+        {
+            dashDirection = transform.forward;
+        }
+
+        playerTriggerStunner.enabled = true;
+        dashSound.Play();
+        foreach (var ps in dashEffect.GetComponentsInChildren<ParticleSystem>())
+        {
+            ps.Play();
+        }
+
+        StartCoroutine(PerformHeavyAttackDash(dashDirection, heavyAttackDashSpeed, heavyAttackDashDuration));
+        heavyAttackCooldownTimer = heavyAttackCooldown;
+        DisableTrail();
+    }
+
+    private void AttemptDash()
+    {
+        if (isDashing || dashCooldownTimer > 0 || playerStats.mana <= 0) return;
+
+        Vector3 dashDirection = GetMouseDirection();
+        if (dashDirection != Vector3.zero)
+        {
+            playerTriggerStunner.enabled = true;
+            dashSound.Play();
+            foreach (var ps in dashEffect.GetComponentsInChildren<ParticleSystem>())
+            {
+                ps.Play();
+            }
+
+            StartCoroutine(PerformDash(dashDirection, dashSpeed));
+            dashCooldownTimer = dashCooldown;
+            EventManager.TriggerAbilityUsed("dash", 0);
+        }
+    }
+
+    private void AttemptQuickSlashDash()
+    {
+        if (isDashing || quickSlashDashCooldownTimer > 0 || playerStats.mana <= 0) return;
+
+        Vector3 dashDirection;
+        if (nearestEnemy != null)
+        {
+            dashDirection = (nearestEnemy.position - transform.position).normalized;
+            dashDirection.y = 0f;
+        }
+        else
+        {
+            dashDirection = transform.forward;
+        }
+
+        if (dashDirection == Vector3.zero)
+        {
+            dashDirection = transform.forward;
+        }
+
+        playerAttack.ApplyHeavyAttackDamage(transform.position, new HashSet<Transform>());
+        dashSound.Play();
+
+        StartCoroutine(PerformDash(dashDirection, attackDashSpeed));
+        quickSlashDashCooldownTimer = quickSlashDashCooldown;
+    }
+
+    private IEnumerator PerformDash(Vector3 dashDirection, float dashSpeedM)
+    {
+        isDashing = true;
+        float startTime = Time.time;
+
+        Light dashLight = dashEffect.GetComponentInChildren<Light>();
+        if (dashLight != null && dashSpeedM < 15)
+        {
+            dashLight.intensity = 15f;
+        }
+
+        Vector3 normalizedDashDirection = dashDirection.normalized;
+        if (normalizedDashDirection != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(normalizedDashDirection, Vector3.up);
+            transform.rotation = targetRotation;
+        }
+
+        while (Time.time < startTime + dashDuration)
+        {
+            transform.position += normalizedDashDirection * dashSpeedM * Time.deltaTime;
+            yield return null;
+        }
+
+        if (dashLight != null && dashSpeedM < 15)
+        {
+            dashLight.intensity = 0f;
+        }
+
+        isDashing = false;
+        StartCoroutine(stunTimerCoRoutine());
+
+        eventSystem.RaiseEvent("Mana", "Change", -1);
+    }
+
+    private IEnumerator PerformHeavyAttackDash(Vector3 dashDirection, float dashSpeedH, float dashDurationH)
+    {
+        isDashing = true;
+        float startTime = Time.time;
+
+        Light dashLight = dashEffect.GetComponentInChildren<Light>();
+        if (dashLight != null)
+        {
+            dashLight.intensity = 15f;
+        }
+
+        Vector3 normalizedDashDirection = dashDirection.normalized;
+        if (normalizedDashDirection != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(normalizedDashDirection, Vector3.up);
+            transform.rotation = targetRotation;
+        }
+
+        HashSet<Transform> hitEnemies = new HashSet<Transform>();
+
+        animator.SetBool("isHeavyAttacking", true);
+        float originalAnimatorSpeed = animator.speed;
+        animator.speed = 2f;
+
+        float damageInterval = 0.1f;
+        float nextDamageTime = startTime;
+
+        while (Time.time < startTime + dashDurationH)
+        {
+            transform.position += normalizedDashDirection * dashSpeedH * Time.deltaTime;
+
+            if (Time.time >= nextDamageTime)
+            {
+                playerAttack.ApplyHeavyAttackDamage(transform.position, hitEnemies);
+                nextDamageTime += damageInterval;
+            }
+
+            yield return null;
+        }
+
+        animator.SetBool("isHeavyAttacking", false);
+        animator.speed = originalAnimatorSpeed;
+
+        if (dashLight != null)
+        {
+            dashLight.intensity = 0f;
+        }
+
+        isDashing = false;
+        StartCoroutine(stunTimerCoRoutine());
+
+        RestorePlayerSpeed();
+    }
+
+    private IEnumerator stunTimerCoRoutine()
+    {
+        yield return new WaitForSeconds(1f);
+        playerTriggerStunner.enabled = false;
+    }
+
+    private Vector3 GetMouseDirection()
+    {
+        Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            Vector3 direction = (hit.point - transform.position).normalized;
+            direction.y = 0f;
+            return direction;
+        }
+        return Vector3.zero;
+    }
+
     private void UpdateCooldownTimers()
     {
         if (dashCooldownTimer > 0)
@@ -375,270 +615,6 @@ public class PlayerController : MonoBehaviour
         {
             comboStep = 0;
         }
-    }
-
-    private void AttemptDash()
-    {
-        if (isDashing || dashCooldownTimer > 0 || playerStats.mana <= 0) return;
-
-        Vector3 dashDirection = GetMouseDirection();
-        if (dashDirection != Vector3.zero)
-        {
-            playerTriggerStunner.enabled = true;
-            dashSound.Play();
-            foreach (var ps in dashEffect.GetComponentsInChildren<ParticleSystem>())
-            {
-                ps.Play();
-            }
-            StartCoroutine(PerformDash(dashDirection, dashSpeed));
-
-            dashCooldownTimer = dashCooldown;
-            EventManager.TriggerAbilityUsed("dash", 0);
-        }
-    }
-
-    private void AttemptQuickSlashDash()
-    {
-        if (isDashing || quickSlashDashCooldownTimer > 0 || playerStats.mana <= 0) return;
-
-        Vector3 dashDirection;
-
-        if (nearestEnemy != null)
-        {
-            dashDirection = (nearestEnemy.position - transform.position).normalized;
-            dashDirection.y = 0f;
-        }
-        else
-        {
-            dashDirection = transform.forward;
-        }
-
-        if (dashDirection == Vector3.zero)
-        {
-            dashDirection = transform.forward;
-        }
-
-        playerAttack.ApplyHeavyAttackDamage(transform.position, new HashSet<Transform>());
-        dashSound.Play();
-
-        StartCoroutine(PerformDash(dashDirection, attackDashSpeed));
-
-        quickSlashDashCooldownTimer = quickSlashDashCooldown;
-    }
-
-    private void AttemptHeavyAttack()
-    {
-        if (isDashing || heavyAttackCooldownTimer > 0f)
-        {
-            Debug.Log("Heavy Attack is on cooldown.");
-            return;
-        }
-
-        if (playerStats.mana < 1)
-        {
-            Debug.Log("Not enough mana for Heavy Attack.");
-            return;
-        }
-
-        if (playerStats.stamina < heavyAttackStaminaCost)
-        {
-            Debug.Log("Not enough stamina for Heavy Attack.");
-            return;
-        }
-        EnableTrail();
-        eventSystem.RaiseEvent("Mana", "Change", -1);
-        eventSystem.RaiseEvent("Stamina", "Change", -heavyAttackStaminaCost);
-        EventManager.TriggerAbilityUsed("heavy", (int)heavyAttackCooldown);
-
-        Vector3 dashDirection = GetMouseDirection();
-        if (dashDirection == Vector3.zero)
-        {
-            dashDirection = transform.forward;
-        }
-
-        playerTriggerStunner.enabled = true;
-        dashSound.Play();
-        foreach (var ps in dashEffect.GetComponentsInChildren<ParticleSystem>())
-        {
-            ps.Play();
-        }
-        StartCoroutine(PerformHeavyAttackDash(dashDirection, heavyAttackDashSpeed, heavyAttackDashDuration));
-
-        heavyAttackCooldownTimer = heavyAttackCooldown;
-        DisableTrail();
-    }
-
-    private IEnumerator HeavyAttackAnticipation()
-    {
-        yield return new WaitForSeconds(holdThreshold);
-
-        if (isLeftClickPressed)
-        {
-            agent.speed *= heavyAttackSpeedMultiplier;
-
-            StartShake();
-        }
-    }
-
-    private void RestorePlayerSpeed()
-    {
-        agent.speed = moveSpeed;
-    }
-
-    private void StartShake()
-    {
-        if (currentShakeCoroutine != null)
-        {
-            StopCoroutine(currentShakeCoroutine);
-        }
-        currentShakeCoroutine = StartCoroutine(ShakePlayer());
-    }
-
-    private void StopShake()
-    {
-        if (currentShakeCoroutine != null)
-        {
-            StopCoroutine(currentShakeCoroutine);
-            currentShakeCoroutine = null;
-        }
-    }
-
-    private IEnumerator ShakePlayer()
-    {
-        float elapsed = 0f;
-        Vector3 originalPosition = transform.position;
-
-        while (elapsed < heavyAttackShakeDuration)
-        {
-            float x = Random.Range(-heavyAttackShakeAmount, heavyAttackShakeAmount);
-            float y = Random.Range(-heavyAttackShakeAmount, heavyAttackShakeAmount);
-            transform.position = originalPosition + new Vector3(x, y, 0);
-
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        transform.position = originalPosition;
-        currentShakeCoroutine = null;
-    }
-
-    private IEnumerator PerformHeavyAttackDash(Vector3 dashDirection, float dashSpeedH, float dashDurationH)
-    {
-        isDashing = true;
-        float startTime = Time.time;
-
-        agent.ResetPath();
-        agent.isStopped = true;
-
-        Light dashLight = dashEffect.GetComponentInChildren<Light>();
-        if (dashLight != null)
-        {
-            dashLight.intensity = 15f;
-        }
-
-        Vector3 normalizedDashDirection = dashDirection.normalized;
-
-        if (normalizedDashDirection != Vector3.zero)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(normalizedDashDirection, Vector3.up);
-            transform.rotation = targetRotation;
-        }
-
-        HashSet<Transform> hitEnemies = new HashSet<Transform>();
-
-        animator.SetBool("isHeavyAttacking", true);
-        float originalAnimatorSpeed = animator.speed;
-        animator.speed = 2f;
-
-        float damageInterval = 0.1f;
-        float nextDamageTime = startTime;
-
-        while (Time.time < startTime + dashDurationH)
-        {
-            transform.position += normalizedDashDirection * dashSpeedH * Time.deltaTime;
-
-            if (Time.time >= nextDamageTime)
-            {
-                playerAttack.ApplyHeavyAttackDamage(transform.position, hitEnemies);
-
-                nextDamageTime += damageInterval;
-            }
-
-            yield return null;
-        }
-
-        animator.SetBool("isHeavyAttacking", false);
-        animator.speed = originalAnimatorSpeed;
-
-        if (dashLight != null)
-        {
-            dashLight.intensity = 0f;
-        }
-
-        agent.isStopped = false;
-        isDashing = false;
-
-        StartCoroutine(stunTimerCoRoutine());
-
-        RestorePlayerSpeed();
-    }
-
-    private IEnumerator PerformDash(Vector3 dashDirection, float dashSpeedM)
-    {
-        isDashing = true;
-        float startTime = Time.time;
-
-        agent.ResetPath();
-        agent.isStopped = true;
-
-        Light dashLight = dashEffect.GetComponentInChildren<Light>();
-        if (dashLight != null && dashSpeedM < 15)
-        {
-            dashLight.intensity = 15f;
-        }
-
-        Vector3 normalizedDashDirection = dashDirection.normalized;
-
-        if (normalizedDashDirection != Vector3.zero)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(normalizedDashDirection, Vector3.up);
-            transform.rotation = targetRotation;
-        }
-
-        while (Time.time < startTime + dashDuration)
-        {
-            transform.position += normalizedDashDirection * dashSpeedM * Time.deltaTime;
-            yield return null;
-        }
-
-        if (dashLight != null && dashSpeedM < 15)
-        {
-            dashLight.intensity = 0f;
-        }
-
-        agent.isStopped = false;
-        isDashing = false;
-
-        StartCoroutine(stunTimerCoRoutine());
-
-        eventSystem.RaiseEvent("Mana", "Change", -1);
-    }
-
-    private IEnumerator stunTimerCoRoutine(){
-        yield return new WaitForSeconds(1f);
-        playerTriggerStunner.enabled = false;
-    }
-
-    private Vector3 GetMouseDirection()
-    {
-        Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-        if (Physics.Raycast(ray, out RaycastHit hit))
-        {
-            Vector3 direction = (hit.point - transform.position).normalized;
-            direction.y = 0f;
-            return direction;
-        }
-        return Vector3.zero;
     }
 
     private void ToggleInventory()
