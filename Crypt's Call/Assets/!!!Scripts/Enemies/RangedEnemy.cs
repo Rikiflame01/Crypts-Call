@@ -83,7 +83,7 @@ public class RangedEnemy : BaseEnemy
         return IsFullyVisible(skinnedMeshRenderer);
     }
 
-    private new void CheckPlayerDetection()
+    private void CheckPlayerDetection()
     {
         if (!IsVisibleToCamera()) return;
 
@@ -147,13 +147,6 @@ private bool IsFullyVisible(SkinnedMeshRenderer rend)
     protected override void IdleUpdate()
     {
         EnterPatrolState();
-    }
-
-    private new void EnterPatrolState()
-    {
-        extendedState = ExtendedState.Patrol;
-        agent.isStopped = false;
-        SetNextPatrolDestination();
     }
 
     protected override void PatrolUpdate()

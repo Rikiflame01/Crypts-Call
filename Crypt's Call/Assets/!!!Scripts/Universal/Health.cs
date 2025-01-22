@@ -118,6 +118,7 @@ public class Health : MonoBehaviour, IHealth
 
         if (gameObject.name == "Player")
         {
+            gameObject.tag = "Dead";
             GameObject[] Keys = GameObject.FindGameObjectsWithTag("Key");
             if (Keys.Length >0)
             {

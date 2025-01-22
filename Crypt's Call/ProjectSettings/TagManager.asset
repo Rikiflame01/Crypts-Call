@@ -12,6 +12,7 @@ TagManager:
   - Gold
   - Crystal
   - Potion
+  - Dead
   layers:
   - Default
   - TransparentFX

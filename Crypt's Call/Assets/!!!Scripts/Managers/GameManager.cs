@@ -98,6 +98,11 @@ public class GameManager : MonoBehaviour
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
     }
+
+    public void ChallengeScene(){
+        SceneManager.LoadScene("Challenge");
+    }
+
     public void ExitApplication(){
         Application.Quit();
     }
