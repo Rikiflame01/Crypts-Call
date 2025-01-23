@@ -9,7 +9,7 @@ public class EmissionLerp : MonoBehaviour
     private List<MeshRenderer> meshRenderers = new List<MeshRenderer>();
 
     private Dictionary<Material, Color> originalEmissionColors = new Dictionary<Material, Color>();
-
+    
     void Start()
     {
         meshRenderers.AddRange(GetComponentsInChildren<MeshRenderer>());
@@ -37,7 +37,7 @@ public class EmissionLerp : MonoBehaviour
 
     void Update()
     {
-        float lerpFactor = (Mathf.Sin(Time.time * lerpSpeed) + 1f) / 2f;
+        float lerpFactor = (Mathf.Sin(Time.time * lerpSpeed) + 0.1f) / 1.5f;
 
         foreach (MeshRenderer renderer in meshRenderers)
         {

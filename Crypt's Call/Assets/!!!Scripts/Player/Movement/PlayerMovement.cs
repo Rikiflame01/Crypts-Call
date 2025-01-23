@@ -46,7 +46,7 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Right Click"",
+                    ""name"": ""Spacebar"",
                     ""type"": ""Button"",
                     ""id"": ""d6701124-9296-48a1-ba73-db990397d250"",
                     ""expectedControlType"": """",
@@ -143,11 +143,11 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""dc083666-29ed-49cd-989c-1ec8870d31db"",
-                    ""path"": ""<Mouse>/rightButton"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Right Click"",
+                    ""action"": ""Spacebar"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -182,7 +182,7 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
         m_controls = asset.FindActionMap("controls", throwIfNotFound: true);
         m_controls_Move = m_controls.FindAction("Move", throwIfNotFound: true);
         m_controls_LeftClick = m_controls.FindAction("Left Click", throwIfNotFound: true);
-        m_controls_RightClick = m_controls.FindAction("Right Click", throwIfNotFound: true);
+        m_controls_Spacebar = m_controls.FindAction("Spacebar", throwIfNotFound: true);
         m_controls_OpenInventory = m_controls.FindAction("OpenInventory", throwIfNotFound: true);
         m_controls_SetupCamp = m_controls.FindAction("SetupCamp", throwIfNotFound: true);
     }
@@ -253,7 +253,7 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
     private List<IControlsActions> m_ControlsActionsCallbackInterfaces = new List<IControlsActions>();
     private readonly InputAction m_controls_Move;
     private readonly InputAction m_controls_LeftClick;
-    private readonly InputAction m_controls_RightClick;
+    private readonly InputAction m_controls_Spacebar;
     private readonly InputAction m_controls_OpenInventory;
     private readonly InputAction m_controls_SetupCamp;
     public struct ControlsActions
@@ -262,7 +262,7 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
         public ControlsActions(@PlayerMovement wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_controls_Move;
         public InputAction @LeftClick => m_Wrapper.m_controls_LeftClick;
-        public InputAction @RightClick => m_Wrapper.m_controls_RightClick;
+        public InputAction @Spacebar => m_Wrapper.m_controls_Spacebar;
         public InputAction @OpenInventory => m_Wrapper.m_controls_OpenInventory;
         public InputAction @SetupCamp => m_Wrapper.m_controls_SetupCamp;
         public InputActionMap Get() { return m_Wrapper.m_controls; }
@@ -280,9 +280,9 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
             @LeftClick.started += instance.OnLeftClick;
             @LeftClick.performed += instance.OnLeftClick;
             @LeftClick.canceled += instance.OnLeftClick;
-            @RightClick.started += instance.OnRightClick;
-            @RightClick.performed += instance.OnRightClick;
-            @RightClick.canceled += instance.OnRightClick;
+            @Spacebar.started += instance.OnSpacebar;
+            @Spacebar.performed += instance.OnSpacebar;
+            @Spacebar.canceled += instance.OnSpacebar;
             @OpenInventory.started += instance.OnOpenInventory;
             @OpenInventory.performed += instance.OnOpenInventory;
             @OpenInventory.canceled += instance.OnOpenInventory;
@@ -299,9 +299,9 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
             @LeftClick.started -= instance.OnLeftClick;
             @LeftClick.performed -= instance.OnLeftClick;
             @LeftClick.canceled -= instance.OnLeftClick;
-            @RightClick.started -= instance.OnRightClick;
-            @RightClick.performed -= instance.OnRightClick;
-            @RightClick.canceled -= instance.OnRightClick;
+            @Spacebar.started -= instance.OnSpacebar;
+            @Spacebar.performed -= instance.OnSpacebar;
+            @Spacebar.canceled -= instance.OnSpacebar;
             @OpenInventory.started -= instance.OnOpenInventory;
             @OpenInventory.performed -= instance.OnOpenInventory;
             @OpenInventory.canceled -= instance.OnOpenInventory;
@@ -329,7 +329,7 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnLeftClick(InputAction.CallbackContext context);
-        void OnRightClick(InputAction.CallbackContext context);
+        void OnSpacebar(InputAction.CallbackContext context);
         void OnOpenInventory(InputAction.CallbackContext context);
         void OnSetupCamp(InputAction.CallbackContext context);
     }

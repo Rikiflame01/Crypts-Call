@@ -36,8 +36,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float holdThreshold = 0.2f;
 
     [Header("Dash Settings")]
-    [SerializeField] private float dashSpeed = 15f;
-    [SerializeField] private float dashDuration = 0.2f;
+    [SerializeField] private float dashSpeed = 25f;
+    [SerializeField] private float dashDuration = 0.6f;
     [SerializeField] private float dashCooldown = 1.5f;
 
     [Header("Quick Slash Dash Settings")]
@@ -148,7 +148,7 @@ public class PlayerController : MonoBehaviour
         controls.controls.LeftClick.started += ctx => OnLeftClickStarted();
         controls.controls.LeftClick.canceled += ctx => OnLeftClickCanceled();
 
-        controls.controls.RightClick.performed += ctx => AttemptDash();
+        controls.controls.Spacebar.performed += ctx => AttemptDash();
 
         controls.controls.OpenInventory.performed += ctx => ToggleInventory();
         controls.controls.SetupCamp.performed += ctx => SetupCamp();

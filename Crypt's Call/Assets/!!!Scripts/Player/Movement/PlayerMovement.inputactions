@@ -24,7 +24,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Right Click",
+                    "name": "Spacebar",
                     "type": "Button",
                     "id": "d6701124-9296-48a1-ba73-db990397d250",
                     "expectedControlType": "",
@@ -121,11 +121,11 @@
                 {
                     "name": "",
                     "id": "dc083666-29ed-49cd-989c-1ec8870d31db",
-                    "path": "<Mouse>/rightButton",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Right Click",
+                    "action": "Spacebar",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

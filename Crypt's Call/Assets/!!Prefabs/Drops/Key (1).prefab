@@ -182,6 +182,8 @@ MonoBehaviour:
   isGoldItem: 0
   isCrystalItem: 0
   isKey: 1
+  healingVFXPrefab: {fileID: 0}
+  healingVFXOffset: {x: 0, y: -1, z: 0}
   eventSystem: {fileID: 11400000, guid: a8219d13888f38d4eb760b10ae6b4d89, type: 2}
 --- !u!114 &-8075221655682712612
 MonoBehaviour:
@@ -195,4 +197,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5356e1bb93853444a8a3d4d1c1bb5dc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpSpeed: 6
+  lerpSpeed: 3
