@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using System.Linq;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public static class SceneNames
 {
@@ -93,6 +94,16 @@ public class PlayerController : MonoBehaviour
 
     public TrailRenderer trailRenderer;
 
+    [Header("Heavy Attack Charge UI")]
+    [Tooltip("Assign a UI Slider that will fill up when holding LMB for a heavy attack.")]
+    public Slider heavyAttackChargeSlider;
+    [Tooltip("How quickly the slider drains back to zero if heavy attack is not triggered.")]
+    public float sliderResetSpeed = 8f;
+
+    private Coroutine heavyAttackSliderCoroutine;
+    private bool heavyAttackFullyCharged = false;
+
+
     private void Awake()
     {
         currentMoveSpeed = defaultMoveSpeed;
@@ -110,6 +121,12 @@ public class PlayerController : MonoBehaviour
         if (playerAttack == null)
         {
             Debug.LogError("PlayerAttack component missing from the player.");
+        }
+
+        if (heavyAttackChargeSlider != null)
+        {
+            heavyAttackChargeSlider.value = 0f;
+            heavyAttackChargeSlider.gameObject.SetActive(false);
         }
     }
 
@@ -259,7 +276,40 @@ public class PlayerController : MonoBehaviour
     {
         leftClickStartTime = Time.time;
         isLeftClickPressed = true;
+
+        if (heavyAttackCooldownTimer <= 0f)
+        {
+            heavyAttackFullyCharged = false;
+            if (heavyAttackChargeSlider != null)
+            {
+                heavyAttackChargeSlider.gameObject.SetActive(true);
+                heavyAttackChargeSlider.value = 0f;
+            }
+
+            heavyAttackSliderCoroutine = StartCoroutine(ChargeHeavyAttackSlider());
+        }
+
         heavyAttackAnticipationCoroutine = StartCoroutine(HeavyAttackAnticipation());
+    }
+
+    private IEnumerator ChargeHeavyAttackSlider()
+    {
+        float elapsed = 0f;
+
+        while (isLeftClickPressed && !heavyAttackFullyCharged && heavyAttackChargeSlider != null)
+        {
+            elapsed += Time.deltaTime;
+            float fill = Mathf.Clamp01(elapsed / holdThreshold);
+            heavyAttackChargeSlider.value = fill;
+
+            if (fill >= 1f)
+            {
+                heavyAttackChargeSlider.value = 1f;
+                heavyAttackFullyCharged = true;
+            }
+            yield return null;
+        }
+
     }
 
     private void OnLeftClickCanceled()
@@ -267,26 +317,51 @@ public class PlayerController : MonoBehaviour
         float clickDuration = Time.time - leftClickStartTime;
         isLeftClickPressed = false;
 
+        if (heavyAttackSliderCoroutine != null)
+        {
+            StopCoroutine(heavyAttackSliderCoroutine);
+            heavyAttackSliderCoroutine = null;
+        }
         if (heavyAttackAnticipationCoroutine != null)
         {
             StopCoroutine(heavyAttackAnticipationCoroutine);
             heavyAttackAnticipationCoroutine = null;
-            RestorePlayerSpeed();
-            StopShake();
         }
 
-        if (clickDuration < holdThreshold && playerStats.stamina > 0)
-        {
-            TriggerQuickSlash();
-        }
-        else if (clickDuration >= holdThreshold)
+
+        bool sliderWasFullyCharged = heavyAttackFullyCharged;
+
+        RestorePlayerSpeed();
+        StopShake();
+
+        if (sliderWasFullyCharged && clickDuration >= holdThreshold)
         {
             AttemptHeavyAttack();
         }
         else
         {
-            Debug.Log("Hold detected - Heavy attack implemented here soon-ish?");
+            if (clickDuration < holdThreshold && playerStats.stamina > 0)
+            {
+                TriggerQuickSlash();
+            }
+            StartCoroutine(ResetHeavyAttackSlider());
         }
+    }
+
+    private IEnumerator ResetHeavyAttackSlider()
+    {
+        if (heavyAttackChargeSlider == null) yield break;
+
+        float currentValue = heavyAttackChargeSlider.value;
+        while (currentValue > 0f)
+        {
+            currentValue -= Time.deltaTime * sliderResetSpeed;
+            heavyAttackChargeSlider.value = Mathf.Clamp01(currentValue);
+            yield return null;
+        }
+
+        heavyAttackChargeSlider.value = 0f;
+        heavyAttackChargeSlider.gameObject.SetActive(false);
     }
 
     private IEnumerator HeavyAttackAnticipation()
@@ -298,7 +373,8 @@ public class PlayerController : MonoBehaviour
             currentMoveSpeed *= heavyAttackSpeedMultiplier;
             StartShake();
         }
-        }
+    }
+
     private void RestorePlayerSpeed()
     {
         currentMoveSpeed = defaultMoveSpeed;
@@ -394,6 +470,12 @@ public class PlayerController : MonoBehaviour
 
     private void AttemptHeavyAttack()
     {
+        if (heavyAttackChargeSlider != null)
+        {
+            heavyAttackChargeSlider.value = 1f;
+            heavyAttackChargeSlider.gameObject.SetActive(false);
+        }
+
         if (isDashing || heavyAttackCooldownTimer > 0f)
         {
             Debug.Log("Heavy Attack is on cooldown.");

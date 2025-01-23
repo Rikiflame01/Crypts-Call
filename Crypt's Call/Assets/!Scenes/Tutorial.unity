@@ -3646,7 +3646,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Right-click to quickly move the player in the direction of the mouse curser.
+  m_text: Tap spacebar to quickly move the player in the direction of the mouse curser.
     Dashing into certain enemies stuns them.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3712,7 +3712,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -3.8548584, y: -52.022827, z: -292.42163, w: -81.71124}
+  m_margin: {x: -3.8548584, y: -77.35712, z: -292.42163, w: -81.71124}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
